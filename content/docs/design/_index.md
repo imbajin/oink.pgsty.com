@@ -67,6 +67,13 @@ implementation, owning checker, and relevant contract; preserve the stable
 rationale under Decisions and retire the draft through Git history and the
 changelog.
 
+## Unreleased contracts {#unreleased-contracts}
+
+The [Expo contract](/docs/design/expo/) describes the local image-album layout
+candidate. Its [accepted decision](/docs/design/decisions/expo/) records the
+content model and the revisions to the earlier Muse experiment. These pages
+do not extend the published v1.2.0 contract or establish a release.
+
 ## Authority and maintenance {#authority-and-maintenance}
 
 This directory owns the maintainer design prose in English and Chinese. The theme

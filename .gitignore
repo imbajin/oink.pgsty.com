@@ -11,3 +11,6 @@ tmp
 node_modules/
 go.work
 go.work.sum
+
+# Reproducible browser-only Expo raster fixtures.
+/tests/fixtures/browser/content/expo-runtime/images/

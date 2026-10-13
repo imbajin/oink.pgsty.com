@@ -54,6 +54,12 @@ cascade:
 `proposal/` 目录。提案被接受后，应同步更新实现、对应检查器与相关契约，把稳定
 理由沉淀到“设计决策”，并通过 Git 历史与变更日志退出草案。
 
+## 尚未发布的契约 {#unreleased-contracts}
+
+[Expo 契约](/zh/docs/design/expo/) 描述当前本地图片相册布局候选，
+[已接受决策](/zh/docs/design/decisions/expo/) 记录内容模型和对早期 Muse 实验的修订。
+这些页面不扩展已发布 v1.2.0 的契约，也不代表已经发布新版本。
+
 ## 权威来源与维护 {#authority-and-maintenance}
 
 本目录同时管理英文与中文维护者设计文档。主题仓库管理可执行事实：`hugo.yaml`

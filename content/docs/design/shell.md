@@ -507,3 +507,8 @@ The local Ink/Terminal experiments require explicit configuration;
 to offer Paper/Slate plus the site default. Both reuse the same state, keyboard,
 command-palette and bottom-sheet mechanisms. Terminal compacts desktop
 navigation rows, while prose and mobile touch targets retain their sizes.
+
+## Expo albums (unreleased) {#expo-albums}
+
+The new `type: expo` reuses this shell and adds image-album presentation.
+The [Expo contract](/docs/design/expo/) owns its content model, controls, and outputs.

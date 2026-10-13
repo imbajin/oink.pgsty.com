@@ -389,3 +389,8 @@ golden 与消费站点浏览器套件覆盖导航、语言与子路径链接、�
 本地 Ink/Terminal 实验仍需显式配置；`preset_menu: true`
 继续提供 Paper/Slate 与站点默认值。两者复用同一套状态、键盘、命令面板与底部表单
 机制。Terminal 压紧桌面导航行，保留正文与手机触控目标尺寸。
+
+## Expo 相册（尚未发布） {#expo-albums}
+
+新增 `type: expo` 复用本外壳并提供图片相册展示。
+其内容模型、控件和输出由 [Expo 契约](/zh/docs/design/expo/) 维护。
