@@ -197,6 +197,12 @@ or invoke a built-in ID, never inject JavaScript. The legacy clipboard fallback
 restores the previous focus and selection, including its direction, without taking focus back if another
 control acquired it during the copy operation.
 
+> [!NOTE] Unreleased repair
+> The page-action disclosure closes when keyboard focus leaves its containing
+> controls, including Tab and Shift+Tab. Moving between its controls keeps it
+> open; dismissal leaves focus at the reader's new destination. ArrowDown on
+> its closed toggle opens the menu and focuses the first action immediately.
+
 Edit, history, and create-child actions require a repository-relative source
 file. Physical filenames and the site working directory use normalized `/`
 separators before containment checks. `path_base_for_github_subdir` matches
@@ -491,6 +497,10 @@ button and 44 px option targets. Closing the sheet preserves the underlying
 drawer. The surface coordinator closes unrelated popovers before opening.
 The `t` shortcut still toggles light/dark through `switch_theme`;
 `switch_preset` is the separate command-palette choice.
+
+> [!NOTE] Unreleased repair
+> A queued close event from an earlier appearance dialog must not clear the
+> expanded state of a newly reopened dialog.
 
 The local Ink/Terminal experiments require explicit configuration;
 `preset_menu: true` continues

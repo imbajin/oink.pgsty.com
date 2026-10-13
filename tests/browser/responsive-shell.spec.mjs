@@ -573,6 +573,28 @@ test('page actions are complete and keyboard operable', async ({ page }) => {
   await expect(actionsToggle).toBeFocused();
 });
 
+test('page actions close when Tab leaves the menu without stealing focus', async ({ page }) => {
+  await openCleanPage(page);
+  const toggle = page.locator('[data-td-page-actions-toggle]:visible');
+  const menu = page.locator('[data-td-page-actions-menu]');
+  await toggle.focus();
+  await page.keyboard.press('ArrowDown');
+  await expect(menu.locator('a, button').first()).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(menu.locator('a, button').last()).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(menu).toBeHidden();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).not.toBeFocused();
+
+  await toggle.click();
+  await page.keyboard.press('Shift+Tab');
+  await expect(menu).toBeVisible();
+  await page.keyboard.press('Shift+Tab');
+  await expect(menu).toBeHidden();
+  await expect(toggle).not.toBeFocused();
+});
+
 test('page actions localize AI labels and prompts', async ({ page }) => {
   await page.setViewportSize({ width: 820, height: 900 });
   await openCleanPage(page, '/zh/docs/customize/config/');

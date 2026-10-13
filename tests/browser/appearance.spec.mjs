@@ -134,6 +134,23 @@ test('independent state, native keyboard, navigation, default reset and cross-ta
   await second.close();
 });
 
+test('Appearance stays expanded after an immediate close and reopen', async ({ page }) => {
+  await page.goto(docs);
+  const { trigger, panel } = await openAppearance(page);
+  await trigger.evaluate(button => {
+    button.click();
+    button.click();
+  });
+  // Native dialog close events are queued; wait until that queue has drained.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await expect(panel).toBeVisible();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  await expect(trigger.locator('..')).toHaveClass(/td-is-open/);
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
 test('blocked storage preserves checked radios and system preference in-page', async ({ page }) => {
   await page.addInitScript(() => {
     for (const method of ['getItem', 'setItem', 'removeItem']) Object.defineProperty(Storage.prototype, method, { value() { throw new Error('blocked'); } });

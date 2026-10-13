@@ -42,6 +42,13 @@ for (const engine of [chromium, firefox, webkit]) {
         const panel = page.locator('dialog.td-appearance__panel[open]');
         await expect(panel).toBeVisible();
         await expect(panel.locator('[data-td-preset-value="slate"]')).toBeFocused();
+        // Reopening before the queued native close event must retain the new
+        // open state in every engine, including the mobile modal variant.
+        await trigger.evaluate(button => { button.click(); button.click(); });
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        await expect(panel).toBeVisible();
+        await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        await expect(trigger.locator('..')).toHaveClass(/td-is-open/);
         await page.keyboard.press('ArrowLeft');
         await expect(page.locator('html')).toHaveAttribute('data-td-preset', 'paper');
         await expect(panel.locator('[data-td-preset-value="paper"]')).toBeChecked();
