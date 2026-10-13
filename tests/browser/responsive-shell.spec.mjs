@@ -617,6 +617,57 @@ test('sidebar sections use a semantic keyboard toggle', async ({ page }) => {
   );
 });
 
+for (const locale of ['en', 'zh']) {
+  for (const width of [390, 1440]) {
+    for (const theme of ['light', 'dark']) {
+      test(`${locale} ${width}px ${theme} compact sidebar reveals deep leaf links`, async ({ page }) => {
+        const prefix = locale === 'zh' ? '/zh' : '';
+        const path = `${prefix}/docs/design/decisions/`;
+        await page.setViewportSize({ width, height: 900 });
+        await page.addInitScript((value) => {
+          localStorage.setItem('td-color-theme', value);
+        }, theme);
+        await openCleanPage(page, path);
+        await page.waitForFunction(() => window.OinkSidebar?.isReady);
+        if (width < 768) {
+          await page.locator('[data-td-shell-drawer-open]:visible').click();
+        }
+
+        for (const branch of ['decisions', 'proposals']) {
+          const row = page.locator('#td-sidebar-menu .td-shell-tree__row').filter({
+            has: page.locator(`a[href="${prefix}/docs/design/${branch}/"]`),
+          });
+          const toggle = row.locator('[data-td-shell-tree-toggle]');
+          const targetId = await toggle.getAttribute('aria-controls');
+          const region = page.locator(`#${targetId}`);
+          const links = region.locator(':scope > .td-shell-tree__children-inner > ul > li > .td-shell-tree__row > a');
+          expect(await links.count()).toBeGreaterThan(1);
+          await expect(toggle).toHaveAttribute('aria-expanded', String(branch === 'decisions'));
+          if (branch === 'proposals') {
+            await expect(links.first()).toBeHidden();
+            await toggle.click();
+          }
+          await expect(region).toHaveJSProperty('inert', false);
+          for (const link of await links.all()) await expect(link).toBeVisible();
+          await links.first().focus();
+          await expect(links.first()).toBeFocused();
+
+          await toggle.focus();
+          await toggle.press('Enter');
+          await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+          await expect(region).toHaveJSProperty('inert', true);
+          await expect(links.first()).toBeHidden();
+          await toggle.press('Space');
+          await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+          await expect(region).toHaveJSProperty('inert', false);
+          for (const link of await links.all()) await expect(link).toBeVisible();
+        }
+        expect(new URL(page.url()).pathname).toBe(path);
+      });
+    }
+  }
+}
+
 for (const [locale, path, query] of [
   ['en', docPath, 'OINK'],
   ['zh', '/zh/docs/customize/config/', '配置'],

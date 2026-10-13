@@ -90,6 +90,15 @@ link to its resolved destination rather than a page identity.
 
 ## Sidebar runtime {#sidebar-runtime}
 
+> [!NOTE] Unreleased fix after OINK 1.2.0
+> With `sidebar_menu_foldable: true`, each branch controls the visibility of
+> its children. `sidebar_menu_compact` must not permanently hide leaf entries
+> inside an expanded branch. This applies to cached and per-page trees in
+> both Docs and Book. Non-foldable trees retain compact filtering.
+> OINK 1.2.0 can leave deep leaves hidden after expansion. Until this fix is
+> released and adopted, sites can set `sidebar_menu_compact: false` while
+> keeping folding enabled.
+
 > [!NOTE] Available since OINK 1.1
 > OINK 1.1.0 provides this disclosure API and explicit hidden-content isolation.
 > Version 1.0.0 does not provide the API.

@@ -69,6 +69,13 @@ lg 以上是文字链接，之下收缩为图标链接。lg 与 md 之间，右�
 
 ## 侧栏运行时 {#sidebar-runtime}
 
+> [!NOTE] OINK 1.2.0 之后的未发布修复
+> 设置 `sidebar_menu_foldable: true` 时，各分支控制其子项的显示。
+> `sidebar_menu_compact` 不得永久隐藏已展开分支中的叶子条目。
+> 这适用于 Docs 和 Book 的缓存树及逐页渲染树；不可折叠的树保留 compact 筛选。
+> OINK 1.2.0 可能在展开后仍隐藏深层叶子。在修复发布并被站点采用前，
+> 站点可设置 `sidebar_menu_compact: false`，同时保留折叠功能。
+
 > [!NOTE] 自 OINK 1.1 起提供
 > OINK 1.1.0 提供本节的展开状态 API 与隐藏内容隔离；1.0.0 不提供该 API。
 
