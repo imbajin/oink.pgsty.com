@@ -6,5 +6,7 @@ module:
       target: content/tests
 
 params:
+  drawio:
+    drawio_server: https://embed.diagrams.net/?lang=en#editor
   ui:
     sidebar_cache_limit: 1

@@ -533,6 +533,8 @@ for (const zoom of ['image', 'diagram']) {
 
 for (const zoomEnabled of [false, true]) {
   test(`Draw.io is keyboard reachable and independent of Image Zoom (${zoomEnabled})`, async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
     await page.route('https://embed.diagrams.net/**', route => route.fulfill({
       contentType: 'text/html',
       body: '<!doctype html><title>Local editor fixture</title><button>Editor ready</button>',
@@ -557,6 +559,26 @@ for (const zoomEnabled of [false, true]) {
     await expect(page.locator('dialog[open]')).toHaveCount(0);
     await expect(page.frameLocator('.drawioframe iframe').getByRole('button')).toHaveText('Editor ready');
     const editor = page.frames().find(frame => frame.url().startsWith('https://embed.diagrams.net/'));
+    const editorURL = new URL(editor.url());
+    expect(editorURL.searchParams.get('lang')).toBe('en');
+    expect(editorURL.searchParams.get('embed')).toBe('1');
+    expect(editorURL.searchParams.get('proto')).toBe('json');
+    expect(editorURL.hash).toBe('#editor');
+    await page.evaluate(() => window.postMessage(null, '*'));
+    await editor.evaluate(() => {
+      for (const message of [null, {}, 'not JSON', 'null']) parent.postMessage(message, '*');
+    });
+    const loaded = await editor.evaluate(() => new Promise(resolve => {
+      window.addEventListener('message', function onLoad(event) {
+        const message = JSON.parse(event.data);
+        if (message.action !== 'load') return;
+        window.removeEventListener('message', onLoad);
+        resolve(message.xml.startsWith('data:image/'));
+      });
+      parent.postMessage(JSON.stringify({ event: 'init' }), '*');
+    }));
+    expect(loaded).toBe(true);
+    expect(errors).toEqual([]);
     // Match the documented editor exit message and its real Window source.
     await editor.evaluate(() => parent.postMessage(JSON.stringify({ event: 'exit' }), '*'));
     await expect(page.locator('.drawioframe')).toHaveCount(0);

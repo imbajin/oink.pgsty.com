@@ -76,6 +76,12 @@ Diagram endpoints must be strings containing an HTTP(S) URL with a host or a
 same-site path. Unsupported schemes, protocol-relative URLs, backslashes, whitespace, and
 pathless same-site references warn and disable the integration before its runtime is selected.
 
+> [!NOTE] Unreleased Draw.io repair
+> Editor URLs retain their query parameters and fragments when embedding
+> options are added. Messages must come from the active editor frame and its
+> configured origin; unrelated or malformed messages are ignored. Diagram
+> data is sent only to that origin. Exports must be PNG or SVG data URLs.
+
 ## Interface localization {#interface-localization}
 
 > [!NOTE] Available since OINK 1.1
@@ -246,6 +252,11 @@ class tokens, passes `data-*` and `aria-*`, and warns while dropping `style`,
 schemes and protocol-relative URLs where local or explicit absolute URLs are
 required. Promised remote URLs remain supported but are never fetched at build
 time.
+
+> [!NOTE] Unreleased image escaping repair
+> Image and Gallery URLs are HTML-attribute escaped after URL validation,
+> including full-size Zoom sources. Quotes and ampersands remain part of the
+> URL; they cannot introduce attributes or be decoded as HTML entities.
 
 Theme output uses `td-` classes, `data-td-*` attributes, and `--td-*` custom
 properties; author markers such as `.steps`, `.cards`, and `.full-width` stay
