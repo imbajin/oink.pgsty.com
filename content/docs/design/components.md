@@ -137,6 +137,12 @@ an editor discards the theme's styles. Authored images and captions are preserve
 When Draw.io and Image Zoom share an image, Edit and Zoom remain separate sibling
 buttons. The editor entry supports keyboard access and stays visible on touch
 devices and in forced-colors mode.
+The Draw.io editor opens in a modal dialog with a localized host Close button.
+The button, backdrop, editor exit message, and Escape while focus is in the host
+dialog dismiss it, release its message listener, and restore focus to Edit.
+Cross-origin iframe keystrokes belong to the editor and cannot bubble to the
+host; users can leave the editor's Tab sequence to reach the host Close button.
+Opening another editor starts a fresh session.
 
 Gallery accepts one Markdown image per line with optional description, link,
 and class. FileTree accepts indentation, `- name`, optional `/`, comments, and

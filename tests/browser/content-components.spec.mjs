@@ -556,7 +556,7 @@ for (const zoomEnabled of [false, true]) {
     await expect(edit).toHaveCSS('opacity', '1');
     await page.keyboard.press('Enter');
     await expect(page.locator('.drawioframe iframe')).toBeVisible();
-    await expect(page.locator('dialog[open]')).toHaveCount(0);
+    await expect(page.locator('dialog.drawioframe:modal')).toBeVisible();
     await expect(page.frameLocator('.drawioframe iframe').getByRole('button')).toHaveText('Editor ready');
     const editor = page.frames().find(frame => frame.url().startsWith('https://embed.diagrams.net/'));
     const editorURL = new URL(editor.url());
@@ -591,5 +591,58 @@ for (const zoomEnabled of [false, true]) {
     await page.emulateMedia({ forcedColors: 'active' });
     await page.locator('#td-main-content').focus();
     await expect(edit).toHaveCSS('opacity', '1');
+  });
+}
+
+for (const [prefix, width] of [['', 1440], ['/zh', 390]]) {
+  test(`${prefix || 'en'} Draw.io has a host close path after cross-origin iframe focus`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.addInitScript(() => {
+      const add = window.addEventListener;
+      const remove = window.removeEventListener;
+      const tracked = new Set();
+      window.addEventListener = function (type, callback, options) {
+        if (type === 'message') tracked.add(callback);
+        return add.call(this, type, callback, options);
+      };
+      window.removeEventListener = function (type, callback, options) {
+        if (type === 'message') tracked.delete(callback);
+        return remove.call(this, type, callback, options);
+      };
+      window.testMessageListeners = () => tracked.size;
+    });
+    await page.route('https://embed.diagrams.net/**', route => route.fulfill({
+      contentType: 'text/html',
+      body: '<!doctype html><title>Cross-origin editor</title><button>Editor action</button>',
+    }));
+    await page.goto(`${prefix}/docs/components/drawio/`);
+    const edit = page.locator('.drawiobtn').first();
+    await expect(edit).toBeAttached();
+    const initial = await page.evaluate(() => window.testMessageListeners());
+    for (const dismissal of ['keyboard', 'backdrop', 'escape']) {
+      await edit.click();
+      const dialog = page.locator('dialog.drawioframe');
+      const close = dialog.locator('.drawioframe__close');
+      await expect(dialog).toBeVisible();
+      await expect(close).toHaveText(prefix ? '关闭' : 'Close');
+      await expect(close).toBeFocused();
+      await page.frameLocator('.drawioframe iframe').getByRole('button').click();
+      if (dismissal !== 'backdrop') {
+        // iframe key events cannot bubble to the host. Tab exits this fixture
+        // and reaches the host control without editor protocol cooperation.
+        // Firefox can visit the iframe document before leaving its context.
+        for (let step = 0; step < 3; step += 1) {
+          await page.keyboard.press('Tab');
+          if (await close.evaluate(node => node === document.activeElement)) break;
+        }
+        await expect(close).toBeFocused();
+        await page.keyboard.press(dismissal === 'keyboard' ? 'Enter' : 'Escape');
+      } else {
+        await dialog.click({ position: { x: 2, y: 2 } });
+      }
+      await expect(dialog).toHaveCount(0);
+      await expect(edit).toBeFocused();
+      expect(await page.evaluate(() => window.testMessageListeners())).toBe(initial);
+    }
   });
 }

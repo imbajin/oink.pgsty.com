@@ -87,7 +87,13 @@ Draw.io 图片走的是普通图片渲染钩子，[图片](/zh/docs/components/i
 
 ### 盖一层遮罩 {#editing-overlay}
 
-页面上插入一个全屏的 `div.drawioframe`，里面是一个 iframe，地址是配置的 `drawio_server` 加上一串固定参数（`embed=1&ui=atlas&proto=json&saveAndEdit=1&noSaveBtn=1`）。
+尚未发布的 1.3 候选版本使用全屏的 `<dialog class="drawioframe">`，其中包含 iframe。
+编辑器 URL
+保留 `drawio_server` 已有的查询参数和片段，并设置 `embed=1`、`ui=atlas`、
+`proto=json`、`saveAndEdit=1` 与 `noSaveBtn=1`。
+模态对话框包含本地化的关闭按钮，并约束键盘焦点。点击关闭按钮或背景可关闭。
+焦点在宿主对话框时，Escape 也可关闭；嵌入编辑器自行处理内部按键。关闭后焦点
+返回编辑按钮；若其他界面已经接管焦点，则保持该界面的焦点。
 
 ### 把图送进编辑器 {#editing-load}
 
