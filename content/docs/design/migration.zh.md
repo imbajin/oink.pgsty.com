@@ -5,11 +5,11 @@ description: OINK 迁移所支持的源码、配置与验证边界，包含 1.2.
 weight: 50
 icon: fa-solid fa-code-compare
 search_keywords: [OINK 迁移契约, 0.4 迁移, 0.5 迁移, 配置重命名, 迁移工具]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
+> [!NOTE] OINK 1.3.0 本地标签契约
+> 本契约描述 v1.3.0 本地标签的行为，公开模块发布与部署另行验收。唯一的中英文契约源文件位于
 > `content/docs/design/`。
 
 这是源码与配置指南，不是版本发布流水账。本地源码、提交、标签、推送、消费站点

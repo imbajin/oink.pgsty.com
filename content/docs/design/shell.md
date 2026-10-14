@@ -5,11 +5,12 @@ description: Navigation authorities, immersive blog presentation, search, action
 weight: 30
 icon: fa-solid fa-window-maximize
 search_keywords: [OINK shell, navigation contract, search, actions, blog presentation, authors, series, pager]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 contract
-> This contract describes the v1.2.0 release. Its canonical bilingual sources
+> [!NOTE] OINK 1.3.0 local-tag contract
+> This contract describes the local v1.3.0 tag. Public module publication
+> and deployment are separate acceptance steps. Its canonical bilingual sources
 > are in `content/docs/design/`.
 
 ## Authorities and navigation {#authorities-and-navigation}
@@ -547,7 +548,7 @@ to offer Paper/Slate plus the site default. Both reuse the same state, keyboard,
 command-palette and bottom-sheet mechanisms. Terminal compacts desktop
 navigation rows, while prose and mobile touch targets retain their sizes.
 
-## Expo albums (unreleased) {#expo-albums}
+## Expo albums {#expo-albums}
 
 The new `type: expo` reuses this shell and adds image-album presentation.
 The [Expo contract](/docs/design/expo/) owns its content model, controls, and outputs.

@@ -13,7 +13,7 @@ sections:
   - cta
 
 hero:
-  eyebrow: OINK 1.2 · Local-first · Built with Hugo
+  eyebrow: OINK 1.3 · Local-first · Built with Hugo
   title_lines:
     - words:
         - { text: PGSTY OINK }
@@ -28,8 +28,8 @@ hero:
       url: docs/start/starter/
       icon: fa-solid fa-rocket
       style: primary
-    - label: What's new in 1.2
-      url: blog/release/1.2.0/
+    - label: What's new in 1.3
+      url: blog/release/1.3.0/
       icon: fa-solid fa-book-open
       style: ghost
 
@@ -213,7 +213,7 @@ capabilities:
 
 content_types:
   eyebrow: Beyond docs
-  title: Six kinds of content, one shell
+  title: Seven kinds of content, one shell
   text:
     Documentation sites rarely stay documentation-only. The shapes that
     normally need a second tool share this one's shell, search and outputs.
@@ -255,6 +255,10 @@ content_types:
         Twenty-two server-rendered sections compose a page. The one you are
         reading is one of them.
       url: docs/customize/home/
+    - title: Expo image albums
+      icon: fa-solid fa-images
+      url: docs/write/expo/
+      desc: Resource-backed image collections with wall, cards, seamless layouts and an original-image viewer.
     - title: API references
       meta: OpenAPI
       icon: fa-solid fa-plug

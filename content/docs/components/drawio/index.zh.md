@@ -87,7 +87,7 @@ Draw.io 图片走的是普通图片渲染钩子，[图片](/zh/docs/components/i
 
 ### 盖一层遮罩 {#editing-overlay}
 
-尚未发布的 1.3 候选版本使用全屏的 `<dialog class="drawioframe">`，其中包含 iframe。
+OINK 1.3.0 使用全屏的 `<dialog class="drawioframe">`，其中包含 iframe。
 编辑器 URL
 保留 `drawio_server` 已有的查询参数和片段，并设置 `embed=1`、`ui=atlas`、
 `proto=json`、`saveAndEdit=1` 与 `noSaveBtn=1`。

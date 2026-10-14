@@ -13,7 +13,7 @@ sections:
   - cta
 
 hero:
-  eyebrow: OINK 1.2 · 本地优先 · Hugo 构建
+  eyebrow: OINK 1.3 · 本地优先 · Hugo 构建
   title_lines:
     - words:
         - { text: PGSTY OINK }
@@ -28,8 +28,8 @@ hero:
       url: docs/start/starter/
       icon: fa-solid fa-rocket
       style: primary
-    - label: 查看 1.2 新特性
-      url: blog/release/1.2.0/
+    - label: 查看 1.3 新特性
+      url: blog/release/1.3.0/
       icon: fa-solid fa-book-open
       style: ghost
 
@@ -202,7 +202,7 @@ capabilities:
 
 content_types:
   eyebrow: 不止文档
-  title: 六种内容形态，同一套外壳
+  title: 七种内容形态，同一套外壳
   text: 文档站很少只有文档。那些通常需要第二个工具的内容形态，在这里共用同一套外壳、检索与输出。
   columns: 3
   link_label: 阅读指南
@@ -232,6 +232,10 @@ content_types:
       icon: fa-solid fa-layer-group
       desc: 用二十二种服务端渲染分区拼装页面，你正在读的这一页就是其中之一。
       url: docs/customize/home/
+    - title: Expo 图片相册
+      icon: fa-solid fa-images
+      url: docs/write/expo/
+      desc: 页面资源包中的图片收藏，支持展墙、卡片、无缝布局与原图查看器。
     - title: API 参考
       meta: OpenAPI
       icon: fa-solid fa-plug

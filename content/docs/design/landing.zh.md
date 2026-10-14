@@ -5,11 +5,11 @@ description: 落地页数据、内置区块注册表、语言解析、运行时�
 weight: 40
 icon: fa-solid fa-panorama
 search_keywords: [OINK 落地页契约, 落地页区块, 首页数据, 渐进增强, 落地页输出]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
+> [!NOTE] OINK 1.3.0 本地标签契约
+> 本契约描述 v1.3.0 本地标签的行为，公开模块发布与部署另行验收。唯一的中英文契约源文件位于
 > `content/docs/design/`。
 
 共享规则见[架构契约](/zh/docs/design/architecture/)与

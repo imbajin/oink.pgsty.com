@@ -4,12 +4,12 @@ linkTitle: Expo
 description: Resource albums, three image layouts, original-size viewing, native shell integration, and static output contracts.
 weight: 45
 icon: fa-solid fa-images
-contract_status: unreleased
+contract_status: v1.3.0
 ---
 
-> [!NOTE] Unreleased implementation
-> This contract describes the local Expo implementation intended for OINK 1.3.
-> It is not included in the published v1.2.0 module.
+> [!NOTE] OINK 1.3.0 local tag
+> Expo is included in the local v1.3.0 tag. Public module publication and
+> deployment are separate acceptance steps.
 
 ## Content and navigation {#content-and-navigation}
 

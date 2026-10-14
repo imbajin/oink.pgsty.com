@@ -15,14 +15,15 @@ search_keywords:
     proposal,
     PRD,
   ]
-contract_status: v1.2.0
+contract_status: v1.3.0
 cascade:
   search_boost: 0.6
   categories: [Design]
 ---
 
-> [!NOTE] OINK 1.2.0 contract
-> This contract describes the v1.2.0 release. Its canonical bilingual sources
+> [!NOTE] OINK 1.3.0 local-tag contract
+> This contract describes the local v1.3.0 tag. Public module publication
+> and deployment are separate acceptance steps. Its canonical bilingual sources
 > are in `content/docs/design/`.
 > Hugo Extended 0.160.1 remains the compatibility floor. CI uses 0.165.0;
 > the floor is not a second full CI matrix.
@@ -67,7 +68,7 @@ implementation, owning checker, and relevant contract; preserve the stable
 rationale under Decisions and retire the draft through Git history and the
 changelog.
 
-## Unreleased contracts {#unreleased-contracts}
+## Expo contract {#unreleased-contracts}
 
 The [Expo contract](/docs/design/expo/) describes the local image-album layout
 candidate. Its [accepted decision](/docs/design/decisions/expo/) records the

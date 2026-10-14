@@ -5,11 +5,12 @@ description: The maintainer contract for landing data, the built-in section regi
 weight: 40
 icon: fa-solid fa-panorama
 search_keywords: [OINK landing contract, landing sections, homepage data, progressive enhancement, landing outputs]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 contract
-> This contract describes the v1.2.0 release. Its canonical bilingual sources
+> [!NOTE] OINK 1.3.0 local-tag contract
+> This contract describes the local v1.3.0 tag. Public module publication
+> and deployment are separate acceptance steps. Its canonical bilingual sources
 > are in `content/docs/design/`.
 
 Shared rules live in the [architecture](/docs/design/architecture/) and

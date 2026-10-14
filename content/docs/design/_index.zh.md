@@ -6,14 +6,14 @@ weight: 70
 icon: fa-solid fa-compass-drafting
 no_list: true
 search_keywords: [OINK 设计, 维护者契约, 架构, 决策, 研究, 提案, PRD]
-contract_status: v1.2.0
+contract_status: v1.3.0
 cascade:
   search_boost: 0.6
   categories: [设计契约]
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
+> [!NOTE] OINK 1.3.0 本地标签契约
+> 本契约描述 v1.3.0 本地标签的行为，公开模块发布与部署另行验收。唯一的中英文契约源文件位于
 > `content/docs/design/`。
 > Hugo Extended 0.160.1 仍为兼容下限，CI 固定使用 0.165.0；下限版本
 > 不作为第二套完整 CI 矩阵。
@@ -54,11 +54,11 @@ cascade:
 `proposal/` 目录。提案被接受后，应同步更新实现、对应检查器与相关契约，把稳定
 理由沉淀到“设计决策”，并通过 Git 历史与变更日志退出草案。
 
-## 尚未发布的契约 {#unreleased-contracts}
+## Expo 契约 {#unreleased-contracts}
 
 [Expo 契约](/zh/docs/design/expo/) 描述当前本地图片相册布局候选，
 [已接受决策](/zh/docs/design/decisions/expo/) 记录内容模型和对早期 Muse 实验的修订。
-这些页面不扩展已发布 v1.2.0 的契约，也不代表已经发布新版本。
+这些页面描述本地 v1.3.0 标签的行为；公开模块发布与部署另行验收。
 
 ## 权威来源与维护 {#authority-and-maintenance}
 

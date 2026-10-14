@@ -10,9 +10,8 @@ decision_date: 2026-10-13
 aliases: [/zh/docs/design/proposals/muse-gallery/]
 ---
 
-> [!NOTE] 已接受，尚未发布
-> 维护者在 Muse 实验之后确定名称 **Expo**。当前实现是面向 1.3 的本地工作；
-> 本决策不代表已发布或部署。当前行为归属 [Expo 契约](/docs/design/expo/)。
+> [!NOTE] OINK 1.3.0 本地标签
+> Expo 已包含在本地 v1.3.0 标签中。公开模块发布与部署另行验收。
 
 ## 背景 {#context}
 

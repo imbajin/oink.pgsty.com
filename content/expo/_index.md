@@ -9,4 +9,4 @@ cascade:
 outputs: [HTML, print, markdown, RSS, LLMSFULL]
 ---
 
-An unreleased layout demonstration. Switch between a wall, cards, and a seamless wall inside an album.
+An Expo demonstration from the local v1.3.0 tag. Switch between a wall, cards, and a seamless wall inside an album.

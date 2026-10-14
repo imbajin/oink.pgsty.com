@@ -5,11 +5,12 @@ description: Repository assembly, configuration, diagnostics, localization, outp
 weight: 10
 icon: fa-solid fa-sitemap
 search_keywords: [OINK architecture, repository boundary, runtime, i18n, Docsy locales, output formats, security, accessibility, performance]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 contract
-> This contract describes the v1.2.0 release. Its canonical bilingual sources
+> [!NOTE] OINK 1.3.0 local-tag contract
+> This contract describes the local v1.3.0 tag. Public module publication
+> and deployment are separate acceptance steps. Its canonical bilingual sources
 > are in `content/docs/design/`.
 
 ## Repository and assembly {#repository-and-assembly}

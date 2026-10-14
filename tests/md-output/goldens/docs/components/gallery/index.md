@@ -218,6 +218,7 @@ inside the fence. Strict publishing rejects the warning.
 
 Backlinks:
 
+- [OINK v1.3.0](/blog/release/1.3.0/)
 - [Cards](/docs/components/cards/)
 - [FileTree](/docs/components/filetree/)
 - [Images](/docs/components/image/)

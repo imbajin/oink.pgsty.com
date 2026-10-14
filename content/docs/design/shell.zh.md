@@ -5,11 +5,11 @@ description: 导航权威、沉浸式博客、搜索、操作、分类法、索�
 weight: 30
 icon: fa-solid fa-window-maximize
 search_keywords: [OINK 外壳, 导航契约, 搜索, 操作, 博客展示, 作者, 系列, 翻页]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
+> [!NOTE] OINK 1.3.0 本地标签契约
+> 本契约描述 v1.3.0 本地标签的行为，公开模块发布与部署另行验收。唯一的中英文契约源文件位于
 > `content/docs/design/`。
 
 ## 权威来源与导航 {#authorities-and-navigation}
@@ -419,7 +419,7 @@ golden 与消费站点浏览器套件覆盖导航、语言与子路径链接、�
 继续提供 Paper/Slate 与站点默认值。两者复用同一套状态、键盘、命令面板与底部表单
 机制。Terminal 压紧桌面导航行，保留正文与手机触控目标尺寸。
 
-## Expo 相册（尚未发布） {#expo-albums}
+## Expo 相册 {#expo-albums}
 
 新增 `type: expo` 复用本外壳并提供图片相册展示。
 其内容模型、控件和输出由 [Expo 契约](/zh/docs/design/expo/) 维护。

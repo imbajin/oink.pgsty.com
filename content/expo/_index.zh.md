@@ -9,4 +9,4 @@ cascade:
 outputs: [HTML, print, markdown, RSS, LLMSFULL]
 ---
 
-尚未发布的新布局示例。进入相册后，可以切换展墙、卡片和无缝三种模式。
+本地 v1.3.0 标签的 Expo 布局示例。进入相册后，可以切换展墙、卡片和无缝三种模式。

@@ -4,12 +4,11 @@ linkTitle: Expo
 description: 页面资源相册、三种图片布局、原尺寸查看、原生外壳集成与静态输出契约。
 weight: 45
 icon: fa-solid fa-images
-contract_status: unreleased
+contract_status: v1.3.0
 ---
 
-> [!NOTE] 尚未发布的实现
-> 本契约描述面向 OINK 1.3 的本地 Expo 实现。
-> 已发布的 v1.2.0 模块尚不包含此功能。
+> [!NOTE] OINK 1.3.0 本地标签
+> Expo 已包含在本地 v1.3.0 标签中。公开模块发布与部署另行验收。
 
 ## 内容与导航 {#content-and-navigation}
 

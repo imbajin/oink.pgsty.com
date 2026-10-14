@@ -48,7 +48,7 @@ Save it as `content/docs/install.md`, run `hugo server`, and the page appears at
 | Looking up what a front matter key means | [Page parameters](/docs/write/frontmatter/) |
 | A blog post, a release announcement, RSS | [Blog posts](/docs/write/blog/) |
 | A book: chapter numbering, figures and tables, cross-references, whole-book print | [Books](/docs/write/book/) |
-| An image album: file structure, metadata, layouts, and the image viewer | [Expo albums (development version)](/docs/write/expo/) |
+| An image album: file structure, metadata, layouts, and the image viewer | [Expo albums](/docs/write/expo/) |
 | A release and download page: version cards, asset tables, checksums | [Releases and downloads](/docs/write/releases/) |
 | An OpenAPI reference page | [API reference pages](/docs/write/openapi/) |
 | Writing in two languages: paired files, aligned anchors, fallback for untranslated pages | [Languages](/docs/customize/i18n/) |

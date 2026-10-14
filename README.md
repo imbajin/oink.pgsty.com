@@ -8,8 +8,11 @@ The bilingual maintainer contracts under `content/docs/design/` are the
 canonical prose source for OINK architecture, components, reading shells,
 Landing pages, and migration boundaries.
 
-The site pins OINK `v1.2.0`. The guides, homepage, Design contracts and bilingual
-`content/blog/release/1.2.0{,.zh}.md` release notes describe this release.
+The site pins OINK `v1.3.0`. The guides, homepage, Design contracts and bilingual
+`content/blog/release/1.3.0{,.zh}.md` notes describe the local release tag and Expo.
+The tag has not been published to the public module proxy. A prepared local
+module cache or the sibling checkout is required until publication; a local
+build does not establish hosted deployment.
 `content/docs/cli{,.zh}.md` is a one-page introduction to the separate,
 unreleased OINK CLI.
 

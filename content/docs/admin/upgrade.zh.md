@@ -1,7 +1,7 @@
 ---
 title: 版本升级
 linkTitle: 版本升级
-description: 固定已发布的主题版本、验证 1.2.0 变化、迁移旧内容或 Docsy 站点，并在出问题时安全回滚。
+description: 固定主题版本、准备 1.3.0 升级、迁移旧内容或 Docsy 站点，并保留回滚路径。
 weight: 50
 search_keywords: [升级, 迁移, 版本, Hugo Module, hugo mod get, oink06, Docsy, jQuery, 破坏性变更, upgrade, migration]
 aliases:
@@ -16,6 +16,20 @@ aliases:
 几百个文件。
 
 升级会改变渲染结果。先建一个升级分支再动手，回退的代价就是丢弃一个分支。
+
+## 准备升级到 1.3 {#preparing-1-3}
+
+本地 `v1.3.0` 标签新增 [Expo 相册](/zh/docs/write/expo/)，并修复导航、模态关闭和焦点。
+已有 Docs、Blog、Book 内容无需批量迁移。仅在新相册分区设置 `type: expo` 及对应
+cascade，图片与原图保存在各自的叶子页面包中。
+
+标签目前仅在本地。升级生产消费站前，先发布标签，并在关闭替换和工作区的环境中
+验证公开模块解析。随后固定 `github.com/pgsty/oink@v1.3.0`，零告警构建，再检查导航、
+图片查看器与读者设置。源码副本方式的消费站还需要刷新固定主题文件；修改 `go.mod`
+不会升级已有的 vendor 副本。
+
+提供四套风格的站点继续使用 `preset: paper` 和显式 `[paper, slate, ink, terminal]`
+菜单。[1.3 发布注记](/zh/blog/release/1.3.0/)说明本次变化。
 
 ## 先看发布注记 {#release-notes}
 

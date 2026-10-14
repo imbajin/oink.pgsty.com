@@ -1,7 +1,7 @@
 ---
 title: Upgrade
 linkTitle: Upgrade
-description: Pin a published theme version, adopt the 1.2.0 changes, migrate legacy content or a Docsy site, and roll back safely.
+description: Pin a theme version, prepare the local 1.3.0 update, migrate legacy content or a Docsy site, and keep a rollback path.
 weight: 50
 search_keywords: [upgrade, migration, version, Hugo Module, hugo mod get, oink06, Docsy, jQuery, breaking changes]
 aliases:
@@ -18,6 +18,22 @@ does it, so hundreds of files need not be edited by hand.
 
 An upgrade changes rendered output. Create an upgrade branch before starting,
 and the cost of backing out is discarding a branch.
+
+## Prepare for 1.3 {#preparing-1-3}
+
+The local `v1.3.0` tag adds [Expo albums](/docs/write/expo/) and repairs navigation,
+modal closure and focus. Existing Docs, Blog and Book content needs no bulk
+migration. Set `type: expo` only on the new album section, with a matching cascade;
+keep images and originals in its leaf bundles.
+
+The tag is currently local. Before upgrading production consumers, publish it
+and verify the public module resolution with replacements and workspaces disabled.
+Then pin `github.com/pgsty/oink@v1.3.0`, build without warnings, and review
+navigation, image viewing and reader settings. Source-copy consumers must also
+refresh their fixed theme files; changing `go.mod` does not update a vendored copy.
+
+Keep `preset: paper` and the explicit `[paper, slate, ink, terminal]` menu when the
+site offers all four styles. The [1.3 notes](/blog/release/1.3.0/) describe the changes.
 
 ## Read the release notes first {#release-notes}
 

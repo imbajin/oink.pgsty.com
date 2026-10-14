@@ -5,11 +5,11 @@ description: 仓库装配、配置、诊断、本地化、输出、性能、安�
 weight: 10
 icon: fa-solid fa-sitemap
 search_keywords: [OINK 架构, 仓库边界, 运行时, i18n, Docsy 语言, 输出格式, 安全, 无障碍, 性能]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
+> [!NOTE] OINK 1.3.0 本地标签契约
+> 本契约描述 v1.3.0 本地标签的行为，公开模块发布与部署另行验收。唯一的中英文契约源文件位于
 > `content/docs/design/`。
 
 ## 仓库与装配 {#repository-and-assembly}

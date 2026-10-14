@@ -10,10 +10,9 @@ decision_date: 2026-10-13
 aliases: [/docs/design/proposals/muse-gallery/]
 ---
 
-> [!NOTE] Accepted, not released
-> The maintainer selected **Expo** after the Muse experiment. The implementation
-> is local work toward 1.3; this decision does not establish a release or deployment.
-> The [Expo contract](/docs/design/expo/) owns current behavior.
+> [!NOTE] OINK 1.3.0 local tag
+> Expo is included in the local v1.3.0 tag. Public module publication and
+> deployment are separate acceptance steps.
 
 ## Context {#context}
 

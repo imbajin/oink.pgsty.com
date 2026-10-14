@@ -109,7 +109,7 @@ Three things, in order.
 
 ### Lay an overlay over the page {#editing-overlay}
 
-In the unreleased 1.3 candidate, the runtime opens a full-screen
+In OINK 1.3.0, the runtime opens a full-screen
 `<dialog class="drawioframe">` containing an iframe.
 The editor URL keeps the configured `drawio_server` query parameters and fragment,
 and sets `embed=1`, `ui=atlas`, `proto=json`, `saveAndEdit=1`, and `noSaveBtn=1`.
