@@ -113,9 +113,15 @@ hyphens, so `params.ui.typography` becomes `field-params-ui-typography`.
 Duplicate anchors receive positional suffixes.
 
 The table hook owns responsive wrapping and captions. `.matrix` makes the first
-column row headers; `.full-width` widens normal or matrix tables. `.fields`
-cannot combine with matrix, full-width, numbering, or tabs; numbering and tabs
-are also mutually exclusive.
+column row headers; `.full-width` widens the outer wrapper to the article width.
+On screens, ordinary tables default to fitting the reading column (`width: auto`);
+technical tables opt into wider intrinsic sizing (`width: max-content`) with
+`.td-table--wide` inside the scrollable wrapper. Cells use `overflow-wrap: break-word`
+and `word-break: normal` to keep technical identifiers intact, with a soft
+`max-width: 40ch` bound on body cells. Print and static outputs are excluded
+from this screen policy. `.fields` cannot combine with matrix, full-width, wide,
+numbering, or tabs; numbering and tabs are also mutually exclusive. (This table
+width policy was introduced after v1.2.0.)
 
 ### Images, Gallery, FileTree, and fences {#images-gallery-filetree-and-fences}
 
@@ -140,8 +146,11 @@ devices and in forced-colors mode.
 
 Gallery accepts one Markdown image per line with optional description, link,
 and class. FileTree accepts indentation, `- name`, optional `/`, comments, and
-validated icon/tone/open/type attributes. Markdown preserves authored source;
-print renders expanded static figures and trees.
+validated icon/tone/open/type attributes. FileTree rows grow to let long comments
+wrap (`overflow-wrap: anywhere`) without clipping or requiring hover, while names
+retain single-line ellipsis truncation; in narrow viewports comments drop below
+the entry. Markdown preserves authored source; print renders expanded static
+figures and trees. (Comment wrapping was introduced after v1.2.0.)
 
 All code highlighting uses Chroma. Common fence attributes include `title`,
 `copy`, `wrap`, `collapse`, `label`, `id`, line options, tabs, and Book
@@ -152,6 +161,14 @@ AA text contrast; authored `params.mermaid.themeVariables` remain authoritative.
 ECharts input is declarative
 JSON/YAML; callbacks use `$fn:<name>` from `window.OinkEchartsFunctions`, never
 embedded script execution.
+
+Markmap node text on screens follows the article text color (`--bs-body-color`)
+via `--markmap-text-color`, dynamically adapting to light/dark mode changes,
+style presets, and restored user preferences to maintain contrast. Printing
+retains Markmap's default dark text on the white canvas. This mapping is scoped
+to article content across both the wrapper and generated SVG, and can still be
+overridden by site CSS of equal specificity or SVG inline tokens. (This behavior
+was introduced after v1.2.0.)
 
 Mathematics uses Hugo's build-time KaTeX output and local CSS, without a browser
 math runtime. The shared renderer normalizes pre-0.18 KaTeX class names to the

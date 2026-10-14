@@ -3,7 +3,7 @@ title: Tables
 linkTitle: Tables
 description: A plain GFM table plus one attribute line becomes a captioned table, a compatibility matrix, a field list, a numbered table or a tab set; wide tables scroll on their own.
 weight: 50
-search_keywords: [Table, matrix, full-width, caption, numbered table, horizontal scroll, GFM]
+search_keywords: [Table, matrix, full-width, td-table--wide, technical tables, caption, numbered table, horizontal scroll, GFM]
 aliases:
   - /docs/components/tables/
 ---
@@ -117,6 +117,53 @@ the article has. It suits tables with many short columns.
 | English | `en` | ✅ | ✅ | ✅ | ✅ | Reviewed |
 {.full-width}
 
+## Technical wide tables {#wide}
+
+Technical tables containing long configuration keys, environment variables, or
+identifiers can produce awkward token breaks and very tall rows when forced into
+the reading column. Adding `{.td-table--wide}` to the attribute line opts the
+inner table into natural intrinsic sizing (`width: max-content`), scrolling
+horizontally within its wrapper when it exceeds the available space. (This marker
+was introduced after v1.2.0.)
+
+```markdown {title="Source"}
+| Variable | Required | Default | Configuration key | Description |
+| --- | --- | --- | --- | --- |
+| `HG_PD_GRPC_HOST` | Yes | None | `grpc.host` | Advertised gRPC hostname/IP; use container hostnames within a container network. |
+| `HG_PD_INITIAL_STORE_COUNT` | No | `1` | `pd.initial-store-count` | Minimum Store count needed for cluster availability. |
+| `HG_PD_ACTUATOR_EXPOSURE` | No | `health,metrics,prometheus` | `management.endpoints.web.exposure.include` | Public Actuator endpoint allowlist; `*` is forbidden. |
+{.td-table--wide}
+```
+
+| Variable | Required | Default | Configuration key | Description |
+| --- | --- | --- | --- | --- |
+| `HG_PD_GRPC_HOST` | Yes | None | `grpc.host` | Advertised gRPC hostname/IP; use container hostnames within a container network. |
+| `HG_PD_INITIAL_STORE_COUNT` | No | `1` | `pd.initial-store-count` | Minimum Store count needed for cluster availability. |
+| `HG_PD_ACTUATOR_EXPOSURE` | No | `health,metrics,prometheus` | `management.endpoints.web.exposure.include` | Public Actuator endpoint allowlist; `*` is forbidden. |
+{.td-table--wide}
+
+### Difference from .full-width {#wide-vs-full-width}
+
+- `.full-width` controls the **outer canvas**: it expands the table container to
+  break out of the reading column into the full width of the article layout.
+  It suits tables with many short columns.
+- `.td-table--wide` controls the **inner table sizing**: it sets the table to its
+  natural intrinsic width (`width: max-content`), using horizontal scrolling to
+  accommodate wide content. It suits tables with long technical identifiers.
+- Both can be combined: `{.full-width .td-table--wide}` expands the container to
+  the full canvas while allowing the inner table to keep its natural wide measure.
+
+### Applicability boundaries {#wide-boundaries}
+
+- **Ordinary vs technical tables**: Ordinary prose tables default to `width: auto`
+  to fit the reading column before introducing scrolling. Technical tables with
+  long identifiers opt in with `.td-table--wide`. Cells use `overflow-wrap: break-word`
+  and `word-break: normal` to protect tokens, while body cells have a soft
+  `max-width: 40ch` bound so descriptions do not stretch into one enormous line.
+- **Static outputs**: The width policy applies only on screen (`@media screen`).
+  Print, Markdown, and RSS outputs are marked `td-table-scroll--static`, laying
+  out across page width without horizontal scrolling or screen-only cell width caps.
+
 ## Field lists {#fields}
 
 `{.fields}` turns a table into a definition list: the first column is the name,
@@ -217,6 +264,7 @@ The attribute line on the row below the table:
 | Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | `.full-width` | marker | none | Exceed the reading column and use the article canvas |
+| `.td-table--wide` | marker | none | Sizes the inner table to max-content; suits technical tables with long identifiers |
 | `.matrix` | marker | none | First column as row header, header and first column pinned, other cells centred |
 | `.fields` | marker | none | Render as a definition list, see [Fields](/docs/components/fields/) |
 | `caption` | plain text | none | Visible table caption; on `.fields` it labels the list |
@@ -233,9 +281,9 @@ the warning.
 
 ## Limits {#limits}
 
-- Mutual exclusions: `.fields` cannot combine with `.matrix`, `.full-width` or
-  `num`; `num` and `tab` are exclusive; `group`/`value` require `tab`; `meta`
-  requires `.fields`.
+- Mutual exclusions: `.fields` cannot combine with `.matrix`, `.full-width`,
+  `.td-table--wide` or `num`; `num` and `tab` are exclusive; `group`/`value` require
+  `tab`; `meta` requires `.fields`.
 - The attribute line must touch the table: leave a blank line and it becomes a
   visible line of braces. Markdown formatters like to move it — wrap it in
   `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->`.

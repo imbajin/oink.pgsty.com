@@ -3,7 +3,7 @@ title: 表格
 linkTitle: 表格
 description: 普通 GFM 表格加一行属性，就得到标题、兼容矩阵、参数表、编号表或标签页；宽表格自己横向滚动，不撑宽页面。
 weight: 50
-search_keywords: [表格, Table, matrix, 矩阵, full-width, 全宽, caption, 表格标题, 编号表, 横向滚动, GFM]
+search_keywords: [表格, Table, matrix, 矩阵, full-width, 全宽, td-table--wide, 技术表格, caption, 表格标题, 编号表, 横向滚动, GFM]
 aliases:
   - /docs/components/tables/
 ---
@@ -104,6 +104,40 @@ aliases:
 | English | `en` | ✅ | ✅ | ✅ | ✅ | 已审校 |
 {.full-width}
 
+## 技术宽表格 {#wide}
+
+包含长配置键、环境变量或长标识符的技术表格，若默认压在正文列宽内排版，
+容易导致标识符异常断行或描述列被极度压缩。在属性行中显式添加 `{.td-table--wide}`，
+内部表格会采用按内容最大尺寸（`width: max-content`）排版，并在超出视口时触发
+平滑横向滚动。（此标记在 v1.2.0 之后引入。）
+
+```markdown {title="源码"}
+| 变量 | 必填 | 默认值 | 对应配置项 | 描述 |
+| --- | --- | --- | --- | --- |
+| `HG_PD_GRPC_HOST` | 是 | 无 | `grpc.host` | 对外宣告的 gRPC 主机名或 IP 地址；容器网络内部应使用容器主机名。 |
+| `HG_PD_INITIAL_STORE_COUNT` | 否 | `1` | `pd.initial-store-count` | 集群可用时所需的最少存储节点数量。 |
+| `HG_PD_ACTUATOR_EXPOSURE` | 否 | `health,metrics,prometheus` | `management.endpoints.web.exposure.include` | 对外开放的监控端点白名单，不允许使用通配符。 |
+{.td-table--wide}
+```
+
+| 变量 | 必填 | 默认值 | 对应配置项 | 描述 |
+| --- | --- | --- | --- | --- |
+| `HG_PD_GRPC_HOST` | 是 | 无 | `grpc.host` | 对外宣告的 gRPC 主机名或 IP 地址；容器网络内部应使用容器主机名。 |
+| `HG_PD_INITIAL_STORE_COUNT` | 否 | `1` | `pd.initial-store-count` | 集群可用时所需的最少存储节点数量。 |
+| `HG_PD_ACTUATOR_EXPOSURE` | 否 | `health,metrics,prometheus` | `management.endpoints.web.exposure.include` | 对外开放的监控端点白名单，不允许使用通配符。 |
+{.td-table--wide}
+
+### 与 .full-width 的区别 {#wide-vs-full-width}
+
+- `.full-width` 控制「外层画布」：让表格外层容器突破正文栏宽限制，扩展至整页可用宽度；适合列数较多但各列内容较短的表格。
+- `.td-table--wide` 控制「内部表格排版」：让内部 `<table>` 以自身内容的最大自然宽度（`width: max-content`）排版，依靠横向滚动容纳长内容；适合包含长代码标识符的技术表格。
+- 两者可以结合使用：例如 `{.full-width .td-table--wide}` 既让外层容器占满全宽画布，又让内部列保持宽松的自然宽度。
+
+### 适用边界与排版策略 {#wide-boundaries}
+
+- **普通表格 vs 技术表格**：普通叙述性表格默认使用 `width: auto`，在正文栏内优雅折行，不产生多余的横向滚动；包含长配置项或复杂标识符的技术表格才需显式声明 `.td-table--wide`。声明后，单元格自动具备 `overflow-wrap: break-word` 与 `word-break: normal`，防止标识符被突兀切断，且数据单元格带有 `max-width: 40ch` 的软性宽度约束，防止描述列无限延伸成极长单行。
+- **静态输出边界**：宽度策略仅作用于屏幕端（`@media screen`）。打印（Print）及 Markdown/RSS 等静态输出会被标为 `td-table-scroll--static`，按纸张或静态输出格式展开排版，不触发横向滚动，也不受屏幕单元格宽度约束。
+
 ## 参数表 {#fields}
 
 `{.fields}` 把表格变成定义列表：第一列是名称，最后一列是说明，中间列是元数据。它是记录配置项、命令参数、API 字段的形态，写法见[参数表](/zh/docs/components/fields/)。
@@ -194,6 +228,7 @@ aliases:
 | 参数 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | `.full-width` | 标记 | 无 | 越出正文栏宽，占满文章画布 |
+| `.td-table--wide` | 标记 | 无 | 内部表格采用 max-content 宽度排版，适合配置项等技术宽表 |
 | `.matrix` | 标记 | 无 | 第一列作行表头，表头与首列吸附，其余单元格居中 |
 | `.fields` | 标记 | 无 | 渲染成定义列表，见[参数表](/zh/docs/components/fields/) |
 | `caption` | 纯文本 | 无 | 可见表格标题；在 `.fields` 上是列表的标签 |
@@ -209,7 +244,7 @@ aliases:
 
 ## 限制与常见问题 {#limits}
 
-- 互斥规则：`.fields` 不能和 `.matrix`、`.full-width` 或 `num` 一起用；`num` 与 `tab` 互斥；`group`/`value` 需要 `tab`；`meta` 需要 `.fields`。
+- 互斥规则：`.fields` 不能和 `.matrix`、`.full-width`、`.td-table--wide` 或 `num` 一起用；`num` 与 `tab` 互斥；`group`/`value` 需要 `tab`；`meta` 需要 `.fields`。
 - 属性行必须紧贴表格：中间空一行，它就变成正文里一段可见的花括号。Markdown 格式化工具常移动这一行，把它包进 `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->`。
 - 没有合并单元格、没有排序、没有筛选：GFM 管道表格能表达的就是全部。需要合并表头的复杂表请拆成两张表或改成一张矩阵。
 - 单元格里放不下块内容：多段说明、列表、围栏要用 `fields`/`field` shortcode。

@@ -125,6 +125,14 @@ sidebar_enabled: false
 完全不渲染。`notoc` 仍是页面级 TOC 退出键。这些开关不改变署名、标签、系列、
 翻页顺序、feed 或页尾组合；导轨在 `xl` 断点以下消失。
 
+在页面向下滚动且页脚进入视口时，固定 TOC 导轨（`fixed`）会共享侧边栏的页脚可见
+偏移量（`--td-shell-footer-offset`），使其底部可滚动区域止于页脚上方，确保
+导轨底部的分类标签或末尾标题始终可通过滚轮与键盘访问；折叠或展开胖页脚时，该避让
+边界也会实时联动更新。即使在禁用侧边栏（`sidebar_enabled: false`）的单栏沉浸
+阅读中，该避让机制依然生效。页面无页脚时偏移量为 0；而 `toc_style: flow` 则依托
+自身的 sticky 边界停止于正文末尾。移动端抽屉与打印输出均不受影响。（此行为在
+v1.2.0 之后引入。）
+
 ## 搜索、操作与运行时 {#search-actions-and-runtime}
 
 `params.offline_search` 选择启用各语言的本地索引。启用后默认也在 `hugo server`

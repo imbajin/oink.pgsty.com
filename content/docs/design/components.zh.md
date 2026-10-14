@@ -103,8 +103,13 @@ HTML 在 JavaScript 运行前暴露所有面板，打印输出展开面板，Mar
 `params.ui.typography` 变成 `field-params-ui-typography`。重复锚点追加位置后缀。
 
 表格渲染钩子负责响应式包装与 caption。`.matrix` 把第一列变为行表头；
-`.full-width` 加宽普通表格或矩阵表格。`.fields` 不能与 matrix、full-width、
-编号或标签页组合；编号与标签页也互斥。
+`.full-width` 加宽外层视口以占满文章可用宽度。在屏幕显示中，普通表格优先自适应
+正文列宽（`width: auto`）；包含配置项等长标识符的技术表格可显式声明
+`.td-table--wide`，采用按内容最大尺寸（`width: max-content`）排版并触发横向滚动。
+单元格使用 `overflow-wrap: break-word` 与 `word-break: normal`，避免标识符被突兀
+折断；数据单元格具备 `max-width: 40ch` 的软性宽度约束。打印与静态输出不受此
+屏幕策略影响。`.fields` 不能与 matrix、full-width、wide、编号或标签页组合；
+编号与标签页也互斥。（此宽度策略在 v1.2.0 之后引入。）
 
 ### 图片、画廊、FileTree 与围栏 {#images-gallery-filetree-and-fences}
 
@@ -125,8 +130,11 @@ Draw.io 与图片缩放共用一张图片时，编辑与缩放是同级的独立
 键盘访问，并在触摸设备和强制颜色模式下保持可见。
 
 画廊每行接受一张 Markdown 图片，可带描述、链接与 class。FileTree 接受缩进、
-`- name`、可选 `/`、注释，以及经过校验的 icon、tone、open、type 属性。Markdown
-保留作者源文；打印输出渲染展开的静态图片与文件树。
+`- name`、可选 `/`、注释，以及经过校验的 icon、tone、open、type 属性。文件树
+行高随内容自适应，长注释自动折行展示（`overflow-wrap: anywhere`），无需依赖
+悬停即可阅读完整内容，文件名超长时仍保持单行省略截断；窄屏下注释自动下落至条目下方。
+Markdown 保留作者源文；打印输出渲染展开的静态图片与文件树。（注释自动折行在
+v1.2.0 之后引入。）
 
 所有代码高亮都使用 Chroma。通用围栏属性包括 `title`、`copy`、`wrap`、
 `collapse`、`label`、`id`、行选项、标签页，以及 Book 的 `num`/`caption`。复制
@@ -136,6 +144,12 @@ Draw.io 与图片缩放共用一张图片时，编辑与缩放是同级的独立
 
 ECharts 输入是声明式 JSON/YAML；回调使用
 `window.OinkEchartsFunctions` 中的 `$fn:<name>`，绝不执行嵌入脚本。
+
+Markmap 节点文字在屏幕显示下通过 `--markmap-text-color` 继承页面正文颜色
+（`--bs-body-color`），在明暗模式切换、预设风格变更或恢复用户偏好时均可实时同步，
+确保足够的对比度；打印时则保留默认深色文字，以适配白底纸张。该映射作用于正文
+容器及生成的 SVG，站点仍可通过同优先级的自定义 CSS 或 SVG 内联属性进行覆盖。
+（此行为在 v1.2.0 之后引入。）
 
 数学公式使用 Hugo 构建时生成的 KaTeX 产物和本地 CSS，不加载浏览器数学运行时。
 共享渲染器在 HTML 和 Print 中将 KaTeX 0.18 之前的类名统一为本地样式支持的类名，
