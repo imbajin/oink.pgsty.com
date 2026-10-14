@@ -14,6 +14,22 @@ const contained=async page=>{
  })).toBe(true);
 };
 
+test('Expo coordinates viewer closure and preserves focus during a handoff',async({page})=>{
+ await page.goto(album);
+ await open(page,'small');
+ await page.evaluate(()=>window.OinkSurfaceCoordinator.closeAll(true));
+ await expect(viewer(page)).toBeHidden();
+ await expect(page.locator('#img-small [data-td-expo-image]')).toBeFocused();
+ await open(page,'small');
+ await page.evaluate(()=>{
+  window.OinkSurfaceCoordinator.closeOthers('palette');
+  window.OinkCommandPalette.instance.open();
+ });
+ await expect(viewer(page)).toBeHidden();
+ await expect(page.locator('#td-shell-search')).toBeVisible();
+ await expect(page.locator('#td-shell-search input')).toBeFocused();
+});
+
 for(const locale of ['', '/zh']) for(const mobile of [false,true]) {
  test(`Expo ${locale||'en'} ${mobile?'mobile':'desktop'}: modes, sizing, focus and accessibility`,async({page})=>{
   await page.setViewportSize(mobile?{width:390,height:844}:{width:1440,height:900});

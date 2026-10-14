@@ -3,6 +3,15 @@ import { expect, test } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
 
 const docs = '/docs/customize/config/';
+
+test('coordinated closure leaves focus alone when Appearance is closed', async ({ page }) => {
+  await page.goto(docs);
+  const main = page.locator('#td-main-content');
+  await main.focus();
+  await page.evaluate(() => window.OinkSurfaceCoordinator.closeAll(true));
+  await expect(main).toBeFocused();
+});
+
 const canvases = { ink: { light: 'rgb(255, 255, 255)', dark: 'rgb(11, 11, 11)' }, terminal: { light: 'rgb(244, 245, 242)', dark: 'rgb(12, 15, 14)' }, paper: { light: 'rgb(247, 246, 243)', dark: 'rgb(22, 21, 19)' }, slate: { light: 'rgb(241, 244, 248)', dark: 'rgb(11, 17, 25)' } };
 
 async function expectModeIcons(page, mode) {

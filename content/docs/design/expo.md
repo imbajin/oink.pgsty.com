@@ -126,6 +126,10 @@ Panning is available only along overflowing axes. Reset and navigation clear the
 previous position. F uses the same fit-to-stage action as the expand icon; the
 browser's fullscreen state is unchanged. The native dialog supplies focus containment.
 
+The viewer registers with `OinkSurfaceCoordinator`: opening it closes other
+floating surfaces, and `closeOthers()` or `closeAll()` can close it. A handoff
+keeps focus in the newly opened surface.
+
 The Expo sequence and zoom runtime is loaded only for HTML albums with images.
 Inline Image Zoom retains its existing single-image behavior. Expo image links
 are not rewrapped by that runtime. No-JS and unsupported-dialog browsers follow

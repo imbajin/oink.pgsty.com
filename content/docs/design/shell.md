@@ -255,8 +255,11 @@ The Palette has empty, text-search, and `>` command modes; quick links derive
 from navigation. It has no history, semantic search, personalization, or remote
 fallback. Search queries stay in-browser and no default telemetry is sent.
 
-`OinkSurfaceCoordinator` arbitrates Palette, drawer, root, language, and version
-menus. Surfaces own focus restoration and Escape. Keyboard navigation ignores
+`OinkSurfaceCoordinator` coordinates the Palette, Appearance, Draw.io, Expo
+viewer, drawer, root, language, and version menus. Each surface controls focus
+restoration and Escape. Already closed Appearance menus do not restore focus
+when the coordinator closes them.
+Keyboard navigation ignores
 editable controls and modals; Ctrl/Cmd+K also yields to another open dialog,
 including fixed-position ARIA dialogs.
  `/`, `\`, `f`, `c` open search/commands; `j`/`k`
