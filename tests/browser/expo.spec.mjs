@@ -258,3 +258,59 @@ test('Expo shortcuts ignore modified keys, composition and editable controls, an
  await expect(viewer(page)).toBeHidden();await expect(image).toHaveCSS('width','160px');
  await open(page,'small');await expect(image).toHaveCSS('width','160px');
 });
+
+test('Expo albums name their own section in the sidebar root switcher',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});
+ await page.goto(album);
+ // A home-level album must not borrow the first site section's label.
+ await expect(page.locator('#td-shell-sidebar .td-shell-root__title').first()).toHaveText('Expo');
+});
+
+test('Expo double-click alternates between the initial fit and a closer look',async({page})=>{
+ await page.setViewportSize({width:1280,height:800});await page.goto(fixture);
+ const image=viewer(page).locator('[data-td-expo-full]');
+ await open(page,'large');await contained(page);
+ // A shrunk original opens at 100% under the pointer; the next double-click restores the fit.
+ await image.dblclick();await expect(image).toHaveCSS('width','1800px');
+ expect(await viewer(page).locator('[data-td-expo-stage]').evaluate(s=>s.scrollWidth>s.clientWidth)).toBe(true);
+ await image.dblclick();await contained(page);
+ await page.keyboard.press('Escape');
+ // An original already at 100% expands instead.
+ await open(page,'small');await image.dblclick();await contained(page);
+ expect(await image.evaluate(i=>i.getBoundingClientRect().width)).toBeGreaterThan(160);
+ await image.dblclick();await expect(image).toHaveCSS('width','160px');
+});
+
+test('Expo shows the grid preview while an original loads and warms the next image',async({page})=>{
+ await page.setViewportSize({width:1280,height:800});await page.goto(fixture);
+ let release;const gate=new Promise(resolve=>{release=resolve;});
+ await page.route(/\/large\.png$/,async route=>{await gate;await route.continue();});
+ const warmed=page.waitForRequest(/\/large\.png$/);
+ await open(page,'small');await warmed;
+ await viewer(page).locator('[data-td-expo-next]').click();
+ const image=viewer(page).locator('[data-td-expo-full]');
+ await expect(image).toHaveCSS('background-image',/url\(.+\.webp"?\)/);
+ release();
+ await expect(image).toHaveCSS('background-image','none');
+});
+
+test.describe('touch',()=>{
+ test.use({hasTouch:true,viewport:{width:390,height:844}});
+ test('Expo swipes between fitted images and leaves enlarged images to native scrolling',async({page})=>{
+  await page.goto(fixture);await open(page,'small');
+  const position=viewer(page).locator('[data-td-expo-position]');
+  const swipe=dx=>viewer(page).locator('[data-td-expo-stage]').evaluate((stage,dx)=>{
+   const box=stage.getBoundingClientRect(),x=box.left+box.width/2,y=box.top+box.height/2;
+   const touch=clientX=>new Touch({identifier:1,target:stage,clientX,clientY:y});
+   stage.dispatchEvent(new TouchEvent('touchstart',{touches:[touch(x)],changedTouches:[touch(x)],bubbles:true}));
+   stage.dispatchEvent(new TouchEvent('touchend',{touches:[],changedTouches:[touch(x+dx)],bubbles:true}));
+  },dx);
+  await swipe(-120);await expect(position).toHaveText('2 / 5');
+  await swipe(120);await expect(position).toHaveText('1 / 5');
+  // Short movements and the album start leave the view unchanged.
+  await swipe(20);await swipe(120);await expect(position).toHaveText('1 / 5');
+  await swipe(-120);await expect(position).toHaveText('2 / 5');
+  for(let i=0;i<4;i++) await viewer(page).locator('[data-td-expo-plus]').click();
+  await swipe(-120);await expect(position).toHaveText('2 / 5');
+ });
+});
