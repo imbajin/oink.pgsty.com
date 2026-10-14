@@ -217,10 +217,13 @@ params:
 
 Book 页可以在侧栏当前行下展开 h2–h4 分支，便于在长章节内跳转：
 
+默认关闭。页面 front matter 或分区 cascade 也可设置同名键；显式
+`sidebar_headings: false` 会关闭继承的启用值，右侧目录仍然保留。
+
 ```yaml {title="hugo.yml"}
 params:
   ui:
-    sidebar_headings: 3 # false | true | 2 | 3 | 4
+    sidebar_headings: 3 # 默认为 false；可选 true | 2 | 3 | 4
 ```
 
 整数指定展开到第几级（2–4），`true` 等于 2（只展开 h2），`false` 关闭。取值超出

@@ -88,6 +88,33 @@ content tree in every navigation output. Both authorities prune `toc_hide`
 subtrees, and navigation JSON preserves `manual_link_relref` as an internal
 link to its resolved destination rather than a page identity.
 
+## Book headings and responsive outlines {#book-headings-and-outlines}
+
+`params.ui.sidebar_headings` defaults to `false`. Book pages show the page tree
+in the left sidebar and the page outline in the right rail. Set
+`sidebar_headings: true` (h2 only) or `2`, `3`, `4` (deepest heading level) to add
+headings below the active Book row. Page front matter overrides a section
+cascade or site setting; explicit `false` disables an inherited opt-in. This
+setting does not disable the right outline or its relocation below `xl`.
+
+> [!NOTE] Unreleased navigation refinement after OINK 1.2.0
+> The documentation Book no longer opts into sidebar headings. When enabled,
+> the branch follows the parent row's navigation depth, reserves its icon and
+> chapter-number columns, and adds one indent. Deeper headings indent again;
+> the same logical spacing applies in right-to-left layouts.
+>
+> From 1200px, the fixed right rail uses 20% of viewport width, clamped to
+> 286–420px. The flow rail uses 22%, clamped to 340–440px, and still honors
+> `--td-shell-toc-flow-w`. The reserved column and visible panel share one width.
+> Responsive widths follow the viewport immediately, without width transitions:
+> shrinking the window must not make the article rebound between drag steps.
+> Long labels wrap inside the rail; widening it can bring them onto one line.
+> Below 1200px, outline groups move to the left sidebar when enabled; below
+> 768px, they live in its mobile drawer. Pages with `sidebar_enabled: false`
+> keep the rail hidden below 1200px. Browser zoom follows these CSS breakpoints.
+> Collapsing the right rail releases its full width at once at every desktop
+> size; the panel retains its slide and fade.
+
 ## Sidebar runtime {#sidebar-runtime}
 
 > [!NOTE] Unreleased fix after OINK 1.2.0

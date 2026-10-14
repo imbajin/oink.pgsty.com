@@ -74,7 +74,7 @@ outputs:
   section: [HTML, print, markdown]
 params:
   ui:
-    sidebar_headings: 3     # project an h2–h3 heading tree under the current entry
+    sidebar_headings: false # default; use 3 to add h2–h3 below the current entry
     book_draft_banner: true # draft chapters get a localized banner above the body
 ```
 
@@ -93,8 +93,10 @@ weight: 20
 contents. `book_status: draft` is a visible editorial label and does not change
 Hugo's publication state: a draft chapter builds and publishes as usual.
 
-`sidebar_headings` accepts `false`, `true` (h2 only) or a maximum level from 2
-to 4. Give every heading that will be referenced an explicit ID, such as
+`sidebar_headings` defaults to `false` and accepts `true` (h2 only) or a maximum
+level from 2 to 4. A page or section cascade can override the site setting.
+The right outline remains available when this left branch is disabled.
+Give every heading that will be referenced an explicit ID, such as
 `## Synchronous replication {#sync-replication}`: a generated slug is fine for
 navigation and unfit as a long-lived reference target.
 

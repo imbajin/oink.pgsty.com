@@ -23,7 +23,6 @@ cascade:
   footer_style: fat
   comments: false
   feedback: false
-  sidebar_headings: 3
   book_draft_banner: true
 ---
 

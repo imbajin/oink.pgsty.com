@@ -57,7 +57,7 @@ outputs:
   section: [HTML, print, markdown]
 params:
   ui:
-    sidebar_headings: 3     # 当前章节行下投射 h2–h3 标题树
+    sidebar_headings: false # 默认关闭；设为 3 可在当前章节下显示 h2–h3
     book_draft_banner: true # 草稿章节页首多一条本地化提示
 ```
 
@@ -74,7 +74,7 @@ weight: 20
 
 `book_number` 显示在页面标题、侧栏与生成目录里。`book_status: draft` 是可见的编辑状态标签，不改变 Hugo 的发布状态：草稿章节照常构建、照常发布。
 
-`sidebar_headings` 接受 `false`、`true`（只到 h2）或 2–4 的最大层级。要被引用的标题一律写显式 ID，如 `## 同步复制 {#sync-replication}`：自动生成的 slug 适合导航，不适合作为长期引用目标。
+`sidebar_headings` 默认为 `false`，也接受 `true`（只到 h2）或 2–4 的最大层级。页面或分区 cascade 可覆盖站点设置。关闭左侧标题分支不影响右侧目录。要被引用的标题一律写显式 ID，如 `## 同步复制 {#sync-replication}`：自动生成的 slug 适合导航，不适合作为长期引用目标。
 
 配置键的完整定义在[配置总览](/zh/docs/customize/config/)，页面参数在[页面参数](/zh/docs/write/frontmatter/)。
 

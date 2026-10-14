@@ -314,7 +314,7 @@ for (const preset of ['paper', 'slate']) test.describe(`${preset}: section theme
   test('book headings under a chapter light in the section accent, not the link colour', async ({
     page,
   }) => {
-    await page.goto(BOOK, { waitUntil: 'domcontentloaded' });
+    await page.goto('/tests/book-navigation/part/chapter/', { waitUntil: 'domcontentloaded' });
     const palette = await tokens(page, ['--td-accent', '--bs-link-color']);
 
     const heading = page.locator('.td-shell-tree__headings a').first();

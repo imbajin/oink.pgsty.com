@@ -255,8 +255,8 @@ build. This site uses `groups`.
 
 ### Expanding headings in the sidebar {#sidebar-headings}
 
-Book pages can expand an h2–h4 branch under the current sidebar row, which helps
-navigation inside a long chapter:
+Book pages keep headings out of the left page tree by default. To add an
+h2–h4 branch under the current sidebar row, opt in explicitly:
 
 ```yaml {title="hugo.yml"}
 params:
@@ -267,7 +267,9 @@ params:
 An integer sets the deepest level expanded (2–4), `true` means 2 (h2 only), and
 `false` turns it off. Out of range warns and disables the branch in ordinary
 preview; strict publishing rejects the warning. It applies to `type: book`
-pages only, and expands only under the current sidebar row.
+pages only, and expands only under the current sidebar row. Page front matter or a section
+cascade can set the same key; `sidebar_headings: false` turns off an inherited
+opt-in. The right outline remains available.
 
 ## Table of contents {#toc}
 
