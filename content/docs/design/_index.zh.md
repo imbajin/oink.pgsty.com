@@ -45,9 +45,9 @@ cascade:
 
 | 集合                                   | 内容                                       |
 | -------------------------------------- | ------------------------------------------ |
-| [设计决策](/zh/docs/design/decisions/) | 已接受的诊断、配置与创作模型设计理由       |
-| [设计研究](/zh/docs/design/research/)  | Goldmark 探针与真实 OINK 消费站点证据      |
-| [候选提案](/zh/docs/design/proposals/) | 知识图谱、媒体收敛与机器可读索引等活跃 PRD |
+| [设计决策](/zh/docs/design/decisions/) | 已接受的诊断、配置、创作模型、Expo 与 CLI 设计理由       |
+| [设计研究](/zh/docs/design/research/)  | Goldmark 探针、消费站证据、CLI 验收与 10 月主题评审      |
+| [候选提案](/zh/docs/design/proposals/) | 知识图谱、媒体收敛、视觉预设与 CLI 路线图等活跃 PRD |
 
 以后所有 OINK PRD 或 RFC 都必须以中英文页面对的形式放入
 `content/docs/design/proposals/`，不得再在仓库中创建 `plan/`、`plans/` 或

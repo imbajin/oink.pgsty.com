@@ -31,6 +31,8 @@ design_status: active
 | [视觉预设验收，2026-10-05](/zh/docs/design/research/2026-10-05-visual-presets-acceptance/) | Paper/Slate 本地实现、真实输出与有范围说明的浏览器证据 |
 | [Ink 与 Terminal 实验，2026-10-05](/zh/docs/design/research/2026-10-05-ink-terminal-experiment/) | 显式实验预设、设计取舍与真实站点验证 |
 | [OINK 1.2 发布前审查，2026-10-05](/zh/docs/design/research/2026-10-05-v1-2-release-review/) | 本地候选版本最终检查、清理、本地资源、兼容性与发布边界 |
+| [CLI 维护验收，2026-10-03](/zh/docs/design/research/2026-10-03-cli-maintenance-acceptance/) | 历史 R1–R8 与 A18 的源码绑定运行时及归档证据 |
+| [主题评审，2026-10-13](/zh/docs/design/research/2026-10-13-theme-review/) | 输出与交互缺陷复现、修复及本地验证范围 |
 
 ## 发布规则 {#publication-rules}
 

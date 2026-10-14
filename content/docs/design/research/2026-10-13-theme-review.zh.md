@@ -30,7 +30,7 @@ last_verified: 2026-10-13
 
 两份分类页 HTML 快照也需要跟进已有侧栏修复：完整核对差异后，每份移除了 33 处错误的叶节点隐藏标记。随后 52 个输出面的快照检查通过，没有接受其他快照差异。
 
-未发布行为已经写入双语 [架构](/docs/design/architecture/) 与 [外壳](/docs/design/shell/) 契约。此次修改无需配置迁移，也没有新增依赖。
+未发布行为已经写入双语 [架构](/zh/docs/design/architecture/) 与 [外壳](/zh/docs/design/shell/) 契约。此次修改无需配置迁移，也没有新增依赖。
 
 ## 验证 {#validation}
 

@@ -258,7 +258,7 @@ favicon 没有参数：主题按约定名扫描 `static/`（`favicon.ico` `favic
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `params.offline_search` | boolean | false | 生成每语言一份本地索引并启用命令面板，见[全文检索](/docs/customize/search/) |
+| `params.offline_search` | boolean | false | 生成每语言一份本地索引并启用命令面板，见[全文检索](/zh/docs/customize/search/) |
 | `params.offline_search_on_serve` | boolean | true | `hugo server` 预览时也构建索引，预览行为与线上一致；站点极大时设 `false` 跳过以加快本地重建 |
 | `params.offline_search_index` | enum | content | 索引范围，逐级累加：`title` `heading` `summary` `content`。非法值告警并使用 `content` |
 | `params.offline_search_summary_length` | integer | 70 | `summary` 档摘录截断的字数 |
@@ -275,7 +275,7 @@ favicon 没有参数：主题按约定名扫描 `static/`（`favicon.ico` `favic
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `params.ui.keyboard_nav` | boolean | true | 单键导航（WASD/方向键走树、j/k 跳标题、q/e 翻页、面板与外壳开关）。设为 `false` 后运行时不进包，见[键盘导航](/docs/customize/keyboard/) |
+| `params.ui.keyboard_nav` | boolean | true | 单键导航（WASD/方向键走树、j/k 跳标题、q/e 翻页、面板与外壳开关）。设为 `false` 后运行时不进包，见[键盘导航](/zh/docs/customize/keyboard/) |
 {.fields meta="type default"}
 
 ## 图片缩放 {#image-zoom}
@@ -356,7 +356,7 @@ Mermaid、KaTeX、ECharts、Infographic、Asciinema、Swagger UI 与 Redoc 按�
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `params.markmap` | boolean | false | 站点级启用思维导图围栏，见[思维导图](/docs/components/markmap/) |
+| `params.markmap` | boolean | false | 站点级启用思维导图围栏，见[思维导图](/zh/docs/components/markmap/) |
 | `params.mermaid` | map | | 透传给 `mermaid.initialize()` 的配置；键名全小写，深色模式自动覆盖 `theme` |
 | `params.plantuml.enable` | boolean | false | 启用 PlantUML 围栏，见 [PlantUML](/zh/docs/components/plantuml/) |
 | `params.plantuml.svg_image_url` | string | | PlantUML 服务的 SVG 端点，启用时必填，缺失则告警并保持 PlantUML 关闭 |

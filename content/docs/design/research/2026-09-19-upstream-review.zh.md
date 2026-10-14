@@ -297,7 +297,7 @@ Linux Super 键、移动端无障碍树隔离、深色/强制颜色模式及作�
 - 通过 `make dev` 在真实文档站实测桌面亮色、中文暗色、折叠侧栏恢复，以及 375px 移动抽屉。
   Escape 关闭后焦点回到可见的打开按钮。验收后已恢复浏览器视口并清理临时开发服务。
 
-已接受的契约写入 [Shell](/docs/design/shell/) 与[架构](/docs/design/architecture/)，
+已接受的契约写入 [Shell](/zh/docs/design/shell/) 与[架构](/zh/docs/design/architecture/)，
 中英文同步，并更新导航、组织内容、Palette 和 Print 指南。集成回归留在文档站仓库，主题只保留
 专项检查器和合成输入。
 

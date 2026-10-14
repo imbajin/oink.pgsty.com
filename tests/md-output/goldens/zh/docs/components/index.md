@@ -119,7 +119,7 @@ markup:
 - [OINK 文档](/zh/case/oink/)
 - [文档](/zh/docs/)
 - [简介](/zh/docs/about/)
-- [亮点特性](/zh/docs/about/features/)
+- [特性](/zh/docs/about/features/)
 - [版本升级](/zh/docs/admin/upgrade/)
 - [组件](/zh/docs/design/components/)
 - [快速上手](/zh/docs/start/)

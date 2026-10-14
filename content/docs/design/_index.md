@@ -56,9 +56,9 @@ proposal.
 
 | Collection                           | Contents                                                                          |
 | ------------------------------------ | --------------------------------------------------------------------------------- |
-| [Decisions](/docs/design/decisions/) | Accepted diagnostic, configuration, and authoring rationale                       |
-| [Research](/docs/design/research/)   | Goldmark probes and evidence from real OINK consumers                             |
-| [Proposals](/docs/design/proposals/) | Active PRDs for knowledge graphs, media convergence, and machine-readable indexes |
+| [Decisions](/docs/design/decisions/) | Accepted diagnostic, configuration, authoring, Expo, and CLI rationale                       |
+| [Research](/docs/design/research/)   | Goldmark probes, consumer evidence, CLI acceptance, and October theme reviews                             |
+| [Proposals](/docs/design/proposals/) | Active PRDs for knowledge graphs, media convergence, visual presets, and the CLI roadmap |
 
 Create every new OINK PRD or RFC as an English and Chinese page pair under
 `content/docs/design/proposals/`. Do not create another repository-local
