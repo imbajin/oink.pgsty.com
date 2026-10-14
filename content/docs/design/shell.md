@@ -83,8 +83,17 @@ children, and Print keeps the child documents. Book TOCs retain the group label
 and child links, but omit headings from the unpublished group body. `toc_hide` still hides the
 whole subtree and is not a grouping option. Explicit navigation keys are
 language- and deployment-independent paths; rendered links retain both prefixes.
-An explicitly empty navigation `sections` array warns and falls back to the
-content tree in every navigation output. Both authorities prune `toc_hide`
+The sidebar, pager, and navigation JSON select explicit sections by the resolved
+`page` identity and content ancestry. Custom `url` values do not change that
+scope. A Docs tree does not replace Book navigation, or vice versa; a nested
+sidebar root selects its own branch. Unlisted roots use the content tree.
+Only section-root Docs/Book navigation evaluates the explicit tree. Home-root
+navigation and other shells ignore it, including its warnings. An explicitly
+empty `sections` array warns and falls back only where that tree applies.
+Uncached sidebars mark the current page and expand its content ancestors from
+the resolved page identity, even when a node omits `url` or the page has a
+custom URL. Legacy URL and active-path hints remain supported.
+Both authorities prune `toc_hide`
 subtrees, and navigation JSON preserves `manual_link_relref` as an internal
 link to its resolved destination rather than a page identity.
 
