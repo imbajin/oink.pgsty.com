@@ -222,3 +222,4 @@ Backlinks:
 - [FileTree](/docs/components/filetree/)
 - [Images](/docs/components/image/)
 - [Print](/docs/customize/print/)
+- [Expo albums](/docs/write/expo/)

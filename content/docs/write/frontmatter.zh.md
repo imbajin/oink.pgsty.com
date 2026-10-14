@@ -1,7 +1,7 @@
 ---
 title: 页面参数
 linkTitle: 页面参数
-description: front matter 全表：主题读取的页面键与 1.x 兼容 no-op，按侧栏、外壳、搜索、输出、页尾、Book、Landing、发布页分组。
+description: front matter 全表：主题读取的页面键与 1.x 兼容 no-op，按侧栏、外壳、搜索、输出、页尾、Book、Expo、Landing、发布页分组。
 weight: 30
 search_keywords: [页面参数, front matter, 前置元数据, page parameters, cascade, 页面级覆盖, 参数表]
 ---

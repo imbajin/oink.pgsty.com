@@ -1,7 +1,7 @@
 ---
 title: Page parameters
 linkTitle: Page parameters
-description: The full front matter table — active page keys and retained 1.x compatibility no-ops, grouped by sidebar, shell, search, output, page end, Book, landing and release pages.
+description: The full front matter table — active page keys and retained 1.x compatibility no-ops, grouped by sidebar, shell, search, output, page end, Book, Expo, landing and release pages.
 weight: 30
 search_keywords: [page parameters, front matter, cascade, page override, parameter table]
 ---

@@ -187,3 +187,4 @@ image_zoom: true
 - [文件树](/zh/docs/components/filetree/)
 - [图片](/zh/docs/components/image/)
 - [打印支持](/zh/docs/customize/print/)
+- [Expo 相册](/zh/docs/write/expo/)
