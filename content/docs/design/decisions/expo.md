@@ -10,9 +10,8 @@ decision_date: 2026-10-13
 aliases: [/docs/design/proposals/muse-gallery/]
 ---
 
-> [!NOTE] OINK 1.3.0 local tag
-> Expo is included in the local v1.3.0 tag. Public module publication and
-> deployment are separate acceptance steps.
+> [!NOTE] Available in OINK 1.3.0
+> Expo is included in OINK v1.3.0.
 
 ## Context {#context}
 

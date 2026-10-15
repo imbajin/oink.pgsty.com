@@ -21,14 +21,10 @@ cascade:
   categories: [Design]
 ---
 
-> [!NOTE] OINK 1.3.0 local candidate
-> This contract includes corrections after the unchanged local v1.3.0 tag
-> at `6dede1f`. Validate the current sibling checkout for these corrections;
-> the prepared module cache still represents that older tag. Public module
-> publication and deployment remain separate acceptance steps.
-> Since 2026-10-15, development, CI, and release tests use Hugo Extended 0.166.0.
-> The baseline advances with stable releases; older Hugo compatibility is no
-> longer maintained. See the [toolchain contract](/docs/design/architecture/#hugo-toolchain).
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 This section is the durable design record for OINK. It complements the
 task-oriented guides elsewhere on the site: use those guides to build a site,
@@ -72,10 +68,12 @@ changelog.
 
 ## Expo contract {#unreleased-contracts}
 
-The [Expo contract](/docs/design/expo/) describes the local image-album layout
-candidate. Its [accepted decision](/docs/design/decisions/expo/) records the
-content model and the revisions to the earlier Muse experiment. These pages describe the corrected local candidate beyond tag `6dede1f`;
-public module publication and deployment remain separate acceptance steps.
+The [Expo contract](/docs/design/expo/) describes the image-album layout
+introduced in OINK 1.3.0. Its [accepted decision](/docs/design/decisions/expo/) records the
+content model and the revisions to the earlier Muse experiment. The
+[authoring guide](/docs/write/expo/) explains album setup and viewer controls.
+The contract, accepted decision, and authoring guide describe the same
+released content model and controls.
 
 ## Authority and maintenance {#authority-and-maintenance}
 

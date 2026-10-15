@@ -12,12 +12,9 @@ cascade:
   categories: [设计契约]
 ---
 
-> [!NOTE] OINK 1.3.0 本地候选
-> 本契约包含本地 v1.3.0 标签 `6dede1f` 之后的修复，原标签保持不变。
-> 请用当前伴生主题 checkout 验证这些修复；已准备的模块缓存仍对应旧标签。
-> 公开模块发布与部署仍需单独验收。
-> 自 2026-10-15 起，开发、CI 与发布测试统一使用 Hugo Extended 0.166.0。
-> 基线随稳定版更新，不再维护旧 Hugo 兼容性；见[工具链契约](/zh/docs/design/architecture/#hugo-toolchain)。
+> [!NOTE] OINK 1.3.0 契约
+> 本契约描述 OINK v1.3.0。主题开发使用同级 checkout；发布验收在关闭替换与
+> 工作区后验证公开模块。消费站升级与部署分别检查。
 
 本专栏是 OINK 可长期维护的设计记录。站内其它专栏按任务讲解如何搭建站点；
 这里集中说明现行不变量、这些选择背后的理由、用于比较方案的证据，以及仍处于
@@ -57,9 +54,10 @@ cascade:
 
 ## Expo 契约 {#unreleased-contracts}
 
-[Expo 契约](/zh/docs/design/expo/) 描述当前本地图片相册布局候选，
+[Expo 契约](/zh/docs/design/expo/) 描述 OINK 1.3.0 新增的图片相册布局，
 [已接受决策](/zh/docs/design/decisions/expo/) 记录内容模型和对早期 Muse 实验的修订。
-这些页面描述 `6dede1f` 标签之后的修复候选；公开模块发布与部署另行验收。
+[创作指南](/zh/docs/write/expo/)说明相册创建与查看器操作。
+契约、已接受决策与创作指南说明同一套已发布的内容模型与控件。
 
 ## 权威来源与维护 {#authority-and-maintenance}
 

@@ -1,17 +1,17 @@
 ---
 title: OINK migration boundary
 linkTitle: Migration boundary
-description: Supported source, configuration, and validation boundaries for OINK migration, including the 1.2.0 changes.
+description: Supported source, configuration, and validation boundaries for OINK migration, including the 1.3.0 changes.
 weight: 50
 icon: fa-solid fa-code-compare
 search_keywords: [OINK migration contract, 0.4 migration, 0.5 migration, configuration rename, migration toolkit]
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local-tag contract
-> This contract describes the local v1.3.0 tag. Public module publication
-> and deployment are separate acceptance steps. Its canonical bilingual sources
-> are in `content/docs/design/`.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 This is source and configuration guidance, not a release ledger. Local source,
 commit, tag, push, consumer pin, deployment, and production parity remain
@@ -49,41 +49,50 @@ reached through symlink aliases and an alternate `--theme` checkout.
 
 ## Updating consumer repositories {#updating-consumers}
 
-After publishing a theme release, inventory maintained consumer checkouts and
-upgrade their exact pins. The theme's `bin/update-consumers.py` scans immediate
-project directories under the supplied roots; it does not recurse into
-archives, generated sites, caches, or theme fixtures.
+After publishing a theme release, inventory maintained consumer checkouts and update their exact pins.
+`bin/update-consumers.py` scans primary project directories under supplied roots and their `site/` directories.
+It does not recurse into archives, generated sites, caches, or theme fixtures.
 
 The tool ships with OINK 1.2.0. Run it from the theme checkout to inventory
 consumers and upgrade them to the published tag.
 
 ```sh
-python3 bin/update-consumers.py v1.2.0 --roots ~/www ~/pgsty
-python3 bin/update-consumers.py v1.2.0 --roots ~/www ~/pgsty --write --check
+python3 bin/update-consumers.py v1.3.0 --roots ~/www ~/pgsty
+python3 bin/update-consumers.py v1.3.0 --roots ~/www ~/pgsty --write --check --check-appearance
 ```
 
-The first command only reports adoption. The second updates `go.mod` and
-OINK's `go.sum` entries, verifies the exact module graph, and builds each
-selected site with warnings fatal. It disables `GOWORK`, Hugo's module
-workspace, and environment module replacements. Logs and original module
-files go to a temporary report directory, or an explicit `--report-dir`.
-The tool restores module files if the update fails; a build failure leaves
-the new pin available for diagnosis and returns a failing status.
-An unreadable scan root or malformed consumer module is recorded as a failed
-entry; the inventory continues through the remaining sites and exits nonzero.
-An explicitly selected missing or non-consumer directory also fails visibly.
+The first command only reports adoption.
+The second updates `go.mod` and OINK's `go.sum` entries, verifies the exact module graph, and builds selected sites with fatal warnings.
+It disables `GOWORK`, Hugo's module workspace, and environment module replacements.
+Logs and original module files go to a temporary report directory or the explicit `--report-dir`.
+Failed updates restore module files. Failed builds keep the new pin for diagnosis and return failure.
+Unreadable roots or malformed consumer modules become failed entries. Inventory continues through other sites and exits nonzero.
+Explicitly selected missing or non-consumer directories also fail visibly.
 
-Linked worktrees, hidden copies, and non-default branches are skipped. Review
-all skipped and blocked entries: `--sites <path>...` explicitly selects a
-reviewed checkout, including one with existing module edits. OINK replacements
-in `go.mod` require manual resolution. Vendored themes require a separate
-review before `--refresh-vendor`, which backs up and regenerates `_vendor/`;
-changing a module pin alone does not update a vendored theme.
+Linked worktrees, hidden copies, and non-default branches are skipped. Review every skipped or blocked entry.
+An explicit project root resolves to its `site/` directory when that directory contains the Hugo site and the root is not itself a Hugo configuration or OINK consumer. An unrelated Go application's root `go.mod` does not prevent this resolution. An actual root consumer takes precedence.
+`--sites <path>...` selects a reviewed site explicitly, including checkouts with existing module edits and source directories without Git. Source-only directories are skipped during automatic discovery until selected explicitly; they receive the same file backups and build checks.
+Classic `themes/oink` consumers are listed for separate maintenance: update a clean Git submodule to the published tag, or back up and replace a verified upstream source copy. Preserve offline builds and site-level overrides, then run the owning site checks. The module updater does not rewrite classic theme directories.
+Manually resolve OINK replacements in `go.mod`.
+Review vendored themes separately before `--refresh-vendor`, which backs up and regenerates `_vendor/`.
+Changing a module pin alone does not update vendored themes. Hugo's resolved module graph determines whether OINK actually uses vendor output. A retained snapshot bypassed by `ignoreVendorPaths` is preserved and does not block a published-module upgrade.
 
-Preserve unrelated work, update current theme-version references in site
-READMEs and configuration, and run each site's owning checks and visual
-review. The tool does not edit content, commit, push, or deploy. Record those
-completion states separately, including consumers already on the target tag.
+To offer all four styles with Paper as the site default, set the site configuration explicitly:
+
+```yaml
+params:
+  ui:
+    preset: paper
+    preset_menu: [paper, slate, ink, terminal]
+```
+
+`preset_menu: true` offers the stable styles and the site default; the explicit list also opts into Ink and Terminal. These settings persist across later pin upgrades. Review sites with a custom shell separately: configuration alone does not add appearance controls to templates that bypass OINK's shell.
+
+The maintainer checkout also supports `--check-appearance` together with `--check`. It checks the fresh rendered home pages, including localized entries, for Paper as the default and all four style controls. Sites that disable Home are checked at their documentation entries; redirect aliases are omitted. Browser interaction and each site's owning checks remain separate.
+
+Preserve unrelated work. Update current theme-version references in site READMEs and configuration.
+Run each site's owning checks and visual review.
+The tool does not edit content, commit, push, or deploy. Record each state separately, including consumers already at the target tag.
 
 ## 0.4 content to current forms {#content-to-current-forms}
 

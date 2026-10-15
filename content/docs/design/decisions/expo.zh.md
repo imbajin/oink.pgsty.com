@@ -10,8 +10,8 @@ decision_date: 2026-10-13
 aliases: [/zh/docs/design/proposals/muse-gallery/]
 ---
 
-> [!NOTE] OINK 1.3.0 本地标签
-> Expo 已包含在本地 v1.3.0 标签中。公开模块发布与部署另行验收。
+> [!NOTE] OINK 1.3.0 新增
+> Expo 随 OINK v1.3.0 提供。
 
 ## 背景 {#context}
 

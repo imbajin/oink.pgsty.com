@@ -8,10 +8,10 @@ search_keywords: [OINK landing contract, landing sections, homepage data, progre
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local-tag contract
-> This contract describes the local v1.3.0 tag. Public module publication
-> and deployment are separate acceptance steps. Its canonical bilingual sources
-> are in `content/docs/design/`.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 Shared rules live in the [architecture](/docs/design/architecture/) and
 [component](/docs/design/components/) contracts; migration belongs in the
@@ -61,27 +61,43 @@ introduces no second channel, version, publication, or interpolation model.
 
 ## Language, runtime, and accessibility {#language-runtime-and-accessibility}
 
-Narrative files may be language-specific. Shared fact fields resolve
-`<field>_<exact language>` with `-` normalized to `_`, then
-`<field>_<primary language>`, then the unsuffixed field. camelCase aliases are
-not accepted. Narrative fields render inline or block Markdown through the
-site's hooks; values reused as accessible names are plainified. Section copy is
-site data; only theme controls use OINK i18n.
+Narrative files may be language-specific.
+Shared fact fields resolve `<field>_<exact language>`, with `-` converted to `_`, then `<field>_<primary language>`, then the unsuffixed field.
+camelCase aliases are not accepted.
+Narrative fields use site hooks to render inline or block Markdown. Values reused as accessible names become plain text.
+Section text is site data. Only theme controls use OINK i18n.
+
+Each built-in Markdown render has a stable section, item, and field scope.
+Repeated bodies and marquee copies therefore get distinct generated code IDs,
+including their copy controls, titles, viewports, and line links. The scope does
+not depend on render order or output order. Explicit code IDs remain unchanged;
+repeating one in the assembled Landing output warns and fails a strict build.
+Custom partials that reuse the Markdown helpers should pass a distinct stable
+`scope` for each rendered position.
+
+Block Markdown bodies use the shared `.td-content` component scope and register
+the runtimes their rendered content needs. Code folding, tables, images, and
+other content primitives retain their normal styles inside a Landing section.
+This scope belongs to the body, not the surrounding marketing headings or grid.
 
 Interactive HTML sets `hasLanding`, which conditionally adds only `landing.js`.
-The runtime reuses `OinkSurfaceCoordinator` and owns reveal, count-up, copy,
-compact-menu, and theme-image enhancement. Server output remains complete
-without JavaScript or when the Landing script fails to load. Reveal candidates
-are visible by default; only an installed observer may mark one pending its
-entrance animation. Metrics render their configured number formatting, prefix, and
-suffix on the server, and the count-up's final frame uses that same display.
+The runtime uses `OinkSurfaceCoordinator` for reveal, count-up, copy, compact-menu, and theme-image enhancements.
+Server output stays complete without JavaScript or if the Landing script fails to load.
+Reveal candidates are initially visible; only an installed observer may mark one as pending entrance animation.
+The server renders metrics with configured number formatting, prefixes, and suffixes, and the count-up's final frame uses the same display.
 
-Marquee duplication is CSS-only; the duplicate is `aria-hidden` and `inert`,
-and a localized checkbox persists pause without JS. Reduced motion disables
-motion, forced colors preserves controls, and theme images follow the shared
-theme event. The navbar mega panel and its `columns` parameter are retired: a
-menu that still sets `columns` warns and keeps the single column. The compact menu uses real
-links/buttons, traps no focus, and does not duplicate the desktop tree.
+Landing code plates accept keyboard focus in interactive HTML, including
+`capabilities` code visuals and `code-plate` line lists. Readers can tab to long
+lines and scroll them with arrow keys without relying on a browser's implicit
+scroll-container focus behavior. Static Print output adds no focus target to
+these line-based renderers.
+
+Marquee duplication uses only CSS. The duplicate is `aria-hidden` and `inert`.
+A localized checkbox preserves pause state without JS.
+Reduced motion disables animation. Forced colors preserve controls. Theme images follow the shared theme event.
+The navbar mega panel and `columns` menu parameter are retired.
+Menus with `columns` warn and keep one column.
+Compact menus use real links and buttons, trap no focus, and do not duplicate the desktop tree.
 
 ## Outputs and compatibility {#outputs-and-compatibility}
 
@@ -90,15 +106,19 @@ links/buttons, traps no focus, and does not duplicate the desktop tree.
 | HTML | Full static sections plus progressive enhancement |
 | Print | Static grids and content; controls removed |
 | Markdown | Headings, prose, lists, tables, and code without theme classes |
-| RSS | Landing sections omitted |
+| RSS | Valid RSS document when configured; Landing sections omitted |
 
-Non-HTML output sets no Landing flag or runtime. Root-relative links and assets
-honor deployment subpaths; normal builds download no images.
+Non-HTML outputs set no Landing flag and load no Landing runtime.
+An enabled RSS output uses the shared feed renderer and matches the feed URL
+advertised in the HTML head. Section and home feeds keep ordinary child-page
+summaries; an explicitly enabled regular-page feed may have an empty channel.
+Omitting Landing sections never means emitting an empty file or advertising a
+missing feed.
+Root-relative links and assets honor deployment subpaths. Normal builds download no images.
 
-Removed 0.4 component forms belong to the migration toolkit, not parallel
-Landing implementations. OINK adds no pricing-period toggle, remote-fact API,
-hotspot editor, visual builder, or second registry. Existing homepage data and
-explicit custom section partials remain valid.
+Removed 0.4 forms belong to the migration toolkit, not parallel Landing implementations.
+OINK adds no pricing-period toggle, remote-fact API, hotspot editor, visual builder, or second registry.
+Existing homepage data and explicit custom section partials remain valid.
 
 ## Visual presets {#visual-presets}
 

@@ -8,11 +8,10 @@ search_keywords: [OINK shell, navigation contract, search, actions, blog present
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local candidate
-> This contract includes corrections after the unchanged local v1.3.0 tag
-> at `6dede1f`. Validate the current sibling checkout for these corrections;
-> the prepared module cache still represents that older tag. Public module
-> publication and deployment remain separate acceptance steps.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 ## Authorities and navigation {#authorities-and-navigation}
 
@@ -24,80 +23,79 @@ contract_status: v1.3.0
 | Discovery | per-language local search index |
 | Page and Palette actions | shared action registry |
 
-No feature introduces another menu or page tree. One menu child level is
-interactive; deeper levels warn and flatten beneath linked group headings.
-External links use `target="_blank" rel="noopener noreferrer"`; internal links
-remain language- and subpath-aware.
+No feature adds another menu or page tree. One menu child level is interactive.
+Deeper levels warn and flatten below linked group headings.
+External links use `target="_blank" rel="noopener noreferrer"`. Internal links retain language and deployment subpaths.
 
-Navbar desktop and drawer views project one tree, and every dropdown panel is
-one moderate column of icon-and-title rows — the mega panel and its `columns`
-menu parameter are retired, and a configured `columns` warns while keeping the
-single column. Menu descriptions are configuration data only. The link tree
-stays
-true-centered at every width: text links from lg, icon links below. Between lg
-and md the end edge keeps search, version, language, theme, and GitHub with no
-menu button. Below md appearance stays beside search and the drawer entry; version,
-language, and GitHub move to the footline dock. Home or
-explicit Landing pages add one drawer entry beside search that opens the full
-labelled tree. Shell pages with a sidebar open its drawer in that position
-instead; no drawer button is shown from md upward. Language
-links target the
-page translation or that language's home, stay relative when languages share a
-host/base path, and become absolute only for language-specific `baseURL`s;
-`hreflang` stays absolute and lists only actual translations, never the
-language-home fallback offered by the switcher. Paginated blog indexes use
-their own canonical URL; later pages omit cross-language alternates because
-translated archives need not have matching page boundaries.
-`navbar_autohide` applies to fine pointers from
-768px, never touch or drawer widths, and the hidden bar keeps its slot: the
-layout reserves the navbar band in both states, a pinned bar occupies exactly
-that band with its rule inside it, revealing fades the bar in place without
-covering resting content, and hero pages ignore the policy in favour of their
-overlay bar. The home page owns the same soft boundary a hero page does: its
-navbar carries no bottom rule and no scrolled shadow, resolving into a short
-wash below the bar instead.
+Desktop and drawer navbar views use the same tree. Every dropdown has one moderate-width column of icon and title rows.
+The mega panel and its `columns` menu parameter are retired. Configured `columns` warns and keeps one column.
+Menu descriptions remain configuration data only.
+The link tree stays centered when space allows. At phone widths it reserves the
+brand and utility controls' widths before centering, so a longer menu cannot
+overlap the search control. It uses text links from lg and icon links below lg.
+Between lg and md, the end edge keeps search, version, language, theme, and GitHub controls without a menu button.
+Below md, appearance stays beside search and the drawer entry; version, language, and GitHub move to the footer dock.
+Home and explicit Landing pages add a drawer control beside search, opening the complete labeled tree.
+Shell pages with sidebars use the sidebar drawer control in that position.
+Explicit Landing layouts use only the Landing drawer, including pages whose
+content type is Book or Docs. A page never renders both drawer controls.
+The navbar loads its drawer runtime even when a site supplies a custom homepage
+or Landing body without the theme's section renderer.
+No drawer button appears from md upward.
+The stock 404 page has no reading sidebar and never advertises its drawer, even when a root cascade assigns it a Docs or Book type.
+Adding a custom type to `shell_types` recognizes its shell capabilities; it does not create a sidebar in a custom template. Full-width custom pages without a sidebar set `sidebar_enabled: false`.
+Language links target the page translation or the language home.
+Links stay relative for languages sharing a host/base path. They become absolute only for language-specific `baseURL`s.
+`hreflang` stays absolute and lists only actual translations. It never includes the switcher's language-home fallback.
+Paginated blog indexes have their own canonical URLs; later pages omit cross-language alternates because translated archives can have different page boundaries.
+`navbar_autohide` applies only to fine pointers from 768px. It never applies at touch or drawer widths.
+The hidden bar keeps its reserved space, and a pinned bar occupies exactly that space, including its rule.
+Revealing fades the bar in place without covering resting content. Hero pages use their overlay navbar instead of this policy.
+The homepage shares their soft boundary: a short background wash below the bar replaces the bottom rule and scrolled shadow.
 
-Sidebar and pager share root and order. `manual_link`, `build.render: link`,
-dividers, hidden nodes, and placeholders retain their documented semantics.
-`sidebar_icon_policy` is `all` (default), `groups`, or `none`; icons are one
-Font Awesome class pair. Invalid policies follow the shared warning/fallback
-contract. At `sidebar_cache_limit`, the two walkers may reuse neutral markup
-only for the same language, navigation root, and output-affecting effective
-settings. That markup remains visible without JavaScript; the normal shell
-runtime adds the active path. A Book page that emits `sidebar_headings` stays
-page-specific and bypasses the shared tree cache.
+Sidebar and pager share the navigation root and order.
+`manual_link`, `build.render: link`, dividers, hidden nodes, and placeholders keep their documented behavior.
+`sidebar_icon_policy` accepts `all`, the default, `groups`, or `none`. Icons use one Font Awesome class pair.
+Invalid policies follow the shared warning and fallback contract.
+At `sidebar_cache_limit`, both walkers may reuse neutral markup only for the same language, root, and effective settings that affect output.
+The markup stays visible without JavaScript. The normal shell runtime adds the active path.
+Book pages with `sidebar_headings` remain page-specific and bypass the shared tree cache.
 
-Root candidates are linkable, non-divider top-level sections followed by `sidebar_root_for: self`
-sections, deduplicated by URL. Both sources honor explicit
-`sidebar_root_menu: false`; absent/true preserves inclusion. The current
-resolved root is appended even when excluded from global choices. Zero entries
-emit no control; one emits a static link. Language and deployment prefixes stay
-on every URL. A divider or a section with `build.render: never` cannot become a
-switcher link.
+Root candidates are linkable, non-divider top-level sections, followed by sections with `sidebar_root_for: self`.
+Candidates are deduplicated by URL. Both sources honor `sidebar_root_menu: false`. Absent or true values preserve inclusion.
+The current resolved root is appended even if excluded from global choices.
+Zero entries render no control. One entry renders a static link.
+Every URL keeps language and deployment prefixes.
+Dividers and sections with `build.render: never` cannot be switcher links.
 
-A `sidebar_divider` leaf retains its static heading. A divider section retains
-its children in both sidebar walkers, with a non-link label and a real
-disclosure button when folding is enabled. It never becomes a pager target;
-its children retain their positions. Pair it with `build.render: never` to
-omit the section's own outputs without hiding its descendants. Breadcrumbs
-render its label without a link, search omits it, navigation JSON hoists its
-children, and Print keeps the child documents. Book TOCs retain the group label
-and child links, but omit headings from the unpublished group body. `toc_hide` still hides the
-whole subtree and is not a grouping option. Explicit navigation keys are
-language- and deployment-independent paths; rendered links retain both prefixes.
+A `sidebar_divider` leaf keeps its static heading.
+Divider sections keep children in both sidebar walkers. Their label is not a link.
+When folding is enabled, they have a real disclosure button.
+Dividers never become pager targets. Children keep their positions.
+Use `build.render: never` to omit the divider section's outputs without hiding descendants.
+Breadcrumbs show its label without a link. Search omits it. Navigation JSON promotes its children. Print keeps child documents.
+Book TOCs keep the group label and child links, but omit headings from the unpublished group body.
+`toc_hide` still hides the whole subtree. It is not a grouping option.
+Explicit navigation keys are independent of language and deployment paths. Rendered links retain both prefixes.
 The sidebar, pager, and navigation JSON select explicit sections by the resolved
-`page` identity and content ancestry. Custom `url` values do not change that
-scope. A Docs tree does not replace Book navigation, or vice versa; a nested
-sidebar root selects its own branch. Unlisted roots use the content tree.
+`page` identity. A node belongs to a root when it is that root, a content
+descendant, or a Docs/Book page that resolves to the same sidebar root. This
+lets a manual keep files at the content root while the Docs section owns its
+navigation. The selected node's `children` define its navigation hierarchy;
+they need not be physical content descendants. Custom `url` values do not
+change ownership. A tree for Docs does not replace a separate Book root, or
+vice versa; a nested sidebar root selects its own branch. Roots absent from
+the explicit tree use the content tree.
 Only section-root Docs/Book navigation evaluates the explicit tree. Home-root
 navigation and other shells ignore it, including its warnings. An explicitly
 empty `sections` array warns and falls back only where that tree applies.
-Uncached sidebars mark the current page and expand its content ancestors from
-the resolved page identity, even when a node omits `url` or the page has a
-custom URL. Legacy URL and active-path hints remain supported.
-Both authorities prune `toc_hide`
-subtrees, and navigation JSON preserves `manual_link_relref` as an internal
-link to its resolved destination rather than a page identity.
+Uncached explicit sidebars mark the current page and expand its authored
+navigation ancestors from the resolved page identity, even when a node omits
+`url` or the page has a custom URL. Listed physical ancestors still expand
+when the current page is absent from the manifest. Legacy URL and active-path
+hints remain supported.
+Both authorities remove `toc_hide` subtrees.
+Navigation JSON keeps `manual_link_relref` as an internal link to its resolved destination, not a page identity.
 
 ## Book headings and responsive outlines {#book-headings-and-outlines}
 
@@ -108,7 +106,7 @@ headings below the active Book row. Page front matter overrides a section
 cascade or site setting; explicit `false` disables an inherited opt-in. This
 setting does not disable the right outline or its relocation below `xl`.
 
-> [!NOTE] Unreleased navigation refinement after OINK 1.2.0
+> [!NOTE] Fixed in OINK 1.3.0
 > The documentation Book no longer opts into sidebar headings. When enabled,
 > the branch follows the parent row's navigation depth, reserves its icon and
 > chapter-number columns, and adds one indent. Deeper headings indent again;
@@ -128,14 +126,13 @@ setting does not disable the right outline or its relocation below `xl`.
 
 ## Sidebar runtime {#sidebar-runtime}
 
-> [!NOTE] Unreleased fix after OINK 1.2.0
+> [!NOTE] Fixed in OINK 1.3.0
 > With `sidebar_menu_foldable: true`, each branch controls the visibility of
 > its children. `sidebar_menu_compact` must not permanently hide leaf entries
 > inside an expanded branch. This applies to cached and per-page trees in
 > both Docs and Book. Non-foldable trees retain compact filtering.
-> OINK 1.2.0 can leave deep leaves hidden after expansion. Until this fix is
-> released and adopted, sites can set `sidebar_menu_compact: false` while
-> keeping folding enabled.
+> Sites still using OINK 1.2.0 can set `sidebar_menu_compact: false` while
+> keeping folding enabled until they adopt this fix.
 
 > [!NOTE] Available since OINK 1.1
 > OINK 1.1.0 provides this disclosure API and explicit hidden-content isolation.
@@ -211,78 +208,65 @@ and the rail disappears below the `xl` breakpoint.
 
 ## Search, actions, and runtime {#search-actions-and-runtime}
 
-`params.offline_search` opts into a local per-language index. When enabled it
-also builds under `hugo server` by default; set `offline_search_on_serve: false`
-for large edit loops. HTML search appears on Home, shell pages, and Landing when
-`landing_search` is enabled. Other non-shell pages and Print omit the dialog,
-Lunr, and Palette.
+`params.offline_search` enables a local index per language.
+When enabled, it also builds under `hugo server` by default. Use `offline_search_on_serve: false` for large editing cycles.
+HTML search appears on Home, shell pages, and Landing pages with `landing_search` enabled.
+Other non-shell pages and Print omit the dialog, Lunr, and Palette.
 
-Search metadata is `search_keywords`, `search_boost` (default 1), and
-`search_exclude`. The index carries URL, title, taxonomies, excerpt, headings,
-description, body/summary, root, section, type, keywords, boost, breadcrumb,
-and icon. Fixture budget is 2 MiB raw / 512 KiB gzip. Sites may return extra
-strings from `hooks/search-keywords-extra.html`. Keywords affect matching and
-ranking; CJK keyword-only matches display the page description or excerpt, not
-the keyword list. Body matches retain their surrounding text as context.
+Search metadata uses `search_keywords`, `search_boost`, default 1, and `search_exclude`.
+The index includes URL, title, taxonomies, excerpt, headings, description, body/summary, root, section, type, keywords, boost, breadcrumb, and icon.
+The fixture budget is 2 MiB raw / 512 KiB gzip.
+Sites may return extra strings from `hooks/search-keywords-extra.html`.
+Keywords affect matching and ranking. CJK matches found only through keywords display the description or excerpt, not the keyword list.
+Body matches keep surrounding text as context.
 
-Built-in action IDs are `copy_markdown`, `copy_link`, `open_chatgpt`,
-`open_claude`, `view_markdown`, `view_history`, `edit_page`,
-`create_child_page`, `create_issue`, `create_project_issue`, `print_section`,
-`print`, `switch_preset`, `switch_theme`, `switch_language`, `switch_version`, and
-`open_github`. `copy_link` is Palette-only outside the share bar. Site commands
-under `languages.<lang>.params.ui.command_palette.commands` may open a safe URL
-or invoke a built-in ID, never inject JavaScript. The legacy clipboard fallback
-restores the previous focus and selection, including its direction, without taking focus back if another
-control acquired it during the copy operation.
+Built-in action IDs are `copy_markdown`, `copy_link`, `open_chatgpt`, `open_claude`, `view_markdown`, `view_history`, `edit_page`,
+`create_child_page`, `create_issue`, `create_project_issue`, `print_section`, `print`, `switch_preset`, `switch_theme`, `switch_language`, `switch_version`, and `open_github`.
+Outside the share bar, `copy_link` appears only in the Palette.
+Site commands under `languages.<lang>.params.ui.command_palette.commands` may open safe URLs or invoke built-in IDs. They never inject JavaScript.
+The legacy clipboard fallback restores previous focus and selection, including selection direction.
+It does not reclaim focus if another control acquired it during copying.
 
-> [!NOTE] Unreleased repair
+> [!NOTE] Fixed in OINK 1.3.0
 > The page-action disclosure closes when keyboard focus leaves its containing
 > controls, including Tab and Shift+Tab. Moving between its controls keeps it
 > open; dismissal leaves focus at the reader's new destination. ArrowDown on
 > its closed toggle opens the menu and focuses the first action immediately.
 
-Edit, history, and create-child actions require a repository-relative source
-file. Physical filenames and the site working directory use normalized `/`
-separators before containment checks. `path_base_for_github_subdir` matches
-that normalized path: relative to the working directory for local content,
-absolute for an external mount. A string regex removes its matches; a
-`{from, to}` mapping may replace it. External sources require an explicit
-match. After mapping and path cleanup, empty paths, `.`, absolute or
-drive-qualified paths, and paths starting with `..` as a segment suppress
-these three actions. Docs and project issue actions remain available under
-their existing repository settings. Windows mappings must match `/` rather
-than `\`; normalization does not change filename case.
+Edit, history, and create-child actions require repository-relative source files.
+Normalize physical filenames and the site working directory to `/` separators before containment checks.
+`path_base_for_github_subdir` matches this normalized path.
+For local content, it matches relative to the working directory. For external mounts, it matches the absolute path.
+A string regex removes matches. A `{from, to}` map may replace them.
+External sources need an explicit match.
+After mapping and cleanup, empty paths, `.`, absolute paths, drive-qualified paths, and paths starting with a `..` segment suppress these three actions.
+Docs and project issue actions remain available under their existing repository settings.
+Windows mappings must match `/`, not `\`. Normalization preserves filename case.
 
-The Palette has empty, text-search, and `>` command modes; quick links derive
-from navigation. It has no history, semantic search, personalization, or remote
-fallback. Search queries stay in-browser and no default telemetry is sent.
+The Palette has empty, text-search, and `>` command modes. Quick links come from navigation.
+It provides no history, semantic search, personalization, or remote fallback.
+Queries stay in the browser. No default telemetry is sent.
 
-`OinkSurfaceCoordinator` coordinates the Palette, Appearance, Draw.io, Expo
-viewer, drawer, root, language, and version menus. Each surface controls focus
-restoration and Escape. Already closed Appearance menus do not restore focus
-when the coordinator closes them.
-Keyboard navigation ignores
-editable controls and modals; Ctrl/Cmd+K also yields to another open dialog,
-including fixed-position ARIA dialogs.
- `/`, `\`, `f`, `c` open search/commands; `j`/`k`
-move headings; `q`/`e` move pages; `h` changes presentation; `l`/`y`, `t`, and
-`r` open language, theme, and root choices. Sidebar WASD/Arrow navigation uses
-real focus without rewriting Tab order.
-Non-link divider buttons participate in this tree navigation. Left/`a` from a
-child first focuses its parent group, then a second press folds it; Right/`d`
-opens a closed group or enters its first visible child when already open.
-Previous/next page navigation still considers links only, never group buttons.
+`OinkSurfaceCoordinator` coordinates the Palette, Appearance, Draw.io, Expo viewer, drawer, root, language, and version menus.
+Each surface controls focus restoration and Escape.
+Already closed Appearance menus do not restore focus when the coordinator closes them.
+Keyboard navigation ignores editable controls and modals. The desktop nonmodal Appearance panel permits search shortcuts; its mobile modal sheet and other open dialogs, including fixed-position ARIA dialogs, retain keyboard ownership.
+Inside the mobile drawer, Escape closes the root switcher first and returns focus to its trigger. A subsequent Escape closes the drawer. Moving focus outside the root switcher dismisses its popover.
+`/`, `\`, `f`, and `c` open search or commands. `j`/`k` move between headings. `q`/`e` move between pages.
+`h` changes presentation. `l`/`y`, `t`, and `r` open language, theme, and root choices.
+Sidebar WASD/Arrow navigation uses real focus without changing Tab order.
+Non-link divider buttons participate in tree navigation.
+From a child, Left/`a` focuses its parent group. A second press collapses it.
+Right/`d` opens closed groups or enters the first visible child of open groups.
+Previous and next page navigation includes only links, never group buttons.
 
-The outline derives cursor and visible-heading range from one heading model and
-the scroller's computed `scroll-padding-top`; its SVG line and dot share the
-same animated values so they cannot drift. URL fragments are decoded when
-valid; malformed percent sequences fall back to the literal heading ID, both
-when indexing links and when selecting a requested heading near the page end.
-No speculative DOM repair pass is
-allowed. This tracking is always owned by the normal shell runtime.
-`params.ui.scroll_spy` and the page key `scroll_spy` are quiet compatibility
-no-ops throughout 1.x, emit no separate runtime, and may be removed only in a
-future breaking release.
+The outline uses one heading model and computed `scroll-padding-top` to derive the cursor and visible-heading range.
+Its SVG line and dot share animated values, preventing drift.
+Valid URL fragments are decoded. Malformed percent sequences use the literal heading ID.
+This applies when indexing links and selecting requested headings near the page end.
+No speculative DOM repair pass is allowed. The normal shell runtime always owns this tracking.
+`params.ui.scroll_spy` and page `scroll_spy` remain quiet compatibility no-ops throughout 1.x.
+They emit no separate runtime and may be removed only in a future breaking release.
 
 ## Search-tail extensions {#search-tail-extensions}
 
@@ -361,9 +345,10 @@ accessible labeled glyph row. `share/items.html` resolves targets and
 
 ## Annotation {#annotation}
 
-Page annotation resolves descriptors in `annotation-items.html` and renders
-them through `page-meta-lastmod.html`; either may be overridden narrowly. Lines
-appear in this order:
+`annotation-items.html` resolves page annotation descriptors. `page-meta-lastmod.html` renders them.
+Inline annotation links are underlined so readers can identify them without
+relying on color, including muted last-modified and upstream attribution lines.
+You may override either partial narrowly. Lines appear in this order:
 
 | Line | Condition |
 | --- | --- |
@@ -371,19 +356,17 @@ appear in this order:
 | Upstream | front matter `upstream_link` is non-empty |
 | Translation | configured authoritative language has a translation and this page has authored text |
 
-`upstream_link` is per-page; a cascade counts, and `upstream_link: ""` opts out.
-Other upstream facts resolve site params → `data/upstreams[upstream_source]` →
-front matter: `upstream_name`, `upstream_copyright`, `upstream_license`,
-`upstream_notice`, optional `upstream_ref`, and `upstream_modified`. The first
-four are required with a link. Invalid or incomplete attribution warns and
-emits no legal notice; unsupported URLs are refused. Publication gates reject
-the warning with `--panicOnWarning`.
+`upstream_link` is per-page and can be inherited through cascades. `upstream_link: ""` disables it.
+Other facts resolve from site params → `data/upstreams[upstream_source]` → front matter:
+`upstream_name`, `upstream_copyright`, `upstream_license`, `upstream_notice`, optional `upstream_ref`, and `upstream_modified`.
+A link requires the first four facts.
+Invalid or incomplete attribution warns and emits no legal notice. Unsupported URLs are refused.
+Publication gates reject the warning with `--panicOnWarning`.
 
-`upstream_modified` changes the credit verb and links commit history; it adds no
-line. The notice page carries full license/warranty text. Translation notice is
-opt-in through `params.ui.translation_notice`, cascades as the page key
-`translation_notice`, skips generated or bodyless pages, and can be disabled on
-a natively authored page with `translation_notice: false`.
+`upstream_modified` changes the credit verb and links commit history within the existing attribution sentence.
+The notice page includes complete license and warranty text.
+`params.ui.translation_notice` enables translation notices. The page key `translation_notice` can cascade.
+Notices skip generated pages and pages without bodies. Natively authored pages can use `translation_notice: false` to disable them.
 
 ## Authors and series {#authors-and-series}
 
@@ -551,7 +534,7 @@ drawer. The surface coordinator closes unrelated popovers before opening.
 The `t` shortcut still toggles light/dark through `switch_theme`;
 `switch_preset` is the separate command-palette choice.
 
-> [!NOTE] Unreleased repair
+> [!NOTE] Fixed in OINK 1.3.0
 > A queued close event from an earlier appearance dialog must not clear the
 > expanded state of a newly reopened dialog.
 

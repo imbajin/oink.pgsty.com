@@ -1,65 +1,87 @@
 ---
 title: Expo layout contract
 linkTitle: Expo
-description: Resource albums, three image layouts, original-size viewing, native shell integration, and static output contracts.
+description: Define album resources, display modes, image viewing, shared appearance, and static outputs.
 weight: 45
 icon: fa-solid fa-images
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local candidate
-> Expo starts from local tag `6dede1f`; this contract includes later fixes.
-> The tag and prepared module cache are unchanged. Use the current sibling
-> checkout for candidate acceptance; publication and deployment remain separate.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
+
+This page defines required behavior. Use [Expo albums](/docs/write/expo/) to
+create content. Read the [design decision](/docs/design/decisions/expo/) for
+the reasons behind this model.
 
 ## Content and navigation {#content-and-navigation}
 
-`type: expo` selects an image-album layout. Put `cascade: {type: expo}` on an
-album section. One leaf bundle needs only `index.md` and an `images/` directory;
-no per-image Markdown or YAML file is needed. Optional image metadata belongs
-in the album front matter. Sections list child albums. Navigation uses the ordinary shell tree, including nested
-sections, mobile drawer, appearance controls, and the selected language.
-Expo defaults to full page width and no table of contents. Explicit page
-`page_width` still applies. The existing `gallery` fence remains an inline component.
+`type: expo` selects the album layout. A section can apply it to descendants
+through `cascade`. One album is a Hugo leaf bundle with `index.md` and an
+`images/` directory. Image metadata belongs in the album's `resources` front
+matter. Separate content files for each image are not required.
 
-```yaml
-title: Field notes
-type: expo
-expo:
-  images: images/*
-  mode: wall
-  size: 240
-resources:
-  - src: images/fern.jpg
-    title: Fern
-    params:
-      id: fern
-      alt: A fern frond seen from above
-      caption: A study of branching forms.
-      byline: Example author
-      weight: 10
-      original: originals/fern.jpg
-```
+Section pages list child topics and albums. The shared navigation tree supports
+nested sections, the current language, and the mobile drawer. Expo uses the full
+available page width and has no right-hand outline. An explicit page-level
+`page_width` overrides the width. The top navbar follows the shared site and
+page settings. Expo does not disable it by default.
+As with Book, an album without a `sidebar_root_for` ancestor uses its top-level
+section, not the home tree, as the sidebar and root-switcher root.
 
-`expo` overrides the `params.ui.expo` map. Omitted fields use the resolver's
-defaults: resource glob `images/*`, mode `wall`, target size `240` CSS pixels.
-Allowed modes are `wall`, `cards`, `seamless`; size is an integer from 160 to 360.
-Invalid author input warns and falls back. Warning-fatal publishing rejects it.
+### Configuration {#configuration}
 
-`expo/items.html` owns image selection and metadata for every output. It uses
-Hugo's native resource metadata and the shared media-result contract. Non-image
-resources are excluded. An optional `original` must resolve to a bundled image;
-no remote source is fetched. GIF originals play without being converted to stills.
-Local processable stills larger than 960 pixels receive bounded WebP previews.
-GIF posters are available for reduced motion and pause. Originals remain intact.
+`expo/config.html` resolves the configuration in this order:
 
-Images sort by numeric `params.weight`, then the resource collection's name
-order for ties. Omitted weight is zero. Titles fall back to the filename;
-alt text falls back to the title. Captions and bylines are plain text.
-Optional IDs use ASCII letters, digits, underscores and hyphens, and become
-`img-<id>` anchors. Missing IDs use a stable filename hash; renaming that file
-changes the hash. Invalid or repeated IDs warn. Large collections are split
-into authored album volumes; there is no automatic resource pagination.
+1. Use the page's `expo` block, including a block supplied by Hugo cascade.
+2. If the page has no block, use `params.ui.expo` from the site.
+3. Validate each field. Use its built-in default when the field is absent or invalid.
+
+A page block replaces the whole site block. The resolver does not merge fields
+from those two blocks.
+
+| Field | Allowed value | Built-in default |
+| --- | --- | --- |
+| `images` | A string pattern for bundled image resources | `images/*` |
+| `mode` | `wall`, `cards`, or `seamless` | `wall` |
+| `size` | Integer from 160 to 360, in CSS pixels | `240` |
+
+Invalid configuration produces a warning and uses a fallback. A build with
+`--panicOnWarning` fails on that warning. The size is a layout target; it does
+not set both dimensions of each tile.
+
+### Image resources {#image-resources}
+
+`expo/items.html` selects images and resolves metadata for all outputs. It uses
+Hugo resource metadata and the shared media resolver. Non-image resources are
+excluded. An optional `params.original` must name an image in the same bundle.
+The build does not fetch remote album images.
+
+| Value | Rule |
+| --- | --- |
+| Title | Use the resource title; otherwise derive it from the filename |
+| Alternative text | Use `params.alt`; fall back to the title when it is empty or absent |
+| Caption and credit | Read `params.caption` and `params.byline` as plain text |
+| Image order | Sort by numeric `params.weight`, lowest first; the default is zero |
+| Equal weights | Keep the resource collection's name order |
+| Explicit ID | Start with an ASCII letter or digit; subsequent characters can also be `_` or `-` |
+| Image anchor | Prefix the ID with `img-`; without an ID, use a hash of the resource name |
+
+IDs must be unique within the album. Invalid or duplicate IDs produce a warning
+and use a filename hash. Renaming a file changes its fallback anchor. Keep an
+explicit ID and the album URL unchanged when a citation must remain valid.
+An ID may be a string or a YAML integer. If a fallback hash is also occupied, append the first unused numeric suffix so development output still has unique anchors. Publishing with `--panicOnWarning` rejects the invalid or duplicate metadata.
+
+Processable images larger than 960 pixels receive previews within a 960 × 960
+pixel box. GIFs also receive still previews for pause and reduced motion.
+The animated source remains available. Original files remain unchanged.
+
+Album cards use the first sorted image as the cover. A section without its own
+images uses the first available image from its descendant albums. Cover frames
+use a 4:3 ratio and can crop the preview. Authors divide large collections into
+albums; Expo does not paginate image resources automatically.
 
 Explicit image IDs accept strings or YAML integers. Invalid or duplicate IDs
 warn; if the filename hash is occupied too, the fallback uses its first unused
@@ -69,78 +91,130 @@ Strict publication rejects these diagnostics.
 
 ## Layout and controls {#layout-and-controls}
 
-Wall uses justified rows with six-pixel gaps. Seamless uses the same geometry
-with zero gaps. Cards use masonry columns with visible captions. Extreme aspect
-ratios use bounded, contained previews; originals are never cropped or modified.
-The toolbar contains a three-cell radio group on a shared background, followed
-by the play/pause button and an always-visible horizontal size slider between
-small and large image icons. Controls share one vertical center. Albums without
-GIFs retain a disabled play button so the row stays stable. Accessible names,
-tooltips and keyboard focus are localized. Appearance remains in the shared
-navigation; the album body has neither an appearance picker nor a page-action
-menu. Without JavaScript, static image links and captions remain.
+| Mode | Geometry and captions |
+| --- | --- |
+| Wall | Rows of tiles with 6 CSS pixel gaps; captions appear on hover or focus on devices that support hover |
+| Cards | Columns filled from the shortest column; captions stay visible |
+| Seamless | The Wall calculation with zero tile gaps; the same caption behavior |
 
-Expo reserves stable document scrollbar space where scrollbars consume layout
-width. Albums near the viewport height must settle without repeated reflow, and
-opening or closing the viewer must preserve the underlying grid's usable width.
+Tile proportions are bounded for very wide or tall images. Each tile contains
+the complete image, which can leave space inside the tile. On devices without
+hover, captions remain visible below the images.
 
-The reader's mode and size choices persist across albums and reloads on the same
-origin, independently of the appearance preset. `td-expo-mode` and `td-expo-size`
-store only allowlisted values. A valid stored choice takes precedence over author
-defaults; invalid or unavailable storage falls back without breaking the album.
+The toolbar has a three-cell radio group on one background. A play/pause button
+and a horizontal size slider follow it. Small and large image icons mark the
+slider ends. All controls share a vertical center. Albums without GIFs retain
+a disabled play button. Each icon control has a localized name, a tooltip where
+applicable, and visible keyboard focus. Cards and album covers use the preset's
+radius token; Wall and Seamless tiles stay square. A focused tile shows a
+two-tone inset ring above its caption.
 
-GIFs play by default in the lazy-loaded grid and viewer. A pause/play icon controls
-animation. `prefers-reduced-motion: reduce` starts with posters; a reader can
-explicitly play them. Paper, Slate, Ink, Terminal and both modes use existing
-shell colors, typography and radius tokens. No Expo-specific appearance preset
-or additional third-party lightbox is introduced.
+Appearance controls stay in the shared navigation. The album body has no
+appearance picker or article action menu. Without JavaScript, image links and
+captions remain visible.
+
+### Reader preferences and appearance {#reader-preferences-and-appearance}
+
+The browser stores the selected mode and size in `td-expo-mode` and
+`td-expo-size`. Only valid values take effect. A valid stored choice overrides
+the author default. It applies across albums and reloads on the same origin.
+Invalid or unavailable storage leaves the author defaults in effect.
+
+Display mode and size are independent of appearance. Paper, Slate, Ink, and
+Terminal use the shared colors, type styles, and corner settings in light and
+dark mode. A preset change recalculates the grid after typography changes.
+It preserves the reader's display mode and size.
+
+GIFs play by default in the grid and viewer. The play/pause control changes
+animation for the current album and its viewer. The setting is not stored
+across page loads. `prefers-reduced-motion: reduce` starts with still previews.
+The reader can select Play. A change to the system preference updates playback.
+The first four tiles load eagerly; later grid images use lazy loading.
+
+### Layout stability {#layout-stability}
+
+Expo reserves document scrollbar space when scrollbars consume layout width.
+An album near the viewport height must reach a stable layout. A scrollbar must
+not repeatedly appear and disappear as the grid recalculates its height.
+Opening or closing the viewer must preserve the underlying grid's usable width.
 
 ## Viewer behavior {#viewer-behavior}
 
-A native modal dialog opens an album image. Default scale is
-`min(1, viewportWidth/imageWidth, viewportHeight/imageHeight)`: small images
-stay at 100%, large images shrink to fit. Expand uses
-`min(viewportWidth/imageWidth, viewportHeight/imageHeight)`: it may enlarge a
-small image, but always uses the stricter edge so neither dimension overflows.
-Fit and expand have no image-stage scrollbars. Only manual zoom can exceed the
-stage and enable scrolling. The underlying page cannot scroll while the viewer
-is open. Plus/minus buttons adjust scale
-by 1.25; reset restores the initial fit. The percentage reports source pixels
-as CSS pixels. Zoom preserves the viewed center; changing images resets scale.
+The viewer uses a native modal dialog. Its image area excludes the toolbar and
+caption area. Let `W` and `H` be the original image dimensions. Let `A` and `B`
+be the available image-area width and height, in CSS pixels.
 
-The viewer provides icon links to the original file and the image's stable
-location in the album. Locating closes the viewer, scrolls to the image and
-returns focus to its trigger. Previous/next stay within the album. Escape closes
-and restores focus; arrows change images when horizontal scrolling is unnecessary.
-When enlarged horizontally, native arrow scrolling remains available. Hold the
-primary mouse button and drag an enlarged image to pan; the image follows the
-pointer and stops at its bounds. Touch retains native scrolling. Releasing or
-canceling the drag, switching images, resetting, or leaving the window ends panning.
+| Action | Scale |
+| --- | --- |
+| Open or reset | `min(1, A/W, B/H)` |
+| Expand to fit | `min(A/W, B/H)` |
+| Zoom in | Current scale multiplied by `1.25`, within the zoom limit |
+| Zoom out | Current scale divided by `1.25`, within the zoom limit |
 
-Keyboard shortcuts apply only inside the open viewer and ignore text entry,
-composition and Ctrl/Command/Alt combinations. Button tooltips expose their keys.
+The smaller ratio is the limiting edge. Both automatic sizing actions contain
+the whole image and have no image-area scrollbars. Reset keeps a small image at
+100%. Expand can enlarge it. Expand does not use the browser Fullscreen API.
+Only manual zoom can exceed the image area and enable scrolling.
 
-| Keys | Action |
+The percentage uses source pixels as CSS pixels. Zoom preserves the viewed
+center. Reset centers the image. Changing images resets size and position.
+Previous and Next stop at the album boundaries. A boundary key leaves the
+current scale and position unchanged.
+
+### Pointer and keyboard input {#pointer-and-keyboard-input}
+
+Hold the primary mouse button and drag to move an enlarged image. The image
+follows the pointer and stops at its bounds. Only overflowing axes can move.
+Touch input on an enlarged image retains native scrolling. Releasing or
+canceling the pointer, changing images, resetting, or leaving the window ends
+the drag. When the image fits the image area, a horizontal swipe of at least
+48 CSS pixels changes images; pinches and a zoomed page do not.
+
+Double-click or double-tap alternates between the initial size and a closer
+look. A shrunk original opens at 100% with the point under the pointer kept in
+place; an original already at 100% expands to fit. From any other size it
+returns to the initial size.
+
+Viewer shortcuts apply inside the open dialog. They ignore text input, input
+method composition, and Ctrl/Command/Alt combinations. Page-level single-key
+navigation pauses while the dialog is open. `keyboard_nav` controls that page
+runtime; it does not disable Expo's viewer runtime.
+
+| Key | Action |
 | --- | --- |
 | W / A / S / D | Move the enlarged image up / left / down / right, 80 CSS pixels per press |
-| Q / H, E / L | Previous image, next image; boundaries preserve the current view |
-| J / −, K / + | Zoom out, zoom in by 1.25 |
-| R / 0 | Restore original-size fit and center |
-| F | Expand to the available stage using the stricter edge, then center |
-| Escape | Close and return focus |
+| Q or H | Previous image |
+| E or L | Next image |
+| J or − | Zoom out |
+| K or + | Zoom in |
+| R or 0 | Reset size and position |
+| F | Expand to fit and center |
+| Escape | Close the viewer |
 
-Panning is available only along overflowing axes. Reset and navigation clear the
-previous position. F uses the same fit-to-stage action as the expand icon; the
-browser's fullscreen state is unchanged. The native dialog supplies focus containment.
+Left and Right arrow keys change images when no horizontal scrolling is needed.
+Otherwise, they retain native scrolling. Button tooltips show the applicable keys.
+In right-to-left languages the album order mirrors: the arrow key toward the
+start opens the previous image, swipes follow the same direction, and the
+previous and next icons mirror.
 
+### Links, focus, and loading {#links-focus-and-loading}
+
+Open original links to the original file in a new tab. Locate in album closes
+the viewer, updates the URL fragment, scrolls to the current image, and focuses
+its trigger. Closing normally returns focus to the link that opened the viewer.
+The native dialog contains focus and prevents underlying page interaction.
+The underlying page cannot scroll while the viewer is open.
 The viewer registers with `OinkSurfaceCoordinator`: opening it closes other
 floating surfaces, and `closeOthers()` or `closeAll()` can close it. A handoff
 keeps focus in the newly opened surface.
 
-The Expo sequence and zoom runtime is loaded only for HTML albums with images.
-Inline Image Zoom retains its existing single-image behavior. Expo image links
-are not rewrapped by that runtime. No-JS and unsupported-dialog browsers follow
-the original image links normally.
+While an original loads, the viewer shows the grid preview at the final size;
+a failed original keeps that preview. After an image loads, the viewer requests
+one neighbouring image on each side.
+
+Expo loads its viewer and layout runtime only on HTML albums with images.
+Ordinary Image Zoom retains its single-image behavior and does not wrap Expo
+links again. Without JavaScript or dialog support, those links open the originals.
 
 When changing images, clear the previous decoded image while the next original
 loads, and show the new grid preview at the final size. A failed original keeps
@@ -148,26 +222,51 @@ that preview. Album prose and image headings remain separate Markdown blocks.
 
 ## Other outputs {#other-outputs}
 
-Print stacks poster images, titles, captions, bylines and original links, with no
-Expo runtime. Markdown and LLMSFULL serialize image links and metadata from the
-same resource resolver. LLMS lists album pages through the existing index. RSS
-uses static image descriptions. Normal HTML printing expands the album and hides
-controls. Content translations remain the author's responsibility; the icon
-names are included in all 32 interface catalogs.
+All outputs use the same image resolver. Enable each format through the normal
+OINK output configuration.
+
+| Output | Image content |
+| --- | --- |
+| Print | Still previews, titles, captions, credits, and original links; no Expo runtime |
+| Markdown and LLMSFULL | Original-image links and metadata |
+| LLMS | Album pages in the existing index |
+| RSS | Static image descriptions |
+| Browser print | Expanded album content with controls hidden |
+
+Authors translate album content and resource metadata. Image controls use the
+shared interface catalogs. The existing `gallery` fence remains an inline
+component with its own contract.
 
 ## Acceptance and release boundary {#acceptance-and-release-boundary}
 
-The focused theme owner is `python3 bin/check-expo.py`; geometry is covered by
-`node --test tests/js/expo-geometry.test.js`. Schema projections are checked by
-`python3 bin/generate-config-schema.py --check`. Public examples live at
-[Expo](/expo/), with bilingual pages. Browser and accessibility tests belong to
-`tests/browser/expo.spec.mjs` in the documentation site. `expo-stability.spec.mjs`
-also enables width-consuming scrollbars independently of the host preference and
-samples consecutive frames at the viewport-height boundary. The optional
-`npm run test:expo:engines` gate checks Chromium, Firefox and WebKit when their
-Playwright browsers are installed; use the same local module replacement. The Graph copy remains
-an additional large real-content experiment, not the integration authority.
+Run the focused theme checks from the theme checkout:
 
-Local builds and regression results do not publish this feature. A future
-release still requires a version decision, tag/module acceptance, downstream
-adoption and deployment as separate steps.
+```sh
+python3 bin/check-expo.py
+node --test tests/js/expo-geometry.test.js
+python3 bin/generate-config-schema.py --check
+```
+
+Run site acceptance from the sibling documentation checkout:
+
+```sh
+make check
+make browser
+```
+
+The [bilingual examples](/expo/) are the integration and visual review surface.
+`tests/browser/expo.spec.mjs` checks interaction and accessibility.
+`expo-stability.spec.mjs` samples consecutive frames near the viewport-height
+boundary. It forces width-consuming scrollbars independently of host settings.
+
+For the additional Chromium, Firefox, and WebKit checks, install the matching
+Playwright browsers and run from the documentation checkout:
+
+```sh
+HUGO_MODULE_REPLACEMENTS="github.com/pgsty/oink -> $(cd ../oink && pwd)" \
+  npm run test:expo:engines
+```
+
+The separate Graph copy supplies additional large-collection evidence.
+It does not replace the documentation site's acceptance tests. Local acceptance,
+a theme release, downstream upgrades, and deployment are separate steps.

@@ -8,11 +8,10 @@ search_keywords: [OINK architecture, repository boundary, runtime, i18n, Docsy l
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local candidate
-> This contract includes corrections after the unchanged local v1.3.0 tag
-> at `6dede1f`. Validate the current sibling checkout for these corrections;
-> the prepared module cache still represents that older tag. Public module
-> publication and deployment remain separate acceptance steps.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 ## Hugo toolchain {#hugo-toolchain}
 
@@ -91,7 +90,7 @@ Diagram endpoints must be strings containing an HTTP(S) URL with a host or a
 same-site path. Unsupported schemes, protocol-relative URLs, backslashes, whitespace, and
 pathless same-site references warn and disable the integration before its runtime is selected.
 
-> [!NOTE] Unreleased Draw.io repair
+> [!NOTE] Fixed in OINK 1.3.0
 > Editor URLs retain their query parameters and fragments when embedding
 > options are added. Messages must come from the active editor frame and its
 > configured origin; unrelated or malformed messages are ignored. Diagram
@@ -117,7 +116,7 @@ claim that a consumer's authored content has been translated. A new Docsy
 locale does not enter OINK automatically: it needs a complete OINK catalog and
 the same review as every existing locale.
 
-`i18n/en.yaml` owns the 194-message schema. Every one of the 32 OINK bundles has
+`i18n/en.yaml` owns the 218-message schema. Every one of the 32 OINK bundles has
 exactly that key set and native UI text; an English value may remain only when
 it is a reviewed product name, punctuation token, conventional abbreviation,
 or genuine word shared by the target language. There are no generated English
@@ -184,74 +183,74 @@ Every base template sets `Page.Store.tdOutputFormat`:
 | NAVJSON | Opt-in per site: one `navigation.json` per language, serializing the navigation authority the sidebar and pager already read |
 | BookManifest | Opt-in ordered JSON handoff for a publication packager; never presented as an EPUB or PDF |
 
-Output formats run in their defined order; the mutable-format concern is not a
-cross-format race. Within Print, however, Hugo may render a Book page and
-overlapping aggregates in parallel. One per-page cached coordinator therefore
-produces the plain and Book variants in a fixed order, and each caller selects
-the form it needs. Plain Print keeps page-local heading and routed xref URLs;
-Book aggregates keep namespaced headings and in-document xrefs.
+Output formats run in their defined order. Mutable format state does not create a cross-format race.
+Within Print, Hugo can render Book pages and overlapping aggregates in parallel.
+A cached coordinator for each page creates plain and Book variants in a fixed order. Each caller selects its required form.
+Plain Print keeps page-local headings and routed xref URLs. Book aggregates keep namespaced headings and in-document xrefs.
+Relative content links resolve against each source page's HTML URL before its body moves into Print.
+This preserves language and deployment prefixes, query strings, and encoded paths in both single-page and aggregate output.
+Only actual `href` attributes are rewritten; matching text in `title` or other non-link attributes is preserved.
+Fragment-only links remain local for heading and footnote namespacing; canonical and external links keep their destinations.
+Heading fragments are percent-decoded once for namespace lookup, including Unicode and encoded ASCII.
+Literal plus signs remain plus signs; malformed escapes remain unchanged. HTML entities in IDs and attributes are decoded separately.
+The path, query, and external origin are never changed by fragment normalization.
+Rendered Markdown headings inside Tabs and other Markdown shortcodes receive the same namespace, even when Hugo omits them from `Page.Fragments`.
+Their rendered heading IDs own the identity, preserving Chinese text, literal plus signs, and percent sequences without deriving IDs from escaped self-link URLs.
 
-Consumers opt into custom outputs; OINK does not force expensive Book
-aggregates. HTML gets the shared action and core layers plus stable first-party
-capability chunks selected by the page flags. Templated capabilities publish at
-most one chunk per language; flags choose script tags and never create a new
-combination bundle. Print keeps the action layer and only runtimes required by
-rendered print features. Large third-party UMD files stay separate; unused
-feature runtimes stay absent.
+Configured RSS output on a Landing page generates a static feed through the shared RSS renderer.
+An advertised alternate output must have a generated file; omitting interactive Landing components does not omit the feed itself.
 
-`LLMSFULL` is enabled by a top-level section listing it in its `_index` front
-matter `outputs`; the theme never adds it to a site's output set. One shared
-renderer produces the per-page Markdown and the bundle, so a bundle is that same
-semantic Markdown -- no `td-` component markup -- concatenated in the sidebar and
-pager reading order. Enabling it below the top level warns and emits nothing, so
-an ordinary build stays usable while `--panicOnWarning` blocks publication.
+Print is a browser-readable document before it is sent to paper. On screen,
+wide tables stay inside labelled, keyboard-focusable scroll regions without
+widening the page. Print-media CSS expands these regions for printing. This
+requires no table runtime; RSS tables remain non-focusable static content.
 
-`NAVJSON` is enabled by the site's `outputs.home` and publishes one
-`navigation.json` per language at the language root. It serializes the same
-authority chain the sidebar and pager read: an explicit `data/docs_nav.json`
-tree when present, the weighted content tree otherwise. Array order is the
-contract and `weight` is never serialized, and the output is `notAlternative`.
-`schema/nav.v1.schema.json` versions the format as a hand-authored contract
-artifact, edited with its templates and checker rather than by the generated
-configuration schemas' drift gate. Both outputs default off, so a site that
-enables neither builds byte-identically; `bin/check-agent-indexes.py` owns them.
+Consumers opt into custom outputs. OINK does not force expensive Book aggregates.
+HTML loads shared action and core layers, plus stable first-party capability chunks selected by page flags.
+Templated capabilities publish at most one chunk per language. Flags select script tags and never create bundles for feature combinations.
+Print keeps the action layer and only runtimes needed by rendered print features.
+Large third-party UMD files stay separate. Unused feature runtimes remain absent.
+
+A top-level section enables `LLMSFULL` by listing it in its `_index` front matter `outputs`.
+The theme never adds it to site outputs. One renderer creates per-page Markdown and the bundle.
+The bundle concatenates the same semantic Markdown, without `td-` component markup, in sidebar and pager reading order.
+Enabling it below the top level warns and emits nothing.
+Ordinary builds remain usable, while `--panicOnWarning` blocks publication.
+
+Site `outputs.home` enables `NAVJSON`. It publishes one `navigation.json` per language at the language root.
+It uses the sidebar and pager authority: explicit `data/docs_nav.json` when present, or the weighted content tree otherwise.
+Array order is the contract. `weight` is never serialized. The output is `notAlternative`.
+The manually maintained `schema/nav.v1.schema.json` versions the format.
+Edit it with its templates and checker. It is outside the generated configuration schema drift gate.
+Both outputs default off. Sites that enable neither build byte-identically. `bin/check-agent-indexes.py` owns their checks.
 
 `BookManifest` is disabled unless a Book root explicitly lists it in `outputs`.
-It references that Book's existing per-page Markdown and records derived page
-order, headings, numbered targets, and xrefs. It contains no publication
-metadata guessed by the theme and is not a distributable ebook.
+It references existing per-page Markdown and records derived page order, headings, numbered targets, and xrefs.
+The theme guesses no publication metadata. The manifest is not a distributable ebook.
 
-The theme repository ships `bin/book-epub.py` and `bin/book-pdf.py` as explicit
-publication steps, with `bin/check-book-epub.py` and `bin/check-book-pdf.py` as
-their artifact gates. The EPUB packager combines `BookManifest` with the same
-whole-Book Print HTML and accepts consumer metadata separately. The PDF runner
-serves that Print output only on a temporary loopback address, invokes an
-explicit Chrome/Chromium binary behind a `script-src 'none'` Content Security
-Policy, and emits A4 pages with CSS page numbers.
-The PDF server also applies a CSP sandbox, rejects meta-refresh navigation,
-and refuses symlinks escaping the build tree. Without the network opt-in,
-image and media requests are limited to the loopback origin and data URLs,
-including requests initiated by CSS or SVG.
-Both tools refuse missing or out-of-tree resources; network resources and
-output replacement each require a separate explicit flag. The network opt-in
-allows passive HTTP(S) media only; remote scripts and local-file schemes remain
-invalid. Relative assets in the EPUB metadata file resolve from that file's
-directory, not from the caller's working directory. No publication work runs
-during an ordinary Hugo build, and PDF remains Print-derived rather than
-another template output.
+The theme repository provides `bin/book-epub.py` and `bin/book-pdf.py` for explicit publication steps.
+`bin/check-book-epub.py` and `bin/check-book-pdf.py` validate their artifacts.
+The EPUB packager combines `BookManifest` with whole-Book Print HTML and accepts consumer metadata separately.
+The PDF runner serves Print output at a temporary loopback address. It invokes an explicit Chrome/Chromium binary with `script-src 'none'` CSP.
+It produces A4 pages with CSS page numbers.
+The PDF server also applies a CSP sandbox, rejects meta-refresh navigation, and refuses symlinks outside the build tree.
+Without network opt-in, image and media requests allow only the loopback origin and data URLs. This includes requests from CSS or SVG.
+Both tools refuse missing resources and resources outside the build tree.
+Network resources and output replacement each need a separate explicit flag.
+Network opt-in permits only passive HTTP(S) media. Remote scripts and local-file schemes remain invalid.
+Relative EPUB metadata assets resolve from the metadata file's directory, not the working directory.
+Ordinary Hugo builds run no publication steps. PDF remains derived from Print, rather than a separate template output.
 
 Performance rules:
 
-- do not walk `.Site.Pages` per page when a site-level resource or
-  `partialCached` result can own the work;
-- render `.Content` once and read Page Store flags only after it;
-- emit correct markup instead of scanning the DOM to repair it;
-- group browser work by resource URL, not DOM instance;
-- keep ordinary outputs opt-in when their aggregate cost is material;
-- emit no Speculation Rules by default: a named production consumer must first
-  measure `Sec-Purpose: prefetch` requests, useful navigations, transferred
-  bytes, and CSP impact with a reversible `moderate` experiment;
-- validate reachable author input, not hypothetical internal states.
+- Do not walk `.Site.Pages` for every page if a site-level resource or `partialCached` result can perform the work.
+- Render `.Content` once. Read Page Store flags only after rendering it.
+- Emit correct markup. Do not scan the DOM to repair it.
+- Group browser work by resource URL, not DOM instance.
+- Keep ordinary outputs opt-in when their aggregate cost is material.
+- Emit no Speculation Rules by default. First, a named production consumer must measure `Sec-Purpose: prefetch` requests, useful navigations, bytes, and CSP impact.
+  Use a reversible `moderate` experiment.
+- Validate reachable author input. Do not validate hypothetical internal states.
 
 `bin/measure-baseline.py` measures build time, output weight, bundle count, and
 shortcode density.
@@ -271,7 +270,7 @@ schemes and protocol-relative URLs where local or explicit absolute URLs are
 required. Promised remote URLs remain supported but are never fetched at build
 time.
 
-> [!NOTE] Unreleased image escaping repair
+> [!NOTE] Fixed in OINK 1.3.0
 > Image and Gallery URLs are HTML-attribute escaped after URL validation,
 > including full-size Zoom sources. Quotes and ampersands remain part of the
 > URL; they cannot introduce attributes or be decoded as HTML entities.
