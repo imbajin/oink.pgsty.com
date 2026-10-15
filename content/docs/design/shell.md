@@ -512,6 +512,11 @@ query upload, or browser compatibility shim for removed config. Feedback emits
 only `docs_feedback` through an existing `gtag`, stores the choice locally, and
 does not replace Giscus.
 
+An explicit `params.ui.quick_links: []` disables quick links instead of restoring
+the defaults. Invalid `sidebar_root_link_self` values warn and keep the documented
+`true` fallback. Taxonomy and term pages use the shared `page_width` validator,
+including its warning-fatal publication gate.
+
 ## Verification {#verification}
 
 `bin/check-navigation-contract.py`, `bin/check-shell.py`, JS tests, output

@@ -394,6 +394,10 @@ OINK 没有归档外壳、任意深度飞出菜单、第二个导航权威、查
 移除配置的浏览器兼容 shim。反馈只通过既有 `gtag` 发出 `docs_feedback`，在本地
 保存选择，而且不替代 Giscus。
 
+显式设置 `params.ui.quick_links: []` 会关闭快速链接，不恢复默认值。
+无效的 `sidebar_root_link_self` 会告警并采用文档规定的 `true` 回退。
+分类法总览页与 term 页使用共享的 `page_width` 校验器，其诊断同样受严格发布门禁约束。
+
 ## 验证 {#verification}
 
 `bin/check-navigation-contract.py`、`bin/check-shell.py`、JavaScript 测试、输出

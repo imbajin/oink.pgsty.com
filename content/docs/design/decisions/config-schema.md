@@ -50,6 +50,13 @@ Two deliberate restraints are part of the decision:
   hard error, so outgrowing it breaks the drift gate loudly instead of
   mis-generating.
 
+The parameter checker identifies maps with documented boolean shorthand.
+The generated site schema preserves both boolean and object forms for those
+maps, including `ui.dark_mode`; pure configuration maps such as `print` and
+`ui.expo` remain objects. Front-matter read points such as `feedback.enable`
+produce nested properties under `feedback`, never literal dotted keys. Those
+properties do not exclude the supported boolean page override.
+
 ## Consequences {#consequences}
 
 The only way to change a schema is to change `hugo.yaml` or the templates the
