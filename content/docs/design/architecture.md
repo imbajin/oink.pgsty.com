@@ -244,6 +244,11 @@ Performance rules:
 `bin/measure-baseline.py` measures build time, output weight, bundle count, and
 shortcode density.
 
+Single-page Print emits the page description once. Section Print carries
+mathematics capability from every included descendant to the aggregate root,
+so a formula-free index still loads local KaTeX styles when a child needs them.
+Formula-free Print documents do not load those styles.
+
 ## Trust, CSS, and accessibility {#trust-css-and-accessibility}
 
 Authors may enable Goldmark `unsafe`; configuration and component parameters

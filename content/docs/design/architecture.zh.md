@@ -205,6 +205,10 @@ CSS 或 SVG 发起的请求也受此限制。
 `bin/measure-baseline.py` 测量构建时间、输出体积、bundle 数量与 shortcode
 密度。
 
+单页 Print 只输出一次页面摘要。分区 Print 将所有纳入后代页面的数学能力标志
+传递到聚合根，因此目录页本身没有公式时，仍会按子页需要加载本地 KaTeX 样式。
+完全没有公式的打印文档不加载这些样式。
+
 ## 信任边界、CSS 与无障碍 {#trust-css-and-accessibility}
 
 作者可以启用 Goldmark `unsafe`，但配置与组件参数不能视作原始 HTML。共享属性
