@@ -85,6 +85,13 @@ cannot use Hugo image operations.
 Resource metadata `alt` must be a string; an invalid value warns and is ignored,
 preserving the image's authored alt text.
 
+Empty `tabs` warn and emit no container in HTML, Print, Markdown, or RSS.
+An `xref` without a usable target or with a missing target page preserves its
+text without a link. If `fig` supplies both `caption` and `title`, the warning
+and all outputs prefer `caption`.
+Generic attributes on block mathematics do not enable Book numbering. Without
+`num`, `id` and `caption` warn and are ignored; the formula stays unnumbered.
+
 ## Component behavior {#component-behavior}
 
 ### Callouts and tabs {#callouts-and-tabs}

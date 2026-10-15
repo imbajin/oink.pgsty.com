@@ -78,6 +78,12 @@ URL 使用 `content/url.html`；不允许原始反斜杠，因为浏览器可能
 但不能执行 Hugo 图片操作。
 资源元数据 `alt` 必须是字符串；无效值会告警并被忽略，保留正文填写的替代文本。
 
+空的 `tabs` 会告警，在 HTML、Print、Markdown 与 RSS 中都不输出容器。
+`xref` 没有可用目标或找不到目标页面时，保留文字但不生成链接。
+`fig` 同时填写 `caption` 与 `title` 时会告警，所有输出都优先使用 `caption`。
+块公式上的通用属性不会启用 Book 编号；没有 `num` 时，`id` 与 `caption`
+会告警并被忽略，公式仍按无编号形态渲染。
+
 ## 组件行为 {#component-behavior}
 
 ### 提示块与标签页 {#callouts-and-tabs}
