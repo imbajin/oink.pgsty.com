@@ -3,6 +3,57 @@ import { expect, test } from '@playwright/test';
 const docPath = '/docs/customize/config/';
 const widths = [360, 768, 820, 1024, 1200, 1440];
 
+for (const path of ['/tests/layouts/book-landing/', '/tests/runtime/landing/', '/tests/layouts/custom-landing/']) {
+  test(`${path} opens only the Landing drawer at phone width`, async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 900 });
+    await openCleanPage(page, path);
+    await expect(page.locator('[data-td-shell-drawer-open]')).toHaveCount(0);
+    await expect(page.locator('#td-shell-sidebar')).toHaveCount(0);
+    const toggle = page.locator('[data-td-landing-menu-toggle]');
+    await expect(toggle).toHaveCount(1);
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.locator('[data-td-landing-menu]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.locator('[data-td-landing-menu]')).toBeHidden();
+  });
+}
+
+test('seven phone menu entries retain their full hit area beside search', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 900 });
+  await openCleanPage(page, '/');
+  // Exercise the seven-root configuration used by a real consumer while
+  // retaining the site's generated link markup and loaded navbar styles.
+  await page.locator('.td-nav-menu-zone').evaluate(zone => {
+    const template = zone.querySelector('a');
+    const links = Array.from({ length: 7 }, (_, index) => {
+      const link = template.cloneNode(true);
+      for (const attr of ['aria-controls', 'aria-expanded', 'aria-haspopup', 'data-td-navbar-label']) link.removeAttribute(attr);
+      link.className = 'nav-link';
+      link.setAttribute('aria-label', `Content ${index + 1}`);
+      link.href = '/book/';
+      return link;
+    });
+    zone.replaceChildren(...links);
+  });
+  await page.evaluate(() => document.fonts.ready);
+  const links = page.locator('.td-nav-menu-zone > a');
+  await expect(links).toHaveCount(7);
+  for (const link of await links.all()) {
+    expect(await link.evaluate(element => {
+      const box = element.getBoundingClientRect();
+      return [2, box.width / 2, box.width - 2].every(offset =>
+        element.contains(document.elementFromPoint(box.left + offset, box.top + box.height / 2)));
+    })).toBe(true);
+  }
+  const menu = await page.locator('.td-nav-menu-zone').boundingBox();
+  const search = await page.locator('.td-nav-search-box').boundingBox();
+  expect(menu.x + menu.width).toBeLessThanOrEqual(search.x);
+  await links.last().click();
+  await expect(page).toHaveURL(/\/book\/$/);
+});
+
 async function openCleanPage(page, path = docPath) {
   await page.addInitScript(() => {
     localStorage.removeItem('td-shell-sidebar-collapsed');
@@ -458,6 +509,11 @@ test('page-end feedback and metadata use the compact prose presentation', async 
     'font-family',
     proseFont,
   );
+  const annotationLinks = page.locator('.td-page-meta__item a');
+  expect(await annotationLinks.count()).toBeGreaterThan(0);
+  for (const link of await annotationLinks.all()) {
+    await expect(link).toHaveCSS('text-decoration-line', 'underline');
+  }
   await expect(page.locator('.td-pager__summary')).toHaveCount(0);
   const pager = page.locator('.td-pager');
   const pagerBox = await pager.boundingBox();

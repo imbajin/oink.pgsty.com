@@ -10,6 +10,49 @@ const galleryPath = `${componentsPath}gallery/`;
 const layoutPath = `${componentsPath}callout/`;
 const asciinemaPath = `${componentsPath}asciinema/`;
 
+test.describe('Print table browser previews', () => {
+  for (const language of ['', '/zh']) {
+    for (const width of [360, 1440]) {
+      test(`${language || 'en'} tables stay contained at ${width}px and expand for print`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`${language}/_print/tests/print-tables/`);
+        await page.evaluate(() => document.fonts.ready);
+        const table = page.locator('.td-table-scroll');
+        await expect(table).toHaveAttribute('tabindex', '0');
+        await expect(table).toHaveAttribute('role', 'region');
+        await expect(table).toHaveAttribute('aria-label', /.+/);
+        await expect(table.locator('tbody tr')).toHaveCount(2);
+        const geometry = await table.evaluate((el) => ({
+          pageWidth: document.documentElement.scrollWidth,
+          viewport: innerWidth,
+          overflow: getComputedStyle(el).overflowX,
+          scrollable: el.scrollWidth > el.clientWidth,
+        }));
+        expect(geometry.pageWidth).toBeLessThanOrEqual(geometry.viewport + 1);
+        expect(geometry.overflow).toBe('auto');
+        if (width === 360) {
+          expect(geometry.scrollable).toBe(true);
+          await page.locator('#before-table').click();
+          await page.keyboard.press('Tab');
+          await expect(table).toBeFocused();
+          // Retry real keys while WebKit completes its automatic focus scroll.
+          await expect.poll(async () => {
+            await page.keyboard.press('ArrowRight');
+            return table.evaluate((el) => el.scrollLeft);
+          }).toBeGreaterThan(0);
+        }
+        await page.emulateMedia({ media: 'print' });
+        const printStyle = await table.evaluate((el) => ({
+          overflow: getComputedStyle(el).overflowX,
+          maxWidth: getComputedStyle(el).maxWidth,
+        }));
+        expect(printStyle).toEqual({ overflow: 'visible', maxWidth: 'none' });
+        await expect(page.locator('#after-table')).toBeVisible();
+      });
+    }
+  }
+});
+
 async function gridColumnCount(grid) {
   return grid.evaluate(
     (element) =>

@@ -4,6 +4,10 @@ module:
       target: content
     - source: tests/fixtures/browser/content
       target: content/tests
+    - source: layouts
+      target: layouts
+    - source: tests/fixtures/browser/layouts
+      target: layouts
 
 params:
   drawio:
