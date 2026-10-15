@@ -7,9 +7,10 @@ icon: fa-solid fa-images
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local tag
-> Expo is included in the local v1.3.0 tag. Public module publication and
-> deployment are separate acceptance steps.
+> [!NOTE] OINK 1.3.0 local candidate
+> Expo starts from local tag `6dede1f`; this contract includes later fixes.
+> The tag and prepared module cache are unchanged. Use the current sibling
+> checkout for candidate acceptance; publication and deployment remain separate.
 
 ## Content and navigation {#content-and-navigation}
 

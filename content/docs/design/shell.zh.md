@@ -8,9 +8,10 @@ search_keywords: [OINK 外壳, 导航契约, 搜索, 操作, 博客展示, 作�
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 本地标签契约
-> 本契约描述 v1.3.0 本地标签的行为，公开模块发布与部署另行验收。唯一的中英文契约源文件位于
-> `content/docs/design/`。
+> [!NOTE] OINK 1.3.0 本地候选
+> 本契约包含本地 v1.3.0 标签 `6dede1f` 之后的修复，原标签保持不变。
+> 请用当前伴生主题 checkout 验证这些修复；已准备的模块缓存仍对应旧标签。
+> 公开模块发布与部署仍需单独验收。
 
 ## 权威来源与导航 {#authorities-and-navigation}
 

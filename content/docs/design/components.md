@@ -8,10 +8,11 @@ search_keywords: [OINK component contract, shortcode API, Markdown components, B
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 local-tag contract
-> This contract describes the local v1.3.0 tag. Public module publication
-> and deployment are separate acceptance steps. Its canonical bilingual sources
-> are in `content/docs/design/`.
+> [!NOTE] OINK 1.3.0 local candidate
+> This contract includes corrections after the unchanged local v1.3.0 tag
+> at `6dede1f`. Validate the current sibling checkout for these corrections;
+> the prepared module cache still represents that older tag. Public module
+> publication and deployment remain separate acceptance steps.
 
 Tutorials and exhaustive examples belong in the reader-facing
 [Components](/docs/components/) section. This page defines the API and behavior

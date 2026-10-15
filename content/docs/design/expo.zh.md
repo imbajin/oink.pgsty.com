@@ -7,8 +7,10 @@ icon: fa-solid fa-images
 contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.3.0 本地标签
-> Expo 已包含在本地 v1.3.0 标签中。公开模块发布与部署另行验收。
+> [!NOTE] OINK 1.3.0 本地候选
+> Expo 以本地标签 `6dede1f` 为起点，本契约另包含其后的修复。
+> 标签与已准备的模块缓存保持不变；候选验收使用当前伴生主题 checkout，
+> 公开发布与部署仍需单独验收。
 
 ## 内容与导航 {#content-and-navigation}
 

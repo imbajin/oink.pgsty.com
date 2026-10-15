@@ -21,10 +21,11 @@ cascade:
   categories: [Design]
 ---
 
-> [!NOTE] OINK 1.3.0 local-tag contract
-> This contract describes the local v1.3.0 tag. Public module publication
-> and deployment are separate acceptance steps. Its canonical bilingual sources
-> are in `content/docs/design/`.
+> [!NOTE] OINK 1.3.0 local candidate
+> This contract includes corrections after the unchanged local v1.3.0 tag
+> at `6dede1f`. Validate the current sibling checkout for these corrections;
+> the prepared module cache still represents that older tag. Public module
+> publication and deployment remain separate acceptance steps.
 > Hugo Extended 0.160.1 remains the compatibility floor. CI uses 0.165.0;
 > the floor is not a second full CI matrix.
 
@@ -72,8 +73,8 @@ changelog.
 
 The [Expo contract](/docs/design/expo/) describes the local image-album layout
 candidate. Its [accepted decision](/docs/design/decisions/expo/) records the
-content model and the revisions to the earlier Muse experiment. These pages
-do not extend the published v1.2.0 contract or establish a release.
+content model and the revisions to the earlier Muse experiment. These pages describe the corrected local candidate beyond tag `6dede1f`;
+public module publication and deployment remain separate acceptance steps.
 
 ## Authority and maintenance {#authority-and-maintenance}
 
