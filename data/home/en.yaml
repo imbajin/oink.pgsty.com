@@ -307,7 +307,7 @@ faq:
   items:
     - question: Do I need Node.js, npm or a bundler anywhere?
       answer: >-
-        No. The build dependency is Hugo Extended (0.160.1 or newer). Go is used
+        No. The build dependency is Hugo Extended (0.166.0 or newer). Go is used
         once, to resolve the theme as a Hugo module; an offline archive or a Git
         submodule works without it. Interactive features still run JavaScript,
         but those scripts ship with the theme and attach only to the pages that

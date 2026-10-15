@@ -31,9 +31,9 @@ For an existing Hugo site, use the short [integration path](#existing-site)
 below. For an existing Docsy site, see [Upgrade](/docs/admin/upgrade/).
 
 The second half weighs four install methods: Hugo Module, Git submodule,
-offline archive, and pinned source copy. OINK 1.1.0 uses Go 1.27 and Hugo Extended
-0.165.0 for release validation. The theme's lower declared compatibility floor
-is for existing sites that deliberately retain an older toolchain.
+offline archive, and pinned source copy. Current development and validation use
+Go 1.27 and Hugo Extended 0.166.0. The Hugo baseline advances with stable
+releases; older-Hugo compatibility testing and adaptation are discontinued.
 
 ## Add OINK to an existing site {#existing-site}
 

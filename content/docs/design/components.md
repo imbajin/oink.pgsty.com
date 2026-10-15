@@ -169,9 +169,10 @@ JSON/YAML; callbacks use `$fn:<name>` from `window.OinkEchartsFunctions`, never
 embedded script execution.
 
 Mathematics uses Hugo's build-time KaTeX output and local CSS, without a browser
-math runtime. The shared renderer normalizes pre-0.18 KaTeX class names to the
-vendored stylesheet in HTML and Print, preserving the Hugo 0.160.1 floor,
-MathML, and authored TeX. Markmap uses the matching vendored KaTeX runtime.
+math runtime. HTML and Print use the vendored stylesheet and preserve MathML
+and authored TeX. Validate mathematics with the current Hugo baseline defined
+in the [architecture contract](/docs/design/architecture/#hugo-toolchain).
+Markmap uses the matching vendored KaTeX runtime.
 On narrow screens, numbered-equation captions wrap within the reading column;
 a long caption must not widen the page.
 

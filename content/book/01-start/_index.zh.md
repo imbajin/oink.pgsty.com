@@ -20,15 +20,15 @@ weight: 10
 
 ## 安装前置工具 {#prerequisite}
 
-当前 Starter 需要 Git、Go 1.27 或更新版本，以及 Hugo Extended 0.165.0 或更新版本。
-OINK 声明的较低兼容下限仍是 0.160.1，但 Starter 与它的 workflow 有意固定当前持续测试
-工具链。不需要 Node.js。
+本教程使用 Git、Go 1.27 或更新版本，以及 Hugo Extended 0.166.0。
+开发、CI 与发布测试统一使用这条 Hugo 基线，并随稳定版更新。采用旧 Starter 时，
+先更新其 Hugo workflow 固定版本再验证，不再维护旧 Hugo 兼容性。不需要 Node.js。
 
 ```console
 $ go version
 go version go1.27.0 darwin/arm64
 $ hugo version
-hugo v0.165.0+extended+withdeploy darwin/arm64
+hugo v0.166.0+extended+withdeploy darwin/arm64
 ```
 
 ## 启动本地预览 {#preview}

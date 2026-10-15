@@ -19,6 +19,12 @@ does it, so hundreds of files need not be edited by hand.
 An upgrade changes rendered output. Create an upgrade branch before starting,
 and the cost of backing out is discarding a branch.
 
+> [!IMPORTANT] Current Hugo baseline
+> Since 2026-10-15, use Hugo Extended 0.166.0 for development and validation.
+> Update Hugo workflow pins when upgrading; older-Hugo compatibility is no
+> longer maintained. Version requirements in the older release sections below
+> describe those releases only.
+
 ## Prepare for 1.3 {#preparing-1-3}
 
 The local `v1.3.0` tag adds [Expo albums](/docs/write/expo/) and repairs navigation,
@@ -124,10 +130,9 @@ and anywhere the site customized something.
 > to update its dependency pin, rebuild and deploy; theme publication does not
 > upgrade an existing site automatically.
 
-No source migration is required from 1.0.0. Hugo Extended 0.160.1 remains the
-floor; CI uses the pinned 0.165.0 toolchain. The module's Go 1.27.0 directive is
-unchanged from 1.0.0. On Hugo 0.160.x, a non-default generic `zh` language
-alongside the regional Chinese catalogs needs `locale: zh-CN`.
+No source migration was required from 1.0.0 to 1.1.0. Its Go 1.27.0 module
+directive was unchanged from 1.0.0. Validate current upgrades with Hugo Extended
+0.166.0. Historical toolchain details remain in the [1.1 release note](/blog/release/1.1.0/).
 
 Review the affected surfaces before choosing the new pin:
 
@@ -179,8 +184,8 @@ the [sidebar contract](/docs/design/shell/#sidebar-runtime),
 > Review custom dark brand selectors as described in [Brand](/docs/customize/brand/#visual-presets).
 
 OINK 1.2.0 is available as a published tag. Apart from the default appearance
-change above, no content migration is required. Hugo Extended 0.160.1 remains
-the compatibility floor. Update the module, then verify the site:
+change above, no content migration is required. Validate current upgrades with
+Hugo Extended 0.166.0, then verify the site:
 
 - Check the chosen preset, light/dark icons, keyboard and mobile menus, saved
   preferences, and custom font/accent overrides. Sun means light; moon means

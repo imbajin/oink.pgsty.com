@@ -149,9 +149,9 @@ ECharts 输入是声明式 JSON/YAML；回调使用
 `window.OinkEchartsFunctions` 中的 `$fn:<name>`，绝不执行嵌入脚本。
 
 数学公式使用 Hugo 构建时生成的 KaTeX 产物和本地 CSS，不加载浏览器数学运行时。
-共享渲染器在 HTML 和 Print 中将 KaTeX 0.18 之前的类名统一为本地样式支持的类名，
-保留 Hugo 0.160.1 兼容下限、MathML 与作者的 TeX 源文。Markmap 使用与样式配套的
-本地 KaTeX 运行时。
+HTML 和 Print 使用本地样式表，并保留 MathML 与作者的 TeX 源文。
+数学公式按[架构契约](/zh/docs/design/architecture/#hugo-toolchain)中的当前 Hugo
+基线验证。Markmap 使用与样式配套的本地 KaTeX 运行时。
 窄屏中，编号公式的标题在阅读列内换行，长标题不得撑宽整页。
 
 Swagger 与 Redoc 接受 HTTP(S) 规范 URL 或以 `static/` 为根的路径，都不解析页面

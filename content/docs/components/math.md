@@ -13,9 +13,8 @@ formulas are `$$…$$` or `\[…\]`, and there are `math` and `chem` fences. For
 TikZ drawings or macro packages KaTeX does not support, use a pre-rendered
 [image](/docs/components/image/).
 
-The 1.2.0 working implementation adapts Hugo 0.160.1's generated KaTeX class
-names to the bundled stylesheet. TeX and MathML stay intact; no browser math
-runtime or additional site switch is needed.
+Validate generated formulas with Hugo Extended 0.166.0 and the bundled stylesheet.
+TeX and MathML remain unchanged. No browser mathematics runtime or extra site switch is needed.
 
 ## Site prerequisites {#config}
 

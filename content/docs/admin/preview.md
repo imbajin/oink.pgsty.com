@@ -148,7 +148,7 @@ machine.
 ```dockerfile {title="Dockerfile" collapse=16}
 FROM debian:bookworm-slim
 
-ARG HUGO_VERSION=0.165.0
+ARG HUGO_VERSION=0.166.0
 ARG GO_VERSION=1.27.0
 ARG TARGETARCH
 

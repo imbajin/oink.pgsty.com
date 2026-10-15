@@ -45,7 +45,7 @@ module:
     - path: github.com/pgsty/oink
   hugoVersion:
     extended: true
-    min: 0.160.1
+    min: 0.166.0
 
 params:
   offline_search: true
@@ -489,7 +489,7 @@ Version parameters:
 | `taxonomies` | map | | Hugo's own: enables `tag: tags` / `category: categories` — see [Taxonomies](/docs/customize/taxonomy/) |
 | `params.taxonomy.page_header` | list | | Shows only these taxonomies in a post header; unset shows all |
 | `services.googleAnalytics.id` | string | | Hugo's own: the analytics script is injected in production builds only — see [Analytics and SEO](/docs/admin/analytics/) |
-| `module.hugoVersion.min` | string | 0.160.1 | The Hugo floor the theme declares; anything older fails the build |
+| `module.hugoVersion.min` | string | 0.166.0 | The Hugo floor the theme declares; anything older fails the build |
 | `module.hugoVersion.extended` | boolean | true | Hugo Extended is required (SCSS has to be compiled) |
 {.fields meta="type default"}
 
@@ -554,19 +554,19 @@ A configuration change also needs at least three checks: one page in each
 language, a page with no translation to see the fallback, and the links under
 the production `baseURL` (easy to miss on a subpath deployment).
 
-The theme's declared Hugo floor is `0.160.1`. OINK's continuous test toolchain
-is pinned to Hugo Extended `0.165.0`; configuration changes are tested once
-with that pinned version instead of against a version matrix:
+The theme's minimum and single test baseline are Hugo Extended `0.166.0`.
+Validate configuration changes with this version. Advance the baseline with
+stable releases; do not run older-Hugo compatibility tests or add adaptation:
 
 ```bash
-# require v0.165.0+extended in this output
+# require v0.166.0+extended in this output
 hugo version
 hugo --printPathWarnings --panicOnWarning
 ```
 
-The floor is declared in the theme's `hugo.yaml` and `theme.toml`, and a site's
-own `module.hugoVersion.min` should agree with it. It remains a consumer
-compatibility declaration, not a second routine CI test leg.
+The theme declares the minimum in `hugo.yaml` and `theme.toml`. The site's
+`module.hugoVersion.min` should match it. Update these declarations, CI pins,
+and current documentation together when advancing the baseline.
 
 ## Related {#related}
 

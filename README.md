@@ -30,6 +30,10 @@ project-specific configuration.
 
 ## Local development
 
+Use Hugo Extended 0.166.0 for development and validation. The baseline advances
+with stable Hugo releases; older versions receive no compatibility testing or
+adaptation. See the [architecture contract](content/docs/design/architecture.md#hugo-toolchain).
+
 For theme development, clone both repositories as siblings:
 
 ```text

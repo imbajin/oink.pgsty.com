@@ -14,6 +14,8 @@ design_status: active
 
 > [!NOTE] 证据，不是契约
 > 研究记录测量了什么、使用了哪些输入与工具版本。它可以解释决策，但不能覆盖当前契约或实现。
+> 当前验收使用 Hugo Extended 0.166.0，遵循[工具链契约](/zh/docs/design/architecture/#hugo-toolchain)。
+> 这里记录的旧版本属于历史证据，不构成兼容性测试目标。
 
 只有其他维护者能够检查方法、理解边界并复现相关检查时，研究才适合进入公开 Design 内容树。
 原始 Agent 对话、临时构建日志和本机绝对路径不符合这一标准。
@@ -22,7 +24,7 @@ design_status: active
 
 | 记录                                                                        | 证据                                                                   |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [Goldmark 块属性](/zh/docs/design/research/goldmark-attributes/)            | 支持的 Hugo 下限版本上，渲染钩子能看到什么，以及 CommonMark 容器的边界 |
+| [Goldmark 块属性](/zh/docs/design/research/goldmark-attributes/)            | 该研究记录的历史 Hugo 版本上，渲染钩子能看到什么，以及 CommonMark 容器的边界 |
 | [消费站与迁移证据](/zh/docs/design/research/consumer-evidence/)             | 带日期的语料盘点与确定性 Book 迁移结果                                 |
 | [2026-08-26 全面审查](/zh/docs/design/research/2026-08-26-comprehensive-review/) | 实现、配置、输出、安全、测试、性能与文档审查                           |
 | [2026-09-19 社区 Issue 与 PR 调研](/zh/docs/design/research/2026-09-19-upstream-review/) | 侧栏、焦点与搜索反馈的复现、PR 接收建议和解决方案 |

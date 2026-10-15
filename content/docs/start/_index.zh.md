@@ -17,10 +17,10 @@ aliases:
 文档与回归测试仓库。Starter 是公开的 GitHub 模板：它固定一个已发布的 OINK
 版本，默认即可构建，只包含中性的项目示例与部署 workflow。
 
-> [!IMPORTANT] 两个版本号承担不同职责
-> OINK 声明的兼容性下限是 Hugo Extended {{% param hugoMinVersion %}}。当前
-> Starter 与它的 CI 固定使用 Hugo Extended 0.165.0 和 Go 1.27。下面这条路径应
-> 使用 Starter 固定的工具链；只有刻意维护旧环境的既有站点才使用较低的兼容下限。
+> [!IMPORTANT] 当前 Hugo 基线
+> 开发、CI 与发布测试统一使用 Hugo Extended {{% param hugoMinVersion %}} 和
+> Go 1.27，Hugo 基线随稳定版更新。使用旧 Starter 快照时，同步更新它的 Hugo
+> workflow 固定版本；不再维护旧 Hugo 兼容性。
 
 ## 选择起点 {#choose}
 
@@ -34,14 +34,14 @@ aliases:
 
 1. ### 安装工具 {#tools}
 
-   安装 Git、Go 1.27 或更新版本，以及 Hugo Extended 0.165.0 或更新版本。Hugo
+   安装 Git、Go 1.27 或更新版本，以及 Hugo Extended 0.166.0 或更新版本。Hugo
    输出必须包含 `extended`：
 
    ```console
    $ go version
    go version go1.27.0 darwin/arm64
    $ hugo version
-   hugo v0.165.0+extended+withdeploy darwin/arm64
+   hugo v0.166.0+extended+withdeploy darwin/arm64
    ```
 
    macOS 可以执行 `brew install git go hugo`。Linux 与 Windows 请按官方

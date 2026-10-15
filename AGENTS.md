@@ -75,9 +75,14 @@ themselves; use the Make targets for local theme acceptance. `build` and `serve`
 do not clear inherited replacements or workspaces; use the published-pin
 commands below to establish release identity. Node >= 24 and npm >= 11.16.0
 are contributor test dependencies, not ordinary Hugo consumer requirements.
-CI pins Hugo Extended 0.165.0, Go 1.27.0, and Node 24. Test configuration overlays
-such as `tests/fixtures/browser.yml` do not change the single-root-config rule
-for the production site.
+As of 2026-10-15, development, CI, and release tests use Hugo Extended 0.166.0
+as their single baseline. Advance it with stable Hugo releases and update CI
+pins, declared requirements, checkers, and current bilingual documentation
+together. Do not test or adapt for older Hugo versions or add compatibility
+shims unless the user explicitly requests it. Historical release/research
+records do not establish current support requirements. CI also pins Go 1.27.0
+and Node 24. Test overlays such as `tests/fixtures/browser.yml` do not change
+the single-root-config rule for the production site.
 
 For published-pin acceptance, disable environment replacements and both
 workspace mechanisms, verify advertised/pinned versions, and build strictly:

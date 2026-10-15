@@ -26,8 +26,9 @@ cascade:
 > at `6dede1f`. Validate the current sibling checkout for these corrections;
 > the prepared module cache still represents that older tag. Public module
 > publication and deployment remain separate acceptance steps.
-> Hugo Extended 0.160.1 remains the compatibility floor. CI uses 0.165.0;
-> the floor is not a second full CI matrix.
+> Since 2026-10-15, development, CI, and release tests use Hugo Extended 0.166.0.
+> The baseline advances with stable releases; older Hugo compatibility is no
+> longer maintained. See the [toolchain contract](/docs/design/architecture/#hugo-toolchain).
 
 This section is the durable design record for OINK. It complements the
 task-oriented guides elsewhere on the site: use those guides to build a site,

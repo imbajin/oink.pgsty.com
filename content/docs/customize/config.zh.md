@@ -38,7 +38,7 @@ module:
     - path: github.com/pgsty/oink
   hugoVersion:
     extended: true
-    min: 0.160.1
+    min: 0.166.0
 
 params:
   offline_search: true
@@ -441,7 +441,7 @@ outputs:
 | `taxonomies` | map | | Hugo 原生：启用 `tag: tags` / `category: categories`，见[分类体系](/zh/docs/customize/taxonomy/) |
 | `params.taxonomy.page_header` | list | | 只在文章头部显示这几种分类；不设则显示全部 |
 | `services.googleAnalytics.id` | string | | Hugo 原生：分析脚本只在生产构建注入，见[分析与 SEO](/zh/docs/admin/analytics/) |
-| `module.hugoVersion.min` | string | 0.160.1 | 主题声明的 Hugo 下限，低于它构建失败 |
+| `module.hugoVersion.min` | string | 0.166.0 | 主题声明的 Hugo 下限，低于它构建失败 |
 | `module.hugoVersion.extended` | boolean | true | 必须是 Hugo Extended（要编译 SCSS） |
 {.fields meta="type default"}
 
@@ -499,18 +499,18 @@ hugo --printPathWarnings --panicOnWarning
 
 配置改动还要至少验证三件事：每种语言各一页、缺译页的回退、生产 `baseURL` 下的链接（子路径部署容易漏）。
 
-主题声明的 Hugo 下限是 `0.160.1`。OINK 的持续测试工具链固定为 Hugo Extended
-`0.165.0`；配置改动只使用这个固定版本测试一次，不再运行版本矩阵：
+主题的最低版本与统一测试基线都是 Hugo Extended `0.166.0`。配置改动使用这个
+版本验证；基线随稳定版更新，不再测试或适配旧 Hugo：
 
 ```bash
-# 输出必须包含 v0.165.0+extended
+# 输出必须包含 v0.166.0+extended
 hugo version
 hugo --printPathWarnings --panicOnWarning
 ```
 
-下限版本写在主题的 `hugo.yaml` 与 `theme.toml` 里，站点自己的
-`module.hugoVersion.min` 应与它一致。它仍是消费站兼容性声明，不再是第二个常规 CI
-测试项。
+最低版本写在主题的 `hugo.yaml` 与 `theme.toml` 里，站点自己的
+`module.hugoVersion.min` 应与它一致。升级基线时同步调整这些声明、CI 固定版本和
+当前文档。
 
 ## 相关 {#related}
 

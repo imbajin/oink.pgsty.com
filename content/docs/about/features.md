@@ -29,7 +29,7 @@ images, field entries whose body is several paragraphs of Markdown.
 
 ## Build with Hugo {#hugo-only}
 
-Hugo Extended 0.160.1 or newer compiles the site's assets. SCSS is compiled by
+Hugo Extended 0.166.0 or newer compiles the site's assets. SCSS is compiled by
 Hugo's embedded Sass transpiler; the theme never invokes `postCSS` and needs
 neither npm nor webpack. Installing the theme as a Hugo Module also needs Go
 and access to the module dependencies, either over the network or from a local

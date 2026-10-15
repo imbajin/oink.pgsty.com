@@ -14,6 +14,19 @@ contract_status: v1.3.0
 > the prepared module cache still represents that older tag. Public module
 > publication and deployment remain separate acceptance steps.
 
+## Hugo toolchain {#hugo-toolchain}
+
+As of 2026-10-15, Hugo Extended **0.166.0** is the single development, CI, and
+release-test baseline and the current theme's declared minimum. Advance this
+baseline with stable Hugo releases. Update workflow pins, `hugo.yaml`,
+`theme.toml`, site requirements, the CLI version gate, and current bilingual
+documentation together.
+
+Do not run older-Hugo compatibility matrices, adapt code for older versions,
+or add compatibility shims unless the user explicitly requests it. Historical
+release notes and dated research retain their original tool versions; they do
+not establish current support requirements.
+
 ## Repository and assembly {#repository-and-assembly}
 
 The repository root is a Hugo Module and complete theme, not a site or npm
@@ -111,11 +124,9 @@ or genuine word shared by the target language. There are no generated English
 fallback blocks. `zh` and `zh-cn` carry Simplified Chinese, while `zh-tw`
 carries Traditional Chinese.
 
-On the Hugo 0.160.x compatibility floor, a non-default generic `zh` language
-key must set the concrete `locale: zh-CN` value when the regional Chinese
-catalogs are also present. Bare `locale: zh` resolves in that configuration
-from Hugo 0.161 onward. This affects language configuration, not the
-`i18n/zh.yaml` catalog name.
+The current Hugo baseline accepts `locale: zh` for the generic `zh` language
+alongside regional Chinese catalogs. A site may also select `locale: zh-CN`.
+Neither choice changes the `i18n/zh.yaml` filename.
 
 Runtime placeholders such as `%s`, `{count}`, and `{{ .Count }}` may move to a
 grammatically natural position but must remain byte-for-byte identical. Values

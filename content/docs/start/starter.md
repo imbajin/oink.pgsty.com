@@ -13,9 +13,10 @@ starting point for a new OINK site. It is deliberately smaller than
 repository, browser regression suite, or PGSTY-specific brand is copied into
 your project.
 
-As of 2026-09-20, the template pins OINK v1.0.0, Go 1.27, and Hugo
-Extended 0.165.0. Its default three-language, English-only, and English–Chinese
-profiles have all been built warning-strictly against that release.
+Use Git, Go 1.27 or newer, and Hugo Extended 0.166.0 for this workflow.
+Validate the selected language profiles with this toolchain and update older
+Starter workflow pins to match. The Hugo baseline advances with stable
+releases; older versions receive no compatibility testing or adaptation.
 
 ## What the template contains {#contents}
 
