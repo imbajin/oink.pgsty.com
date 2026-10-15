@@ -60,6 +60,12 @@ Optional IDs use ASCII letters, digits, underscores and hyphens, and become
 changes the hash. Invalid or repeated IDs warn. Large collections are split
 into authored album volumes; there is no automatic resource pagination.
 
+Explicit image IDs accept strings or YAML integers. Invalid or duplicate IDs
+warn; if the filename hash is occupied too, the fallback uses its first unused
+numeric suffix. `expo.images` must be a nonempty resource glob, and
+`params.original` must name a bundled image even when its value is false or empty.
+Strict publication rejects these diagnostics.
+
 ## Layout and controls {#layout-and-controls}
 
 Wall uses justified rows with six-pixel gaps. Seamless uses the same geometry
@@ -134,6 +140,10 @@ The Expo sequence and zoom runtime is loaded only for HTML albums with images.
 Inline Image Zoom retains its existing single-image behavior. Expo image links
 are not rewrapped by that runtime. No-JS and unsupported-dialog browsers follow
 the original image links normally.
+
+When changing images, clear the previous decoded image while the next original
+loads, and show the new grid preview at the final size. A failed original keeps
+that preview. Album prose and image headings remain separate Markdown blocks.
 
 ## Other outputs {#other-outputs}
 

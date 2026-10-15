@@ -303,9 +303,11 @@ test('Expo shows the grid preview while an original loads and warms the next ima
  await page.route(/\/large\.png$/,async route=>{await gate;await route.continue();});
  const warmed=page.waitForRequest(/\/large\.png$/);
  await open(page,'small');await warmed;
- await viewer(page).locator('[data-td-expo-next]').click();
  const image=viewer(page).locator('[data-td-expo-full]');
+ await expect.poll(()=>image.evaluate(node=>node.naturalWidth)).toBe(160);
+ await viewer(page).locator('[data-td-expo-next]').click();
  await expect(image).toHaveCSS('background-image',/url\(.+\.webp"?\)/);
+ await expect.poll(()=>image.evaluate(node=>node.naturalWidth)).toBe(0);
  release();
  await expect(image).toHaveCSS('background-image','none');
 });
@@ -315,12 +317,15 @@ test.describe('touch',()=>{
  test('Expo swipes between fitted images and leaves enlarged images to native scrolling',async({page})=>{
   await page.goto(fixture);await open(page,'small');
   const position=viewer(page).locator('[data-td-expo-position]');
-  const swipe=dx=>viewer(page).locator('[data-td-expo-stage]').evaluate((stage,dx)=>{
-   const box=stage.getBoundingClientRect(),x=box.left+box.width/2,y=box.top+box.height/2;
-   const touch=clientX=>new Touch({identifier:1,target:stage,clientX,clientY:y});
-   stage.dispatchEvent(new TouchEvent('touchstart',{touches:[touch(x)],changedTouches:[touch(x)],bubbles:true}));
-   stage.dispatchEvent(new TouchEvent('touchend',{touches:[],changedTouches:[touch(x+dx)],bubbles:true}));
-  },dx);
+  const swipe=async dx=>{
+   const stage=viewer(page).locator('[data-td-expo-stage]');
+   const box=await stage.boundingBox(),x=box.x+box.width/2,y=box.y+box.height/2;
+   const touch=clientX=>({identifier:1,clientX,clientY:y});
+   // Playwright creates native Touch objects for each engine, including WebKit
+   // where directly calling the Touch constructor is unsupported.
+   await stage.dispatchEvent('touchstart',{touches:[touch(x)],changedTouches:[touch(x)]});
+   await stage.dispatchEvent('touchend',{touches:[],changedTouches:[touch(x+dx)]});
+  };
   await swipe(-120);await expect(position).toHaveText('2 / 5');
   await swipe(120);await expect(position).toHaveText('1 / 5');
   // Short movements and the album start leave the view unchanged.
