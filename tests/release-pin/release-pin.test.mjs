@@ -1,15 +1,18 @@
 import assert from 'node:assert/strict';
 import {
+  chmodSync,
   copyFileSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const scriptSource = new URL(
@@ -155,11 +158,48 @@ test('non-browser tests never discover a stray go.work', () => {
     const source = readFileSync(new URL(relative, siteDir), 'utf8');
     assert.doesNotMatch(source, /go\.work|HUGO_MODULE_WORKSPACE/, relative);
   }
+});
 
-  const makefile = readFileSync(new URL('Makefile', siteDir), 'utf8');
-  assert.match(
-    makefile,
-    /^check:\n\tHUGO_MODULE_REPLACEMENTS=.* npm test$/m,
-    'make check must select the sibling theme explicitly',
-  );
+test('local Make targets isolate inherited workspaces and select the sibling theme', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'oink-make-env-'));
+  try {
+    const bin = join(fixture, 'bin');
+    mkdirSync(bin);
+    const probe = `#!/usr/bin/env node
+console.log(JSON.stringify({
+  go: process.env.GOWORK,
+  hugo: process.env.HUGO_MODULE_WORKSPACE,
+  replacement: process.env.HUGO_MODULE_REPLACEMENTS,
+}));
+`;
+    for (const command of ['npm', 'hugo']) {
+      writeFileSync(join(bin, command), probe);
+      chmodSync(join(bin, command), 0o755);
+    }
+    for (const target of ['check', 'browser', 'dev']) {
+      const result = spawnSync(
+        'make',
+        ['-s', '-f', fileURLToPath(new URL('Makefile', siteDir)), target],
+        {
+          cwd: fixture,
+          encoding: 'utf8',
+          env: {
+            ...process.env,
+            PATH: `${bin}:${process.env.PATH}`,
+            GOWORK: join(fixture, 'missing-go.work'),
+            HUGO_MODULE_WORKSPACE: join(fixture, 'missing-hugo.work'),
+            HUGO_MODULE_REPLACEMENTS: 'example.invalid/theme -> missing',
+          },
+        },
+      );
+      assert.equal(result.status, 0, `${target}: ${result.stderr}`);
+      assert.deepEqual(JSON.parse(result.stdout.trim()), {
+        go: 'off',
+        hugo: 'off',
+        replacement: `github.com/pgsty/oink -> ${join(realpathSync(fixture), '../oink')}`,
+      }, target);
+    }
+  } finally {
+    rmSync(fixture, { recursive: true, force: true });
+  }
 });
