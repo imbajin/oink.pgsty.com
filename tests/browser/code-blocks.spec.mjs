@@ -508,6 +508,26 @@ test('code guide surfaces meet WCAG AA in both color themes', async ({
   }
 });
 
+test('newly visible tab code is measured after fonts settle without ResizeObserver', async ({ page }) => {
+  await page.addInitScript(() => { window.ResizeObserver = undefined; });
+  await page.goto(codeFixture, { waitUntil: 'domcontentloaded' });
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
+  const set = page.locator('.td-tabs').filter({ has: page.getByRole('tab', { name: 'Plain', exact: true }) });
+  await set.getByRole('tab', { name: 'Plain', exact: true }).click();
+  const code = activePanel(set).locator('[data-td-code]');
+  await expect(code).toHaveClass(/is-collapsible/);
+  const expand = code.locator('[data-td-code-expand]');
+  await expect(expand).toBeVisible();
+  await expand.click();
+  await expect(expand).toHaveAttribute('aria-expanded', 'true');
+  await expect(code).toContainText('three');
+  await expand.click();
+  await expect(expand).toHaveAttribute('aria-expanded', 'false');
+});
+
 test('code runtimes are absent on a page without code or tabs', async ({
   page,
 }) => {

@@ -334,3 +334,43 @@ test('Mermaid keeps one mode palette across all presets with readable dark label
     expect(result.violations).toEqual([]);
   }
 });
+
+for (const prefix of ['', '/zh']) {
+  test(`${prefix || 'en'} nonmodal Appearance permits search while modal dialogs retain keys`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`${prefix}/docs/customize/config/`);
+    const search = page.locator('#td-shell-search');
+    for (const key of ['/', 'Control+k', 'Meta+k', 'f']) {
+      const { trigger, panel } = await openAppearance(page);
+      expect(await panel.evaluate(node => node.matches(':modal'))).toBe(false);
+      await trigger.focus();
+      await page.keyboard.press(key);
+      await expect(search).toBeVisible();
+      await expect(panel).toBeHidden();
+      await page.keyboard.press('Escape');
+      await expect(search).toBeHidden();
+    }
+    // A second native dialog must not be overlooked after the Appearance panel.
+    const { trigger } = await openAppearance(page);
+    await page.evaluate(() => {
+      const dialog = document.createElement('dialog');
+      dialog.id = 'test-second-dialog';
+      dialog.innerHTML = '<button>Dialog action</button>';
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    });
+    await page.keyboard.press('Control+k');
+    await expect(search).toBeHidden();
+    await page.keyboard.press('Escape');
+    await trigger.press('Escape');
+    await page.setViewportSize({ width: 390, height: 844 });
+    const { panel } = await openAppearance(page);
+    expect(await panel.evaluate(node => node.matches(':modal'))).toBe(true);
+    await panel.locator('[data-td-appearance-close]').focus();
+    for (const key of ['/', 'Control+k', 'Meta+k', 'f']) {
+      await page.keyboard.press(key);
+      await expect(search).toBeHidden();
+      await expect(panel).toBeVisible();
+    }
+  });
+}

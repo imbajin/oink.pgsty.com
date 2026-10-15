@@ -331,6 +331,13 @@ abort a handed-off operation. OINK imposes no timeout.
 default query remains local, with no remote provider or telemetry bundled.
 Any extension network behavior and provider consent belong to the site.
 
+Desktop nonmodal Appearance permits search shortcuts; mobile modal Appearance
+and every other open dialog retain keyboard ownership. In the mobile drawer,
+Escape dismisses the focused root switcher first and returns focus to its toggle;
+a second Escape closes the drawer. Focus leaving the switcher dismisses it.
+Search opened from the Landing drawer returns focus to the visible menu toggle.
+Choosing a visual preset in the Palette keeps it open for the next action.
+
 ## Share {#share}
 
 `params.ui.share` is empty by default and accepts any ordered subset of 16

@@ -221,6 +221,10 @@ only pinned URLs and commands interpolate `${version}` and `${tag}`. Before
 publication, rolling channels remain usable and pinned channels show pending.
 Markdown renders the complete channel list; RSS omits the component.
 
+Switching tabs remeasures collapsible code blocks in the newly visible panel.
+Their expand and collapse controls remain usable after fonts settle and when
+`ResizeObserver` is unavailable.
+
 ## Verification {#verification}
 
 Shared output rules live in the [architecture contract](/docs/design/architecture/);

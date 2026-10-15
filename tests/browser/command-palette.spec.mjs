@@ -319,6 +319,29 @@ test("assistant command resolves the browser URL at activation time", async ({
   expect(opened.features).toBe("noopener,noreferrer");
 });
 
+test("preset choices retain the Palette for another action", async ({ page }) => {
+  const { dialog, input } = await openPalette(page);
+  const action = await fillCommandAndWait(input, dialog, '> style', '^Style');
+  await action.click();
+  await dialog.getByRole('option', { name: /Slate/ }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-td-preset', 'slate');
+  await expect(dialog).toBeVisible();
+  await expect(input).toBeFocused();
+});
+
+test("Landing drawer search returns focus to its visible menu toggle", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const toggle = page.locator('[data-td-landing-menu-toggle]');
+  await toggle.click();
+  await page.locator('[data-td-landing-menu] [data-td-shell-search-open]').click();
+  const dialog = page.locator('#td-shell-search');
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(toggle).toBeFocused();
+});
+
 test("mobile Palette restores focus and has no WCAG AA violations", async ({
   page,
 }) => {

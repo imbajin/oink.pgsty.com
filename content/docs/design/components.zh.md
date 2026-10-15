@@ -194,6 +194,9 @@ pinned URL 与命令会插值 `${version}` 和 `${tag}`。发布前，rolling ch
 可用，pinned channel 显示 pending。Markdown 渲染完整 channel 列表；RSS 省略
 该组件。
 
+切换标签页后，重新测量新显示面板中的可折叠代码块；字体加载完成后或没有
+`ResizeObserver` 时，展开和收起控件仍须可用。
+
 ## 验证 {#verification}
 
 共享输出规则见[架构契约](/zh/docs/design/architecture/)，例外随各组件定义。

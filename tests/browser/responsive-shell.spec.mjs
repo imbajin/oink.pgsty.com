@@ -796,3 +796,30 @@ test('print gives numbered equations the full paper width', async ({ page }) => 
   expect(metrics.bodyWidth).toBeGreaterThanOrEqual(metrics.figureWidth - 1);
   expect(metrics.captionTop).toBeGreaterThanOrEqual(metrics.bodyBottom - 1);
 });
+
+for (const prefix of ['', '/zh']) {
+  test(`${prefix || 'en'} root switcher consumes only its own Escape inside the drawer`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${prefix}/docs/customize/config/`);
+    const opener = page.locator('[data-td-shell-drawer-open]:visible').first();
+    await opener.click();
+    const root = page.locator('[data-td-shell-root-toggle]');
+    const pop = page.locator('.td-shell-root__pop');
+    await root.click();
+    await expect(pop).toBeVisible();
+    await pop.locator('a').first().focus();
+    await page.keyboard.press('Escape');
+    await expect(pop).toBeHidden();
+    await expect(page.locator('html')).toHaveAttribute('data-td-shell-drawer', 'open');
+    await expect(root).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('html')).not.toHaveAttribute('data-td-shell-drawer');
+    await expect(opener).toBeFocused();
+    await opener.click();
+    await root.click();
+    await pop.locator('a').first().focus();
+    await page.locator('button[data-td-shell-drawer-close]').focus();
+    await expect(pop).toBeHidden();
+    await expect(page.locator('html')).toHaveAttribute('data-td-shell-drawer', 'open');
+  });
+}
