@@ -213,12 +213,12 @@ capabilities:
 
 content_types:
   eyebrow: Beyond docs
-  title: Seven kinds of content, one shell
+  title: Six kinds of content, one shell
   text:
     Documentation sites rarely stay documentation-only. The shapes that
     normally need a second tool share this one's shell, search and outputs.
   columns: 3
-  link_label: Read the guide
+  class: td-home-content-types
   items:
     - title: Documentation
       meta: The shell
@@ -241,13 +241,6 @@ content_types:
         Chapter numbers, `{#id num=}` figures and equations, `xref`
         cross-references, and whole-book print.
       url: docs/write/book/
-    - title: Releases and downloads
-      meta: Publishing
-      icon: fa-solid fa-download
-      desc:
-        One `data/download/*.yaml` becomes release cards, asset tables and
-        checksums. Publication state is data.
-      url: docs/write/releases/
     - title: Landing pages
       meta: Presentation
       icon: fa-solid fa-layer-group

@@ -202,10 +202,10 @@ capabilities:
 
 content_types:
   eyebrow: 不止文档
-  title: 七种内容形态，同一套外壳
+  title: 六种内容形态，同一套外壳
   text: 文档站很少只有文档。那些通常需要第二个工具的内容形态，在这里共用同一套外壳、检索与输出。
   columns: 3
-  link_label: 阅读指南
+  class: td-home-content-types
   items:
     - title: 文档
       meta: 阅读外壳
@@ -222,11 +222,6 @@ content_types:
       icon: fa-solid fa-book-open
       desc: 章节编号，图表公式用 `{#id num=}` 编号、`xref` 交叉引用，整本可打印。
       url: docs/write/book/
-    - title: 发布与下载
-      meta: 发布
-      icon: fa-solid fa-download
-      desc: 一份 `data/download/*.yaml` 生成发布卡片、资产表与校验和，发布状态是数据。
-      url: docs/write/releases/
     - title: Landing 页
       meta: 展示
       icon: fa-solid fa-layer-group

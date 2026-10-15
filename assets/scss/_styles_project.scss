@@ -72,6 +72,24 @@ ul.td-checkbox-list {
   background: var(--bs-body-bg);
 }
 
+// Home content-type cards use their existing, title-named link as the full
+// click target. The link stays focusable without a separate footer row.
+.td-home-content-types .td-landing-card {
+  position: relative;
+
+  .td-landing-card-link {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: inherit;
+
+    i {
+      display: none;
+    }
+  }
+}
+
 // -- Home: the compact case grid -------------------------------------------
 //
 // Fifteen small cards mirroring the Case library: a screenshot, the site's
