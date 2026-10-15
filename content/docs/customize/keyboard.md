@@ -109,6 +109,24 @@ some non-US layouts, and typing a `>` prefix in the palette reaches command-only
 mode just as well. What the palette holds is in
 [Command palette](/docs/customize/panel/).
 
+## Expo image viewer {#expo-viewer}
+
+The [Expo viewer](/docs/write/expo/#shortcuts) has its own
+shortcuts. Page-level single-key navigation pauses while an image is open.
+It resumes when the viewer closes.
+
+| Key | Viewer action |
+| --- | --- |
+| W / A / S / D | Move the enlarged image up / left / down / right |
+| Q or H, E or L | Previous image, next image |
+| J or −, K or + | Zoom out, zoom in |
+| R or 0 | Reset size and position |
+| F | Expand to fit the whole image in the viewing area |
+| Escape | Close the viewer |
+
+These actions apply inside the viewer. `keyboard_nav: false` disables page
+shortcuts; it does not disable the viewer controls. Expo is available in OINK 1.3.0.
+
 ## Keys deliberately left free {#reserved}
 
 {{< kbd "?" >}} is reserved and unbound. The cheatsheet hangs off the question

@@ -44,7 +44,7 @@ then replace its sample content. Write in Markdown and build with Hugo Extended;
 Hugo Modules also require Go to resolve the theme. Bundled theme assets need no
 CDN or npm build step.
 
-The local release tag is {{% param version %}}. See the
+The current release is {{% param version %}}. See the
 [1.3 release notes](/blog/release/1.3.0/) or the
 [upgrade guide](/docs/admin/upgrade/#preparing-1-3) for an existing site.
 

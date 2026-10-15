@@ -217,6 +217,22 @@ cascade:
 | `book_draft_banner` | 布尔 | 站点值（`false`） | 草稿章节正文开头加一条横幅。非布尔告警并回退 |
 {.fields meta="type default"}
 
+## Expo 相册 {#expo}
+
+OINK 1.3.0 通过 `type: expo` 选择相册布局。
+用法见 [Expo 相册](/zh/docs/write/expo/)。
+
+| 键 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `expo` | map | 站点 `params.ui.expo` | 整体替换站点配置块；缺失字段使用下列内置默认值 |
+| `expo.images` | 字符串 | `images/*` | 页面包内图片资源的匹配模式 |
+| `expo.mode` | `wall` / `cards` / `seamless` | `wall` | 读者未保存布局选择时的初始模式 |
+| `expo.size` | 整数 | `240` | 160 至 360 CSS 像素的目标尺寸；读者保存的尺寸优先 |
+{.fields meta="type default"}
+
+图片标题、说明、署名、权重、显式 ID 和独立原图使用 Hugo 原生 `resources` 元数据。
+字段示例见[图片元数据](/zh/docs/write/expo/#image-metadata)。
+
 ## Landing {#landing}
 
 指南在[首页与落地页](/zh/docs/customize/home/)。任意页面写 `layout: landing` 就用落地页外壳。

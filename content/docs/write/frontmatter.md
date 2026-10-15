@@ -250,6 +250,22 @@ a section `cascade`.
 | `book_draft_banner` | boolean | site value (`false`) | Adds a banner at the top of a draft chapter. A non-boolean warns and falls back |
 {.fields meta="type default"}
 
+## Expo albums {#expo}
+
+OINK 1.3.0 uses `type: expo` for album pages. See [Expo albums](/docs/write/expo/) for the authoring guide.
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `expo` | map | site `params.ui.expo` | Replaces the site block; absent fields use the built-in defaults below |
+| `expo.images` | string | `images/*` | Pattern for image resources in the page bundle |
+| `expo.mode` | `wall` / `cards` / `seamless` | `wall` | Initial mode when the reader has no stored choice |
+| `expo.size` | integer | `240` | Target size from 160 to 360 CSS pixels; a stored reader size takes precedence |
+{.fields meta="type default"}
+
+Image titles, captions, credits, weights, explicit IDs, and separate originals
+use native Hugo `resources` metadata. See [Image metadata](/docs/write/expo/#image-metadata)
+for the fields and an example.
+
 ## Landing {#landing}
 
 The guide is [Home and landing pages](/docs/customize/home/). Any page with

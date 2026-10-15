@@ -92,7 +92,7 @@ no_print: true
 | [提示块](/zh/docs/components/callout/) | 静态块，折叠型（`-` / `+` / `DETAILS`）全部展开；边框转灰、去底色 |
 | [标签页](/zh/docs/components/tabs/) | 标签条消失，所有面板依次展开，每个面板带自己的标题 |
 | [代码块](/zh/docs/components/code/) | 去掉复制与展开按钮，取消最大高度与滚动，长行改为自动折行 |
-| [表格](/zh/docs/components/table/) | 满宽静态表，取消横向滚动；表头在跨页时重复 |
+| [表格](/zh/docs/components/table/) | 完整静态表格；浏览器预览支持键盘滚动，打印媒体样式在纸张输出中展开区域，表头跨页重复 |
 | [图片](/zh/docs/components/image/) | 图与图注保留，缩放相关的属性被剥掉，宽度收进版心 |
 | [画廊](/zh/docs/components/gallery/) | 网格改为竖排堆叠 |
 | [文件树](/zh/docs/components/filetree/) | 静态面板，目录全部展开，分栏停在构建期宽度 |

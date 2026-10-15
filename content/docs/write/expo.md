@@ -10,9 +10,8 @@ search_keywords: [expo, album, gallery, images, GIF, wall, cards, seamless, zoom
 Expo displays image collections as albums. A sidebar groups the albums. The
 main area shows the images in the selected album. Each image opens in a viewer.
 
-> [!NOTE] OINK 1.3.0 local tag
-> Expo is included in the local v1.3.0 tag. Public module publication and
-> deployment are separate acceptance steps.
+> [!NOTE] Available in OINK 1.3.0
+> Expo is included in OINK v1.3.0.
 
 Open the [example albums](/expo/) to try the controls. Use the
 [Gallery component](/docs/components/gallery/) for an image grid inside a text page.

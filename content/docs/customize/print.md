@@ -115,7 +115,7 @@ expanded**.
 | [Callouts](/docs/components/callout/) | Static blocks, with every collapsible kind (`-` / `+` / `DETAILS`) expanded; borders go grey and backgrounds drop |
 | [Tabs](/docs/components/tabs/) | The tab bar disappears and every panel is expanded in turn, each with its own heading |
 | [Code Blocks](/docs/components/code/) | Copy and fold controls removed, max height and scrolling dropped, long lines wrapped |
-| [Tables](/docs/components/table/) | Full-width static tables with no horizontal scroll; headers repeat across pages |
+| [Tables](/docs/components/table/) | Complete static tables with a keyboard-scrollable browser preview; print-media CSS expands them for paper and headers repeat across pages |
 | [Images](/docs/components/image/) | Image and caption kept, zoom attributes stripped, width brought inside the measure |
 | [Gallery](/docs/components/gallery/) | The grid becomes a vertical stack |
 | [FileTree](/docs/components/filetree/) | A static panel with every directory expanded and the split frozen at its build-time width |

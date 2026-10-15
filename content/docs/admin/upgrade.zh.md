@@ -1,7 +1,7 @@
 ---
 title: 版本升级
 linkTitle: 版本升级
-description: 固定主题版本、准备 1.3.0 升级、迁移旧内容或 Docsy 站点，并保留回滚路径。
+description: 固定主题版本、升级到 1.3.0、迁移旧内容或 Docsy 站点，并保留回滚路径。
 weight: 50
 search_keywords: [升级, 迁移, 版本, Hugo Module, hugo mod get, oink06, Docsy, jQuery, 破坏性变更, upgrade, migration]
 aliases:
@@ -22,14 +22,13 @@ aliases:
 > Hugo workflow 固定版本，不再维护旧 Hugo 兼容性。下方旧版本章节中的要求仅说明
 > 当时的发布状态。
 
-## 准备升级到 1.3 {#preparing-1-3}
+## 升级到 1.3 {#preparing-1-3}
 
-本地 `v1.3.0` 标签新增 [Expo 相册](/zh/docs/write/expo/)，并修复导航、模态关闭和焦点。
+OINK `v1.3.0` 新增 [Expo 相册](/zh/docs/write/expo/)，并修复导航、模态关闭和焦点。
 已有 Docs、Blog、Book 内容无需批量迁移。仅在新相册分区设置 `type: expo` 及对应
 cascade，图片与原图保存在各自的叶子页面包中。
 
-标签目前仅在本地。升级生产消费站前，先发布标签，并在关闭替换和工作区的环境中
-验证公开模块解析。随后固定 `github.com/pgsty/oink@v1.3.0`，零告警构建，再检查导航、
+在关闭替换和工作区的环境中验证公开模块解析。固定 `github.com/pgsty/oink@v1.3.0`，零告警构建，再检查导航、
 图片查看器与读者设置。源码副本方式的消费站还需要刷新固定主题文件；修改 `go.mod`
 不会升级已有的 vendor 副本。
 
@@ -48,11 +47,11 @@ cascade，图片与原图保存在各自的叶子页面包中。
 ## 升级 Hugo Module {#hugo-module}
 
 生产站点固定已发布标签或主动选定的不可变 commit，不跟随分支，也不用 `@latest`。
-下面升级到已发布的 `v1.2.0` 标签；选择后续版本时，先确认已经发布且模块可以解析，
+下面升级到已发布的 `v1.3.0` 标签；选择后续版本时，先确认已经发布且模块可以解析，
 再替换示例中的版本。
 
 ```bash {title="终端"}
-hugo mod get github.com/pgsty/oink@v1.2.0   # 已发布的版本标签
+hugo mod get github.com/pgsty/oink@v1.3.0   # 已发布的版本标签
 hugo mod tidy
 hugo mod graph | grep github.com/pgsty/oink
 ```
@@ -66,7 +65,7 @@ module github.com/pgsty/oink.pgsty.com
 
 go 1.27.0
 
-require github.com/pgsty/oink v1.2.0
+require github.com/pgsty/oink v1.3.0
 ```
 
 > [!DANGER] 本地模块替换会盖掉这个固定版本
@@ -81,7 +80,7 @@ require github.com/pgsty/oink v1.2.0
 
 ```bash {title="终端"}
 git -C themes/oink fetch origin --tags
-git -C themes/oink checkout --detach v1.2.0
+git -C themes/oink checkout --detach v1.3.0
 git add themes/oink
 ```
 

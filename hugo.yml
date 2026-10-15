@@ -365,6 +365,7 @@ params:
       theme: auto
       loading: lazy
   ui:
+    preset: paper
     typography: technical
     preset_menu: [paper, slate, ink, terminal]
     # Site-wide backlinks: every page lists the pages that link to it, so the

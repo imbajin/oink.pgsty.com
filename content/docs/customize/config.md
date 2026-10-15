@@ -190,6 +190,22 @@ directory, with a cascade giving it `type: docs`.
 | `params.ui.section_index_columns` | integer | 2 | Column count when `section_index: cards` |
 {.fields meta="type default"}
 
+## Expo albums {#expo}
+
+OINK 1.3.0 adds `expo` to the default
+`shell_types` list and supports these settings:
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `params.ui.expo.images` | string | `images/*` | Pattern for image resources in the bundle |
+| `params.ui.expo.mode` | enum | `wall` | `wall`, `cards`, or `seamless` |
+| `params.ui.expo.size` | integer | `240` | Target size from 160 to 360 CSS pixels |
+{.fields meta="type default"}
+
+A page's `expo` block replaces the site block. Absent fields use built-in
+defaults. Stored reader choices override the author defaults for mode and size.
+See [Expo defaults](/docs/write/expo/#defaults) for the complete rules.
+
 ## Blog {#blog}
 
 Seven keys shape a blog section. They apply to the section named by
@@ -503,13 +519,13 @@ text) and its parameter-scan registry; the theme's CI regenerates them and
 fails on drift. Use the schema from the same release tag as your theme pin.
 
 With the VS Code YAML extension, map the site schema in your settings. This
-example matches OINK v1.2.0; replace that tag with the one in your `go.mod`.
+example matches OINK v1.3.0; replace that tag with the one in your `go.mod`.
 Both common YAML configuration filenames are covered:
 
 ```json {title=".vscode/settings.json"}
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/pgsty/oink/v1.2.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
+    "https://raw.githubusercontent.com/pgsty/oink/v1.3.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
   }
 }
 ```

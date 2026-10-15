@@ -172,6 +172,9 @@ image_zoom: true
 - 不下载远程图：构建期没有网络请求，远程图在浏览器加载前尺寸未知，可能跳版。
 - 说明不解析 Markdown：需要富文本时写在画廊下方的段落里。
 
+需要侧栏相册导航、逐图翻页与拖动缩放时，使用 OINK 1.3.0 新增的
+[Expo 布局](/zh/docs/write/expo/)。`gallery` 围栏用于文字页面中的图片组。
+
 ## 相关 {#related}
 
 - [图片](/zh/docs/components/image/) — 单张图、图注、编号、缩放开关

@@ -169,6 +169,22 @@ favicon 没有参数：主题按约定名扫描 `static/`（`favicon.ico` `favic
 | `params.ui.section_index_columns` | integer | 2 | `section_index: cards` 时的列数 |
 {.fields meta="type default"}
 
+## Expo 相册 {#expo}
+
+OINK 1.3.0 为默认 `shell_types` 列表添加了 `expo`，
+并支持以下设置：
+
+| 键 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `params.ui.expo.images` | string | `images/*` | 页面包内的图片资源匹配模式 |
+| `params.ui.expo.mode` | enum | `wall` | `wall`、`cards` 或 `seamless` |
+| `params.ui.expo.size` | integer | `240` | 160 至 360 CSS 像素的目标尺寸 |
+{.fields meta="type default"}
+
+页面 `expo` 块整体替换站点块，未给出的字段使用内置默认值。
+浏览器保存的布局与尺寸优先于作者默认值。完整规则见
+[Expo 默认值](/zh/docs/write/expo/#defaults)。
+
 ## 博客 {#blog}
 
 七个键决定博客栏目的样子。它们作用于 `params.ui.blog_section` 指定的栏目，每一个都能通过博客根目录的 front matter 或 `cascade` 按栏目覆盖。
@@ -453,13 +469,13 @@ outputs:
 与参数扫描注册表的投影；主题 CI 会重新生成并检查漂移。使用时应选择与主题固定版本
 相同标签下的 Schema。
 
-配合 VS Code YAML 扩展，在设置中映射站点 Schema。下面以 OINK v1.2.0 为例，
+配合 VS Code YAML 扩展，在设置中映射站点 Schema。下面以 OINK v1.3.0 为例，
 请将标签换成 `go.mod` 中固定的版本；两种常见 YAML 配置文件名都已覆盖：
 
 ```json {title=".vscode/settings.json"}
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/pgsty/oink/v1.2.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
+    "https://raw.githubusercontent.com/pgsty/oink/v1.3.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
   }
 }
 ```

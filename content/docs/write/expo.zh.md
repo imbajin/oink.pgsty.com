@@ -10,8 +10,8 @@ search_keywords: [expo, 相册, 画廊, 图片, GIF, 展墙, 卡片, 无缝, 缩
 Expo 用相册展示图片收藏。侧栏组织相册，主区域显示所选相册中的图片。
 点击图片即可打开查看器。
 
-> [!NOTE] OINK 1.3.0 本地标签
-> Expo 已包含在本地 v1.3.0 标签中。公开模块发布与部署另行验收。
+> [!NOTE] OINK 1.3.0 新增
+> Expo 随 OINK v1.3.0 提供。
 
 打开[示例相册](/zh/expo/)即可体验这些控件。若要在文字页面中插入图片网格，
 使用 [Gallery 组件](/zh/docs/components/gallery/)。
