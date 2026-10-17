@@ -60,22 +60,19 @@ search_keywords: [文件树, FileTree, 目录树, tree, 目录结构, 仓库结�
 
 注释列的起点在构建期算出，由最宽的一行决定，因此每行的 `#` 从同一列开始，与源码里是否对齐无关。注释列最多占面板的右半边，最少占三成。中间的虚线是分隔条，可以拖动，也可以用 <kbd>Tab</kbd> 聚焦后按方向键调整（<kbd>Home</kbd> / <kbd>End</kbd> 到两端）。
 
-过长的名称在列内用省略号截断，鼠标悬停时由 `title` 提示完整文本；注释则在
-列内自动折行展示，行高随之自适应增加，无需依赖悬停即可阅读完整内容。分隔条是
-文件树唯一的 JavaScript，只有 **带注释** 的树才加载它。（长注释自动折行在
-v1.2.0 之后引入；1.2.0 及更早版本会在单行截断并依赖悬停。）
+过长的名称与注释各自在本列内用省略号截断，鼠标悬停时由 `title` 提示完整文本。分隔条是文件树唯一的 JavaScript，只有 **带注释** 的树才加载它。
 
 ````markdown {title="源码"}
-```filetree {title="名称截断与注释自动折行"}
+```filetree {title="两列都发生截断"}
 - runbooks/
-  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # 超长的说明会在注释列内自动折行展示，行高随之自适应增加，无需依赖悬停即可阅读完整内容
+  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # 同样超长的注释，写在一行里，因此必须在注释列内截断
   - restart.md                                                    # 短名字
 ```
 ````
 
-```filetree {title="名称截断与注释自动折行"}
+```filetree {title="两列都发生截断"}
 - runbooks/
-  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # 超长的说明会在注释列内自动折行展示，行高随之自适应增加，无需依赖悬停即可阅读完整内容
+  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # 同样超长的注释，写在一行里，因此必须在注释列内截断
   - restart.md                                                    # 短名字
 ```
 
@@ -269,7 +266,7 @@ content/docs
 | Markdown | 原样输出 `filetree` 围栏 |
 | RSS | 围栏源码放进 `<pre>` |
 
-窄屏（小于 `sm` 断点）时布局收成单列：注释移到名称下方独立展示，分隔条隐藏。不带注释的树是单列，也不加载任何脚本。
+窄屏（小于 `sm` 断点）时布局收成单列：注释移到名称下方，不再截断，分隔条隐藏。不带注释的树是单列，也不加载任何脚本。
 
 ## 参数参考 {#reference}
 

@@ -10,7 +10,7 @@ LLMS index: [llms.txt](/llms.txt)
 
 > [!NOTE] Versioned history
 > Each release note records that release's requirements and validation. Current
-> development, CI, and release tests use Hugo Extended 0.166.0, with the baseline
+> development, CI, and release tests use Hugo Extended 0.168.0, with the baseline
 > advancing with stable releases. Older requirements below do not define
 > current support; follow the [toolchain contract](/docs/design/architecture/#hugo-toolchain).
 

@@ -30,8 +30,13 @@ aliases:
 已有 Hugo 站点时，按下方[接入现有站点](#existing-site)操作；已有 Docsy 站点见[版本升级](/zh/docs/admin/upgrade/)。
 
 后半部分是四种安装方式的取舍：Hugo Module、Git submodule、离线归档、固定版本源码副本。
-当前开发与验收统一使用 Go 1.27 与 Hugo Extended 0.166.0。
+当前开发与验收统一使用 Go 1.27 与 Hugo Extended 0.168.0。
 Hugo 基线随稳定版更新，不再测试或适配旧版本。
+
+> [!NOTE] 尚未发布的构建要求
+> 开发中的下一版主题还需要在 `PATH` 中安装独立的
+> [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)。
+> 已发布的 v1.3.0 模块保留原来的工具链。
 
 ## 接入现有站点 {#existing-site}
 

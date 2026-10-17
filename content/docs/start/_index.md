@@ -34,6 +34,11 @@ only neutral project content and deployment workflows.
 > from an older Starter snapshot, update its Hugo workflow pins to this baseline;
 > older Hugo compatibility is no longer maintained.
 
+> [!NOTE] Unreleased build requirements
+> Development with the next theme version also needs standalone
+> [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
+> on `PATH`. The published v1.3.0 module retains its original toolchain.
+
 ## Choose a path {#choose}
 
 | Starting point | Recommended path | Result |
@@ -46,14 +51,14 @@ only neutral project content and deployment workflows.
 
 1. ### Install the tools {#tools}
 
-   Install Git, Go 1.27 or newer, and Hugo Extended 0.166.0 or newer. The Hugo
+   Install Git, Go 1.27 or newer, and Hugo Extended 0.168.0 or newer. The Hugo
    output must contain `extended`:
 
    ```console
    $ go version
    go version go1.27.0 darwin/arm64
    $ hugo version
-   hugo v0.166.0+extended+withdeploy darwin/arm64
+   hugo v0.168.0+extended+withdeploy darwin/arm64
    ```
 
    On macOS, `brew install git go hugo` supplies them. On Linux and Windows,

@@ -209,11 +209,11 @@ and the rail disappears below the `xl` breakpoint.
 When scrolling down and the footer enters the viewport, the fixed TOC rail (`fixed`)
 shares the visible-footer offset (`--td-shell-footer-offset`) so its scrollable
 area ends neatly above the footer, keeping the lowest headings and taxonomy links
-accessible by wheel and keyboard. Collapsing or expanding the fat footer updates
-this boundary in real time. This clearance applies even when the sidebar is
+accessible by wheel and keyboard. Footer resizing and content reflow, including tabs, blog view switches and
+loaded media, update this boundary without requiring a scroll event. This clearance applies even when the sidebar is
 disabled (`sidebar_enabled: false`). With no footer the offset is zero, while
 `toc_style: flow` relies on its own sticky boundary. Mobile drawer placement and
-print visibility are unchanged. (This clearance was introduced after v1.2.0.)
+print visibility are unchanged. (Unreleased; not included in v1.3.0.)
 
 ## Search, actions, and runtime {#search-actions-and-runtime}
 

@@ -14,17 +14,27 @@ contract_status: v1.3.0
 
 ## Hugo 工具链 {#hugo-toolchain}
 
-自 2026-10-15 起，Hugo Extended **0.166.0** 是开发、CI 与发布测试的统一基线，
+> [!NOTE] 尚未发布的工具链更新
+> 以下构建要求适用于开发中的主题。已发布的 v1.3.0 模块保留原来的构建要求。
+
+自 2026-10-17 起，Hugo Extended **0.168.0** 是开发、CI 与发布测试的统一基线，
 也是当前主题声明的最低版本。基线随 Hugo 稳定版更新；升级时同步调整 workflow
 固定版本、`hugo.yaml`、`theme.toml`、站点要求、CLI 版本门禁和当前双语文档。
 
 除非用户明确要求，不运行旧 Hugo 兼容性矩阵，不为旧版本适配代码或增加兼容补丁。
 历史发布说明和带日期的研究保留当时的工具版本，不构成当前支持要求。
 
+在 `PATH` 中安装独立的 [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)，
+不需要 npm 包。主样式与 ReDoc 样式显式选择 Dart Sass，CI 校验编译器压缩包的摘要。
+Bootstrap 5.3 与公开的项目变量钩子仍共享传统导入作用域。主样式仅忽略 `import`、
+`global-builtin`、`color-functions`、`if-function` 四类已知语言弃用提示；
+Sass `@warn`、无效选择器与 Hugo 警告仍会使严格发布构建失败。
+Font Awesome 继续使用独立的预编译供应商样式表。
+
 ## 仓库与装配 {#repository-and-assembly}
 
 仓库根目录是一个完整的 Hugo 模块与主题，不是站点，也不是 npm workspace。
-Hugo Extended 负责编译 SCSS 与模板。浏览器运行时与第三方资源都已提交到仓库，
+Hugo 渲染模板，并调用独立的 Dart Sass 编译 SCSS。浏览器运行时与第三方资源都已提交到仓库，
 因此普通构建不会访问网络。公开的双语文档、示例与浏览器测试位于同级的
 `oink.pgsty.com` 仓库；主题仓库只在 `tests/site/` 中保留范围明确的内部回归
 夹具，不再维护独立的公开示例面。

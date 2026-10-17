@@ -52,7 +52,7 @@ aliases:
 | 条目 | 取值 |
 | --- | --- |
 | 主题版本 | v0.8.1 |
-| Hugo 下限 | 0.166.0 Extended |
+| Hugo 下限 | 0.168.0 Extended |
 | 许可证 | Apache-2.0 |
 {caption="本站当前使用的主题事实"}
 ```
@@ -60,7 +60,7 @@ aliases:
 | 条目 | 取值 |
 | --- | --- |
 | 主题版本 | v0.8.1 |
-| Hugo 下限 | 0.166.0 Extended |
+| Hugo 下限 | 0.168.0 Extended |
 | 许可证 | Apache-2.0 |
 {caption="本站当前使用的主题事实"}
 
@@ -109,7 +109,7 @@ aliases:
 包含长配置键、环境变量或长标识符的技术表格，若默认压在正文列宽内排版，
 容易导致标识符异常断行或描述列被极度压缩。在属性行中显式添加 `{.td-table--wide}`，
 内部表格会采用按内容最大尺寸（`width: max-content`）排版，并在超出视口时触发
-平滑横向滚动。（此标记在 v1.2.0 之后引入。）
+平滑横向滚动。（尚未发布，不包含在 v1.3.0 中。）
 
 ```markdown {title="源码"}
 | 变量 | 必填 | 默认值 | 对应配置项 | 描述 |
@@ -135,8 +135,11 @@ aliases:
 
 ### 适用边界与排版策略 {#wide-boundaries}
 
-- **普通表格 vs 技术表格**：普通叙述性表格默认使用 `width: auto`，在正文栏内优雅折行，不产生多余的横向滚动；包含长配置项或复杂标识符的技术表格才需显式声明 `.td-table--wide`。声明后，单元格自动具备 `overflow-wrap: break-word` 与 `word-break: normal`，防止标识符被突兀切断，且数据单元格带有 `max-width: 40ch` 的软性宽度约束，防止描述列无限延伸成极长单行。
-- **静态输出边界**：宽度策略仅作用于屏幕端（`@media screen`）。打印（Print）及 Markdown/RSS 等静态输出会被标为 `td-table-scroll--static`，按纸张或静态输出格式展开排版，不触发横向滚动，也不受屏幕单元格宽度约束。
+- **显式开启**：普通表格保持现有布局。只有 `.td-table--wide` 表格使用
+  `overflow-wrap: break-word`、`word-break: normal`，并以 `max-width: 40ch`
+  作为正文单元格的软宽度约束。特别长的标识符仍可换行，该约束不是固定列宽。
+- **静态输出**：此策略只作用于屏幕。Print 与 RSS 使用静态包装并保留原有布局；
+  Markdown 保留作者的 GFM 表格及属性行。该标记对 `.fields` 定义列表没有作用。
 
 ## 参数表 {#fields}
 
@@ -244,7 +247,7 @@ aliases:
 
 ## 限制与常见问题 {#limits}
 
-- 互斥规则：`.fields` 不能和 `.matrix`、`.full-width`、`.td-table--wide` 或 `num` 一起用；`num` 与 `tab` 互斥；`group`/`value` 需要 `tab`；`meta` 需要 `.fields`。
+- 互斥规则：`.fields` 不能和 `.matrix`、`.full-width` 或 `num` 一起用；`num` 与 `tab` 互斥；`group`/`value` 需要 `tab`；`meta` 需要 `.fields`。
 - 属性行必须紧贴表格：中间空一行，它就变成正文里一段可见的花括号。Markdown 格式化工具常移动这一行，把它包进 `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->`。
 - 没有合并单元格、没有排序、没有筛选：GFM 管道表格能表达的就是全部。需要合并表头的复杂表请拆成两张表或改成一张矩阵。
 - 单元格里放不下块内容：多段说明、列表、围栏要用 `fields`/`field` shortcode。

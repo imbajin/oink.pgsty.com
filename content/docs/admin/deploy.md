@@ -19,6 +19,12 @@ version, publish `public/`, and keep `baseURL` matching the final address.
 The prerequisite is a warning-free
 [production build](/docs/admin/preview/#production-build) locally.
 
+> [!NOTE] Unreleased toolchain update
+> Before building the development theme, install standalone Dart Sass 1.105.2
+> on the build host and expose its `sass` executable on `PATH`. This applies to
+> GitHub Actions, Cloudflare Pages, Netlify, and self-hosted builds alike.
+> The published v1.3.0 module retains its original toolchain.
+
 ## Getting baseURL right {#baseurl}
 `baseURL` is the commonest source of failure, and it fails quietly: the page
 opens, but the search index 404s, page action links point at the wrong place,
@@ -85,7 +91,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: 0.166.0
+  HUGO_VERSION: 0.168.0
   # a workspace from a sibling checkout must never take part in a CI build
   GOWORK: off
   HUGO_MODULE_WORKSPACE: off
@@ -117,6 +123,17 @@ jobs:
             --output "${RUNNER_TEMP}/hugo.deb" \
             "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
           sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
+
+      - name: Install Dart Sass 1.105.2
+        shell: bash
+        run: |
+          sass_archive="$RUNNER_TEMP/dart-sass-1.105.2-linux-x64.tar.gz"
+          curl --fail --location --silent --show-error \
+            --output "$sass_archive" \
+            https://github.com/sass/dart-sass/releases/download/1.105.2/dart-sass-1.105.2-linux-x64.tar.gz
+          echo "a530ee08d5792c80bdb9d9614b45fb58219c890cb42a280a80775f0af9c29582  $sass_archive" | sha256sum --check
+          tar --extract --gzip --file "$sass_archive" --directory "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/dart-sass" >> "$GITHUB_PATH"
 
       - name: Download OINK
         run: go mod download github.com/pgsty/oink
@@ -178,13 +195,13 @@ same `public/` artifact to a Cloudflare Pages project.
    `CLOUDFLARE_SITE_URL` when a custom domain becomes production.
 {.steps}
 
-The workflow pins Hugo Extended 0.166.0, reads Go from `go.mod`, disables local
+The workflow pins Hugo Extended 0.168.0, reads Go from `go.mod`, disables local
 module workspaces, and builds with `--panicOnWarning` before upload. It is the
 recommended reproducible path for Starter users.
 
 Cloudflare Git integration remains valid as a separate mode: configure build
 command `hugo --gc --minify --printPathWarnings --panicOnWarning`, output
-directory `public`, Hugo `0.166.0`, and Go `1.27`. Use Git integration **or**
+directory `public`, Hugo `0.168.0`, and Go `1.27`. Use Git integration **or**
 the Direct Upload workflow for one project, not both. A preview deployment is
 still not production proof; rebuild with its own URL and keep it unindexed.
 
@@ -201,7 +218,7 @@ command = "hugo --gc --minify --printPathWarnings --panicOnWarning"
 publish = "public"
 
 [build.environment]
-HUGO_VERSION = "0.166.0"
+HUGO_VERSION = "0.168.0"
 ```
 
 With the theme as a submodule, enable recursive submodule checkout; with a Hugo

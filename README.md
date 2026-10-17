@@ -28,7 +28,8 @@ project-specific configuration.
 
 ## Local development
 
-Use Hugo Extended 0.166.0 for development and validation. The baseline advances
+Use Hugo Extended 0.168.0 and standalone Dart Sass 1.105.2 on `PATH` for
+development and validation of the unreleased theme. The baseline advances
 with stable Hugo releases; older versions receive no compatibility testing or
 adaptation. See the [architecture contract](content/docs/design/architecture.md#hugo-toolchain).
 

@@ -20,10 +20,15 @@ An upgrade changes rendered output. Create an upgrade branch before starting,
 and the cost of backing out is discarding a branch.
 
 > [!IMPORTANT] Current Hugo baseline
-> Since 2026-10-15, use Hugo Extended 0.166.0 for development and validation.
+> Since 2026-10-17, use Hugo Extended 0.168.0 for development and validation.
 > Update Hugo workflow pins when upgrading; older-Hugo compatibility is no
 > longer maintained. Version requirements in the older release sections below
 > describe those releases only.
+
+> [!NOTE] Unreleased build requirements
+> Development with the next theme version also needs standalone
+> [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
+> on `PATH`. The published v1.3.0 module retains its original toolchain.
 
 ## Upgrade to 1.3 {#preparing-1-3}
 
@@ -131,7 +136,7 @@ and anywhere the site customized something.
 
 No source migration was required from 1.0.0 to 1.1.0. Its Go 1.27.0 module
 directive was unchanged from 1.0.0. Validate current upgrades with Hugo Extended
-0.166.0. Historical toolchain details remain in the [1.1 release note](/blog/release/1.1.0/).
+0.168.0. Historical toolchain details remain in the [1.1 release note](/blog/release/1.1.0/).
 
 Review the affected surfaces before choosing the new pin:
 
@@ -184,7 +189,7 @@ the [sidebar contract](/docs/design/shell/#sidebar-runtime),
 
 OINK 1.2.0 is available as a published tag. Apart from the default appearance
 change above, no content migration is required. Validate current upgrades with
-Hugo Extended 0.166.0, then verify the site:
+Hugo Extended 0.168.0, then verify the site:
 
 - Check the chosen preset, light/dark icons, keyboard and mobile menus, saved
   preferences, and custom font/accent overrides. Sun means light; moon means

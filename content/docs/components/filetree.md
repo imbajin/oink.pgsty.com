@@ -73,25 +73,21 @@ tenths. The dashed rule between them is a splitter you can drag, or focus with
 <kbd>Tab</kbd> and move with the arrow keys (<kbd>Home</kbd> / <kbd>End</kbd> go
 to the extremes).
 
-Overlong names are truncated with an ellipsis inside their column, and hovering
-shows the full filename through `title`. Long comments wrap within the comment
-column, and the row grows to fit the description so text can be read directly
-without requiring hover. The splitter is the file tree's only JavaScript, and
-only a tree **with comments** loads it. (Comment wrapping was introduced after
-v1.2.0; in v1.2.0 and earlier, comments were clipped to a single line with an
-ellipsis.)
+Overlong names and comments are truncated with an ellipsis inside their own
+column, and hovering shows the full text through `title`. The splitter is the
+file tree's only JavaScript, and only a tree **with comments** loads it.
 
 ````markdown {title="Source"}
-```filetree {title="Name truncation and comment wrapping"}
+```filetree {title="truncation in both columns"}
 - runbooks/
-  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # overlong comments wrap naturally across multiple lines within their column so descriptions remain readable without hover
+  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # an equally overlong comment, kept on one line so it has to be clipped inside the comment column
   - restart.md                                                    # short
 ```
 ````
 
-```filetree {title="Name truncation and comment wrapping"}
+```filetree {title="truncation in both columns"}
 - runbooks/
-  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # overlong comments wrap naturally across multiple lines within their column so descriptions remain readable without hover
+  - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # an equally overlong comment, kept on one line so it has to be clipped inside the comment column
   - restart.md                                                    # short
 ```
 
@@ -305,8 +301,8 @@ A fence carrying `tab=` (and `group=` / `value=`) becomes one panel of a
 | RSS | The fence source inside a `<pre>` |
 
 Below the `sm` breakpoint the layout collapses to a single column: comments move
-under the name, and the splitter is hidden. A tree without comments is
-single-column and loads no script at all.
+under the name, stop being truncated, and the splitter is hidden. A tree without
+comments is single-column and loads no script at all.
 
 ## Parameter reference {#reference}
 

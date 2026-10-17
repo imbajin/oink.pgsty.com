@@ -60,7 +60,7 @@ number the table.
 | Item | Value |
 | --- | --- |
 | Theme version | v0.8.1 |
-| Hugo floor | 0.166.0 Extended |
+| Hugo floor | 0.168.0 Extended |
 | Licence | Apache-2.0 |
 {caption="Theme facts this site currently builds against"}
 ```
@@ -68,7 +68,7 @@ number the table.
 | Item | Value |
 | --- | --- |
 | Theme version | v0.8.1 |
-| Hugo floor | 0.166.0 Extended |
+| Hugo floor | 0.168.0 Extended |
 | Licence | Apache-2.0 |
 {caption="Theme facts this site currently builds against"}
 
@@ -123,8 +123,7 @@ Technical tables containing long configuration keys, environment variables, or
 identifiers can produce awkward token breaks and very tall rows when forced into
 the reading column. Adding `{.td-table--wide}` to the attribute line opts the
 inner table into natural intrinsic sizing (`width: max-content`), scrolling
-horizontally within its wrapper when it exceeds the available space. (This marker
-was introduced after v1.2.0.)
+horizontally within its wrapper when it exceeds the available space. (Unreleased; not included in v1.3.0.)
 
 ```markdown {title="Source"}
 | Variable | Required | Default | Configuration key | Description |
@@ -155,14 +154,13 @@ was introduced after v1.2.0.)
 
 ### Applicability boundaries {#wide-boundaries}
 
-- **Ordinary vs technical tables**: Ordinary prose tables default to `width: auto`
-  to fit the reading column before introducing scrolling. Technical tables with
-  long identifiers opt in with `.td-table--wide`. Cells use `overflow-wrap: break-word`
-  and `word-break: normal` to protect tokens, while body cells have a soft
-  `max-width: 40ch` bound so descriptions do not stretch into one enormous line.
-- **Static outputs**: The width policy applies only on screen (`@media screen`).
-  Print, Markdown, and RSS outputs are marked `td-table-scroll--static`, laying
-  out across page width without horizontal scrolling or screen-only cell width caps.
+- **Explicit opt-in**: Ordinary tables keep their existing layout. Only tables
+  marked `.td-table--wide` use `overflow-wrap: break-word`, `word-break: normal`,
+  and a soft `max-width: 40ch` body-cell bound. Very long tokens may still wrap;
+  the bound is not a fixed column width.
+- **Static outputs**: This policy applies only on screen. Print and RSS use
+  static wrappers and retain their existing layout; Markdown preserves the authored
+  GFM table and attribute line. The marker has no effect on `.fields` definition lists.
 
 ## Field lists {#fields}
 
@@ -281,8 +279,7 @@ the warning.
 
 ## Limits {#limits}
 
-- Mutual exclusions: `.fields` cannot combine with `.matrix`, `.full-width`,
-  `.td-table--wide` or `num`; `num` and `tab` are exclusive; `group`/`value` require
+- Mutual exclusions: `.fields` cannot combine with `.matrix`, `.full-width` or `num`; `num` and `tab` are exclusive; `group`/`value` require
   `tab`; `meta` requires `.fields`.
 - The attribute line must touch the table: leave a blank line and it becomes a
   visible line of braces. Markdown formatters like to move it — wrap it in
