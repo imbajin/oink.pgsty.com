@@ -4,6 +4,7 @@ const blogPath = '/zh/blog/';
 const blogSections = ['release', 'oink'];
 const blogArticles = {
   release: [
+    '1.3.1',
     '1.3.0',
     '1.2.0',
     '1.1.0',

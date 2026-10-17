@@ -15,10 +15,15 @@ GitHub template: it pins a published OINK release, builds as-is, and contains
 only neutral project content and deployment workflows.
 
 > [!IMPORTANT] Current Hugo baseline
-> Development, CI, and release tests use Hugo Extended 0.166.0
+> Development, CI, and release tests use Hugo Extended 0.168.0
 > and Go 1.27. The Hugo baseline advances with stable releases. When starting
 > from an older Starter snapshot, update its Hugo workflow pins to this baseline;
 > older Hugo compatibility is no longer maintained.
+
+> [!NOTE] OINK 1.3.1 build requirements
+> OINK 1.3.1 also needs standalone
+> [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
+> on `PATH`. Install the compiler before upgrading from v1.3.0.
 
 ## Choose a path {#choose}
 
@@ -32,14 +37,14 @@ only neutral project content and deployment workflows.
 
 1. ### Install the tools {#tools}
 
-   Install Git, Go 1.27 or newer, and Hugo Extended 0.166.0 or newer. The Hugo
+   Install Git, Go 1.27 or newer, and Hugo Extended 0.168.0 or newer. The Hugo
    output must contain `extended`:
 
    ```console
    $ go version
-   go version go1.27.0 darwin/arm64
+   go version go1.27.2 darwin/arm64
    $ hugo version
-   hugo v0.166.0+extended+withdeploy darwin/arm64
+   hugo v0.168.0+extended+withdeploy darwin/arm64
    ```
 
    On macOS, `brew install git go hugo` supplies them. On Linux and Windows,

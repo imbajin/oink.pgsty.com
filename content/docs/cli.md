@@ -51,8 +51,8 @@ make build
 ```
 
 Replace `../my-docs` with an existing site. Site operations require Hugo
-Extended 0.166.0 or later; the fixed Starter's module workflow needs Go 1.27
-or later. Development and validation use Hugo Extended 0.166.0, with the
+Extended 0.168.0 or later; the fixed Starter's module workflow needs Go 1.27
+or later. Development and validation use Hugo Extended 0.168.0, with the
 baseline advancing with stable releases. Older Hugo compatibility is no
 longer maintained.
 

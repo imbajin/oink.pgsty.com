@@ -5,26 +5,38 @@ description: 仓库装配、配置、诊断、本地化、输出、性能、安�
 weight: 10
 icon: fa-solid fa-sitemap
 search_keywords: [OINK 架构, 仓库边界, 运行时, i18n, Docsy 语言, 输出格式, 安全, 无障碍, 性能]
-contract_status: v1.3.0
+contract_status: v1.3.1
 ---
 
-> [!NOTE] OINK 1.3.0 契约
-> 本契约描述 OINK v1.3.0。主题开发使用同级 checkout；发布验收在关闭替换与
+> [!NOTE] OINK 1.3.1 契约
+> 本契约描述 OINK v1.3.1。主题开发使用同级 checkout；发布验收在关闭替换与
 > 工作区后验证公开模块。消费站升级与部署分别检查。
 
 ## Hugo 工具链 {#hugo-toolchain}
 
-自 2026-10-15 起，Hugo Extended **0.166.0** 是开发、CI 与发布测试的统一基线，
-也是当前主题声明的最低版本。基线随 Hugo 稳定版更新；升级时同步调整 workflow
-固定版本、`hugo.yaml`、`theme.toml`、站点要求、CLI 版本门禁和当前双语文档。
+> [!NOTE] OINK 1.3.1 工具链
+> 以下构建要求适用于 OINK 1.3.1。从 v1.3.0 升级前，先安装独立 Sass 编译器。
+
+截至 2026-10-17，经过验证的开发与发布工具链为 **Go 1.27.2** 和
+**Hugo Extended 0.168.0**。CI 自动跟随 Go 和 Hugo 的最新稳定版，并记录实际版本。
+这些默认值不是精确版本锁定：模块声明的最低版本仍为 Go 1.27.0 与 Hugo Extended
+0.168.0，不设版本上限。提高 Hugo 最低版本时，同步调整 `hugo.yaml`、`theme.toml`、
+站点要求、CLI 版本门禁和当前双语文档。
 
 除非用户明确要求，不运行旧 Hugo 兼容性矩阵，不为旧版本适配代码或增加兼容补丁。
 历史发布说明和带日期的研究保留当时的工具版本，不构成当前支持要求。
 
+在 `PATH` 中安装独立的 [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)，
+不需要 npm 包。主样式与 ReDoc 样式显式选择 Dart Sass，CI 校验编译器压缩包的摘要。
+Bootstrap 5.3 与公开的项目变量钩子仍共享传统导入作用域。主样式仅忽略 `import`、
+`global-builtin`、`color-functions`、`if-function` 四类已知语言弃用提示；
+Sass `@warn`、无效选择器与 Hugo 警告仍会使严格发布构建失败。
+Font Awesome 继续使用独立的预编译供应商样式表。
+
 ## 仓库与装配 {#repository-and-assembly}
 
 仓库根目录是一个完整的 Hugo 模块与主题，不是站点，也不是 npm workspace。
-Hugo Extended 负责编译 SCSS 与模板。浏览器运行时与第三方资源都已提交到仓库，
+Hugo 渲染模板，并调用独立的 Dart Sass 编译 SCSS。浏览器运行时与第三方资源都已提交到仓库，
 因此普通构建不会访问网络。公开的双语文档、示例与浏览器测试位于同级的
 `oink.pgsty.com` 仓库；主题仓库只在 `tests/site/` 中保留范围明确的内部回归
 夹具，不再维护独立的公开示例面。

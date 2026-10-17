@@ -15,6 +15,11 @@ OINK 站点的产物是一个纯静态目录，任何能托管静态文件的地
 
 前提是本机已经能完成零告警的[生产构建](/zh/docs/admin/preview/#production-build)。
 
+> [!NOTE] OINK 1.3.1 工具链
+> 构建开发中的主题前，需要在构建主机安装独立的 Dart Sass 1.105.2，
+> 并把 `sass` 可执行文件加入 `PATH`。GitHub Actions、Cloudflare Pages、
+> Netlify 与自托管构建都需要这一准备。从 v1.3.0 升级前，请先安装编译器。
+
 ## 确定 baseURL {#baseurl}
 `baseURL` 是最常见的故障源，失败方式也隐蔽：页面能打开，但搜索索引 404、页面操作链接指向错误位置、部分资源加载失败。
 
@@ -70,7 +75,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: 0.166.0
+  GO_VERSION: stable
+  HUGO_VERSION: latest
   # 同级 checkout 的 workspace 绝不能参与 CI 构建
   GOWORK: off
   HUGO_MODULE_WORKSPACE: off
@@ -89,7 +95,8 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version-file: go.mod
+          go-version: ${{ env.GO_VERSION }}
+          check-latest: true
           cache-dependency-path: go.sum
 
       - name: Configure GitHub Pages
@@ -97,11 +104,27 @@ jobs:
         uses: actions/configure-pages@v6
 
       - name: Install Hugo Extended
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Install Dart Sass 1.105.2
+        shell: bash
         run: |
+          sass_archive="$RUNNER_TEMP/dart-sass-1.105.2-linux-x64.tar.gz"
           curl --fail --location --silent --show-error \
-            --output "${RUNNER_TEMP}/hugo.deb" \
-            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
-          sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
+            --output "$sass_archive" \
+            https://github.com/sass/dart-sass/releases/download/1.105.2/dart-sass-1.105.2-linux-x64.tar.gz
+          echo "a530ee08d5792c80bdb9d9614b45fb58219c890cb42a280a80775f0af9c29582  $sass_archive" | sha256sum --check
+          tar --extract --gzip --file "$sass_archive" --directory "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/dart-sass" >> "$GITHUB_PATH"
+
+      - name: Record build tool versions
+        run: |
+          go version
+          hugo version
+          sass --version
 
       - name: Download OINK
         run: go mod download github.com/pgsty/oink
@@ -161,12 +184,12 @@ Pages 项目。
    `CLOUDFLARE_SITE_URL`。
 {.steps}
 
-workflow 固定 Hugo Extended 0.166.0，从 `go.mod` 读取 Go 版本，关闭本地模块
+workflow 固定 Hugo Extended 0.168.0，从 `go.mod` 读取 Go 版本，关闭本地模块
 workspace，并在上传前用 `--panicOnWarning` 构建。这是 Starter 用户最可复现的推荐路径。
 
 Cloudflare Git integration 仍然是另一种有效模式：构建命令设为
 `hugo --gc --minify --printPathWarnings --panicOnWarning`，输出目录 `public`，Hugo
-固定 `0.166.0`，Go 固定 `1.27`。同一个项目只用 Git integration 或 Direct Upload
+固定 `0.168.0`，Go 固定 `1.27`。同一个项目只用 Git integration 或 Direct Upload
 workflow 其中一种。预览部署仍不等于生产证明；它要按自己的 URL 重建并保持不收录。
 
 {{< /tab >}}
@@ -180,7 +203,7 @@ command = "hugo --gc --minify --printPathWarnings --panicOnWarning"
 publish = "public"
 
 [build.environment]
-HUGO_VERSION = "0.166.0"
+HUGO_VERSION = "0.168.0"
 ```
 
 用 submodule 安装主题就打开递归 submodule 检出；用 Hugo Module 就要求构建环境有 Git 和 Go。生产与预览应使用同一个 Hugo 版本，除非预览环境本来就是用来测升级的。

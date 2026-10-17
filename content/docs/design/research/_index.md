@@ -15,7 +15,7 @@ design_status: active
 > [!NOTE] Evidence, not a contract
 > Research records what was measured, with which inputs and tool versions.
 > Results may explain a decision, but they do not override the current
-> contracts or implementation. Current validation uses Hugo Extended 0.166.0
+> contracts or implementation. Current validation uses Hugo Extended 0.168.0
 > and follows the [toolchain contract](/docs/design/architecture/#hugo-toolchain).
 > Older versions recorded here are historical evidence, not compatibility test targets.
 

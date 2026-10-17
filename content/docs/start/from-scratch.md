@@ -32,8 +32,13 @@ below. For an existing Docsy site, see [Upgrade](/docs/admin/upgrade/).
 
 The second half weighs four install methods: Hugo Module, Git submodule,
 offline archive, and pinned source copy. Current development and validation use
-Go 1.27 and Hugo Extended 0.166.0. The Hugo baseline advances with stable
+Go 1.27 and Hugo Extended 0.168.0. The Hugo baseline advances with stable
 releases; older-Hugo compatibility testing and adaptation are discontinued.
+
+> [!NOTE] OINK 1.3.1 build requirements
+> OINK 1.3.1 also needs standalone
+> [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
+> on `PATH`. Install the compiler before upgrading from v1.3.0.
 
 ## Add OINK to an existing site {#existing-site}
 

@@ -29,12 +29,12 @@ images, field entries whose body is several paragraphs of Markdown.
 
 ## Build with Hugo {#hugo-only}
 
-Hugo Extended 0.166.0 or newer compiles the site's assets. SCSS is compiled by
-Hugo's embedded Sass transpiler; the theme never invokes `postCSS` and needs
+Hugo Extended 0.168.0 or newer compiles the site's assets. SCSS is compiled with
+standalone Dart Sass 1.105.2 on `PATH`; the theme never invokes `postCSS` and needs
 neither npm nor webpack. Installing the theme as a Hugo Module also needs Go
 and access to the module dependencies, either over the network or from a local
-cache. With an offline archive or a submodule already prepared, Hugo is enough
-to build the site.
+cache. With an offline archive or a submodule already prepared, Hugo and Dart
+Sass build the site without Go.
 
 The interface runs JavaScript in the browser: search, the command palette,
 diagrams and tabs are page scripts. Those scripts ship with the theme and are
