@@ -19,11 +19,13 @@ contract_status: v1.3.1
 > These requirements apply to OINK 1.3.1. Install the standalone Sass compiler
 > before upgrading from v1.3.0.
 
-As of 2026-10-17, Hugo Extended **0.168.0** is the single development, CI, and
-release-test baseline and the current theme's declared minimum. Advance this
-baseline with stable Hugo releases. Update workflow pins, `hugo.yaml`,
-`theme.toml`, site requirements, the CLI version gate, and current bilingual
-documentation together.
+As of 2026-10-17, the tested development and release toolchain is **Go 1.27.2**
+and **Hugo Extended 0.168.0**. CI automatically follows the latest stable Go
+and Hugo releases and records the versions used. These defaults do not lock
+consumers to an exact version: the module declares Go 1.27.0 and Hugo Extended
+0.168.0 as minimums, with no upper version limit. When raising the Hugo minimum,
+update `hugo.yaml`, `theme.toml`, site requirements, the CLI version gate, and
+current bilingual documentation together.
 
 Install standalone [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
 on `PATH`; the npm package is not required. Main and ReDoc styles select the

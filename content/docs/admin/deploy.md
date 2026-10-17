@@ -91,7 +91,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: 0.168.0
+  GO_VERSION: stable
+  HUGO_VERSION: latest
   # a workspace from a sibling checkout must never take part in a CI build
   GOWORK: off
   HUGO_MODULE_WORKSPACE: off
@@ -110,7 +111,8 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version-file: go.mod
+          go-version: ${{ env.GO_VERSION }}
+          check-latest: true
           cache-dependency-path: go.sum
 
       - name: Configure GitHub Pages
@@ -118,11 +120,10 @@ jobs:
         uses: actions/configure-pages@v6
 
       - name: Install Hugo Extended
-        run: |
-          curl --fail --location --silent --show-error \
-            --output "${RUNNER_TEMP}/hugo.deb" \
-            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
-          sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
 
       - name: Install Dart Sass 1.105.2
         shell: bash
@@ -134,6 +135,12 @@ jobs:
           echo "a530ee08d5792c80bdb9d9614b45fb58219c890cb42a280a80775f0af9c29582  $sass_archive" | sha256sum --check
           tar --extract --gzip --file "$sass_archive" --directory "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/dart-sass" >> "$GITHUB_PATH"
+
+      - name: Record build tool versions
+        run: |
+          go version
+          hugo version
+          sass --version
 
       - name: Download OINK
         run: go mod download github.com/pgsty/oink

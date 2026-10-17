@@ -28,10 +28,11 @@ project-specific configuration.
 
 ## Local development
 
-Use Hugo Extended 0.168.0 and standalone Dart Sass 1.105.2 on `PATH` for
-OINK 1.3.1 development and validation. The baseline advances
-with stable Hugo releases; older versions receive no compatibility testing or
-adaptation. See the [architecture contract](content/docs/design/architecture.md#hugo-toolchain).
+The tested OINK 1.3.1 toolchain is Go 1.27.2, Hugo Extended 0.168.0, and
+standalone Dart Sass 1.105.2 on `PATH`. CI automatically follows the latest
+stable Go and Hugo releases and records the resolved versions. These defaults
+do not lock consumers to an exact version; older Hugo versions receive no
+compatibility testing or adaptation. See the [architecture contract](content/docs/design/architecture.md#hugo-toolchain).
 
 For theme development, clone both repositories as siblings:
 

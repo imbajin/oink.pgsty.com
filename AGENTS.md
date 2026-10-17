@@ -79,14 +79,16 @@ themselves; use the Make targets for local theme acceptance. The local `check`,
 do not clear inherited replacements or workspaces; use the published-pin
 commands below to establish release identity. Node >= 24 and npm >= 11.16.0
 are contributor test dependencies, not ordinary Hugo consumer requirements.
-As of 2026-10-17, development, CI, and release tests use Hugo Extended 0.168.0
-as their single baseline. Advance it with stable Hugo releases and update CI
-pins, declared requirements, checkers, and current bilingual documentation
-together. Do not test or adapt for older Hugo versions or add compatibility
-shims unless the user explicitly requests it. Historical release/research
-records do not establish current support requirements. SCSS builds use standalone Dart Sass 1.105.2 on `PATH`. CI also pins Go 1.27.0
-and Node 24. Test overlays such as `tests/fixtures/browser.yml` do not change
-the single-root-config rule for the production site.
+As of 2026-10-17, the tested development and release toolchain is Go 1.27.2
+and Hugo Extended 0.168.0. CI automatically follows the latest stable Go and
+Hugo releases and records their actual versions. Go 1.27.0 and Hugo 0.168.0
+remain minimums, not exact-version locks. Update declared requirements,
+checkers, and current bilingual documentation together when raising a minimum.
+Do not test or adapt for older Hugo versions or add compatibility shims unless
+the user explicitly requests it. Historical release/research records do not
+establish current support requirements. SCSS builds use standalone Dart Sass
+1.105.2 on `PATH`; CI also uses Node 24. Test overlays such as
+`tests/fixtures/browser.yml` do not change the single-root-config rule for the production site.
 
 For published-pin acceptance, disable environment replacements and both
 workspace mechanisms, verify advertised/pinned versions, and build strictly:

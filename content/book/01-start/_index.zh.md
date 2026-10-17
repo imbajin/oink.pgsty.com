@@ -27,7 +27,7 @@ weight: 10
 
 ```console
 $ go version
-go version go1.27.0 darwin/arm64
+go version go1.27.2 darwin/arm64
 $ hugo version
 hugo v0.168.0+extended+withdeploy darwin/arm64
 ```
