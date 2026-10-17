@@ -5,11 +5,11 @@ description: The maintainer contract for OINK authoring primitives, validation, 
 weight: 20
 icon: fa-solid fa-cubes-stacked
 search_keywords: [OINK component contract, shortcode API, Markdown components, Book, release, validation]
-contract_status: v1.3.0
+contract_status: v1.3.1
 ---
 
-> [!NOTE] OINK 1.3.0 contract
-> This contract describes OINK v1.3.0. Theme development uses the sibling
+> [!NOTE] OINK 1.3.1 contract
+> This contract describes OINK v1.3.1. Theme development uses the sibling
 > checkout; release acceptance verifies the published module with replacements
 > and workspaces disabled. Consumer adoption and deployment have their own checks.
 
@@ -131,8 +131,7 @@ and `word-break: normal`. Body cells have a soft `max-width: 40ch` bound so pros
 wraps. Ordinary tables retain their existing layout. The modifier has no effect
 on `.fields`, which renders a definition list, or on static and print output.
 `.fields` cannot combine with matrix, full-width, numbering, or tabs; numbering
-and tabs are also mutually exclusive. This width modifier is unreleased and
-is not included in v1.3.0.
+and tabs are also mutually exclusive. This width modifier is available in OINK 1.3.1.
 
 ### Images, Gallery, FileTree, and fences {#images-gallery-filetree-and-fences}
 
@@ -163,8 +162,15 @@ Opening another editor starts a fresh session.
 
 Gallery accepts one Markdown image per line with optional description, link,
 and class. FileTree accepts indentation, `- name`, optional `/`, comments, and
-validated icon/tone/open/type attributes. Markdown preserves authored source;
-print renders expanded static figures and trees.
+validated icon/tone/open/type attributes. FileTree fence `wrap` accepts `true`
+or `false`, defaults to `false`, and changes only screen comment layout: `true`
+wraps comments, including unbroken tokens, while rows grow from their existing
+minimum height. Filenames retain ellipsis. Missing or false values preserve
+compact desktop/tablet rows; mobile stacking, divider controls, directory
+folding, and expanded Print output keep their existing behavior. Invalid values
+warn and fall back to false; strict publishing rejects the warning. Markdown
+preserves explicit wrap values and tree source; Print renders expanded static
+figures and trees.
 
 All code highlighting uses Chroma. Common fence attributes include `title`,
 `copy`, `wrap`, `collapse`, `label`, `id`, line options, tabs, and Book
@@ -181,7 +187,7 @@ via `--markmap-text-color`, dynamically adapting to light/dark mode changes,
 style presets, and restored user preferences to maintain contrast. Printing
 retains Markmap's default dark text on the white canvas. This mapping is scoped
 to article content across both the wrapper and generated SVG, and can still be
-overridden by site CSS of equal specificity or SVG inline tokens. (Unreleased; not included in v1.3.0.)
+overridden by site CSS of equal specificity or SVG inline tokens. (Added in OINK 1.3.1.)
 
 Mathematics uses Hugo's build-time KaTeX output and local CSS, without a browser
 math runtime. HTML and Print use the vendored stylesheet and preserve MathML

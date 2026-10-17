@@ -18,10 +18,10 @@ Validate the selected language profiles with this toolchain and update older
 Starter workflow pins to match. The Hugo baseline advances with stable
 releases; older versions receive no compatibility testing or adaptation.
 
-> [!NOTE] Unreleased build requirements
-> Development with the next theme version also needs standalone
+> [!NOTE] OINK 1.3.1 build requirements
+> OINK 1.3.1 also needs standalone
 > [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
-> on `PATH`. The published v1.3.0 module retains its original toolchain.
+> on `PATH`. Install the compiler before upgrading from v1.3.0.
 
 ## What the template contains {#contents}
 

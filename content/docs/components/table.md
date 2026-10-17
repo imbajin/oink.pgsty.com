@@ -123,7 +123,7 @@ Technical tables containing long configuration keys, environment variables, or
 identifiers can produce awkward token breaks and very tall rows when forced into
 the reading column. Adding `{.td-table--wide}` to the attribute line opts the
 inner table into natural intrinsic sizing (`width: max-content`), scrolling
-horizontally within its wrapper when it exceeds the available space. (Unreleased; not included in v1.3.0.)
+horizontally within its wrapper when it exceeds the available space. (Added in OINK 1.3.1.)
 
 ```markdown {title="Source"}
 | Variable | Required | Default | Configuration key | Description |

@@ -73,8 +73,8 @@ tenths. The dashed rule between them is a splitter you can drag, or focus with
 <kbd>Tab</kbd> and move with the arrow keys (<kbd>Home</kbd> / <kbd>End</kbd> go
 to the extremes).
 
-Overlong names and comments are truncated with an ellipsis inside their own
-column, and hovering shows the full text through `title`. The splitter is the
+By default (`wrap=false`), overlong names and comments are truncated with an
+ellipsis inside their own column; hovering shows the full text through `title`. The splitter is the
 file tree's only JavaScript, and only a tree **with comments** loads it.
 
 ````markdown {title="Source"}
@@ -90,6 +90,32 @@ file tree's only JavaScript, and only a tree **with comments** loads it.
   - a-deliberately-long-runbook-filename-for-a-failover-drill.md  # an equally overlong comment, kept on one line so it has to be clipped inside the comment column
   - restart.md                                                    # short
 ```
+
+## Wrapping long comments {#wrap}
+
+Set `wrap=true` on a tree when complete annotations matter more than compact
+rows. Comments wrap inside their column, including long identifiers without
+spaces, and each row grows to fit. Filenames keep their existing ellipsis.
+The divider still controls the split, and folding still uses native `<details>`.
+Omitting `wrap`, or setting `wrap=false`, keeps the existing compact layout.
+
+````markdown {title="Source"}
+```filetree {title="Complete storage comments" wrap=true}
+- storage/
+  - metadata/ # Schema definitions: property keys, vertex and edge labels, indexes, and counters.
+  - graph/    # Graph data: vertices, edges, index tables, and OLAP analysis data.
+```
+````
+
+```filetree {title="Complete storage comments" wrap=true}
+- storage/
+  - metadata/ # Schema definitions: property keys, vertex and edge labels, indexes, and counters.
+  - graph/    # Graph data: vertices, edges, index tables, and OLAP analysis data.
+```
+
+On narrow screens comments already stack below names; printing already expands
+the tree and wraps comments. `wrap` does not change those behaviors. Invalid
+values warn and fall back to `false`; strict publishing rejects that warning.
 
 ## Title bars {#title}
 
@@ -311,6 +337,7 @@ Fence attributes, after ```` ```filetree ````:
 | Attribute | Type | Default | Description |
 | --- | --- | --- | --- |
 | `title` | plain text | — | Title bar above the tree; omitted when absent; must not be empty |
+| `wrap` | boolean | `false` | Wrap long comments and grow rows; filenames keep ellipsis |
 | `tab` | plain text | — | Makes this tree one panel of a tab set |
 | `group` / `value` | string | — | Tab group and sync value; must appear with `tab` |
 | `class` | class list | — | Passed through for site CSS |

@@ -5,19 +5,19 @@ description: Repository assembly, configuration, diagnostics, localization, outp
 weight: 10
 icon: fa-solid fa-sitemap
 search_keywords: [OINK architecture, repository boundary, runtime, i18n, Docsy locales, output formats, security, accessibility, performance]
-contract_status: v1.3.0
+contract_status: v1.3.1
 ---
 
-> [!NOTE] OINK 1.3.0 contract
-> This contract describes OINK v1.3.0. Theme development uses the sibling
+> [!NOTE] OINK 1.3.1 contract
+> This contract describes OINK v1.3.1. Theme development uses the sibling
 > checkout; release acceptance verifies the published module with replacements
 > and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 ## Hugo toolchain {#hugo-toolchain}
 
-> [!NOTE] Unreleased toolchain update
-> These build requirements apply to the development theme. The published
-> v1.3.0 module retains its original build requirements.
+> [!NOTE] OINK 1.3.1 toolchain
+> These requirements apply to OINK 1.3.1. Install the standalone Sass compiler
+> before upgrading from v1.3.0.
 
 As of 2026-10-17, Hugo Extended **0.168.0** is the single development, CI, and
 release-test baseline and the current theme's declared minimum. Advance this

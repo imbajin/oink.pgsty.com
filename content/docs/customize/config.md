@@ -519,13 +519,13 @@ text) and its parameter-scan registry; the theme's CI regenerates them and
 fails on drift. Use the schema from the same release tag as your theme pin.
 
 With the VS Code YAML extension, map the site schema in your settings. This
-example matches OINK v1.3.0; replace that tag with the one in your `go.mod`.
+example matches OINK v1.3.1; replace that tag with the one in your `go.mod`.
 Both common YAML configuration filenames are covered:
 
 ```json {title=".vscode/settings.json"}
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/pgsty/oink/v1.3.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
+    "https://raw.githubusercontent.com/pgsty/oink/v1.3.1/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
   }
 }
 ```

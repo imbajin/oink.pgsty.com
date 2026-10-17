@@ -22,10 +22,10 @@ aliases:
 > Go 1.27，Hugo 基线随稳定版更新。使用旧 Starter 快照时，同步更新它的 Hugo
 > workflow 固定版本；不再维护旧 Hugo 兼容性。
 
-> [!NOTE] 尚未发布的构建要求
-> 开发中的下一版主题还需要在 `PATH` 中安装独立的
+> [!NOTE] OINK 1.3.1 构建要求
+> OINK 1.3.1 还需要在 `PATH` 中安装独立的
 > [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)。
-> 已发布的 v1.3.0 模块保留原来的工具链。
+> 从 v1.3.0 升级前，请先安装编译器。
 
 ## 选择起点 {#choose}
 

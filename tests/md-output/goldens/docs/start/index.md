@@ -20,10 +20,10 @@ only neutral project content and deployment workflows.
 > from an older Starter snapshot, update its Hugo workflow pins to this baseline;
 > older Hugo compatibility is no longer maintained.
 
-> [!NOTE] Unreleased build requirements
-> Development with the next theme version also needs standalone
+> [!NOTE] OINK 1.3.1 build requirements
+> OINK 1.3.1 also needs standalone
 > [Dart Sass 1.105.2](https://github.com/sass/dart-sass/releases/tag/1.105.2)
-> on `PATH`. The published v1.3.0 module retains its original toolchain.
+> on `PATH`. Install the compiler before upgrading from v1.3.0.
 
 ## Choose a path {#choose}
 

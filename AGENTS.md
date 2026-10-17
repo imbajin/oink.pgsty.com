@@ -8,9 +8,10 @@ not a projection of a second theme-local document tree.
 
 ## Current baseline
 
-The current theme release is OINK `v1.3.0`, dated 2026-10-15. This site pins
-that version. The Design contracts and release notes describe its public
-behavior. Use sibling-checkout Make targets for development; validate the
+The documentation target is OINK `v1.3.1`. Verify the actual published theme
+version in `go.mod` and public tags before claiming release or deployment.
+The Design contracts and release notes describe the 1.3.1 behavior. Use
+sibling-checkout Make targets for development; validate the
 published pin separately with replacements and both workspaces disabled.
 CLI documentation describes the separate local `0.1.0-dev` candidate. Recheck
 actual tags, module resolution and deployment before making release claims.

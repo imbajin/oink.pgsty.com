@@ -15,10 +15,10 @@ OINK 站点的产物是一个纯静态目录，任何能托管静态文件的地
 
 前提是本机已经能完成零告警的[生产构建](/zh/docs/admin/preview/#production-build)。
 
-> [!NOTE] 尚未发布的工具链更新
+> [!NOTE] OINK 1.3.1 工具链
 > 构建开发中的主题前，需要在构建主机安装独立的 Dart Sass 1.105.2，
 > 并把 `sass` 可执行文件加入 `PATH`。GitHub Actions、Cloudflare Pages、
-> Netlify 与自托管构建都需要这一准备。已发布的 v1.3.0 模块保留原来的工具链。
+> Netlify 与自托管构建都需要这一准备。从 v1.3.0 升级前，请先安装编译器。
 
 ## 确定 baseURL {#baseurl}
 `baseURL` 是最常见的故障源，失败方式也隐蔽：页面能打开，但搜索索引 404、页面操作链接指向错误位置、部分资源加载失败。

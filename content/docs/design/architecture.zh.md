@@ -5,17 +5,17 @@ description: 仓库装配、配置、诊断、本地化、输出、性能、安�
 weight: 10
 icon: fa-solid fa-sitemap
 search_keywords: [OINK 架构, 仓库边界, 运行时, i18n, Docsy 语言, 输出格式, 安全, 无障碍, 性能]
-contract_status: v1.3.0
+contract_status: v1.3.1
 ---
 
-> [!NOTE] OINK 1.3.0 契约
-> 本契约描述 OINK v1.3.0。主题开发使用同级 checkout；发布验收在关闭替换与
+> [!NOTE] OINK 1.3.1 契约
+> 本契约描述 OINK v1.3.1。主题开发使用同级 checkout；发布验收在关闭替换与
 > 工作区后验证公开模块。消费站升级与部署分别检查。
 
 ## Hugo 工具链 {#hugo-toolchain}
 
-> [!NOTE] 尚未发布的工具链更新
-> 以下构建要求适用于开发中的主题。已发布的 v1.3.0 模块保留原来的构建要求。
+> [!NOTE] OINK 1.3.1 工具链
+> 以下构建要求适用于 OINK 1.3.1。从 v1.3.0 升级前，先安装独立 Sass 编译器。
 
 自 2026-10-17 起，Hugo Extended **0.168.0** 是开发、CI 与发布测试的统一基线，
 也是当前主题声明的最低版本。基线随 Hugo 稳定版更新；升级时同步调整 workflow

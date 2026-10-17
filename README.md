@@ -8,11 +8,11 @@ The bilingual maintainer contracts under `content/docs/design/` are the
 canonical prose source for OINK architecture, components, reading shells,
 Landing pages, and migration boundaries.
 
-The site pins OINK `v1.3.0`, released on 2026-10-15. The guides, homepage, Design
-contracts, and bilingual `content/blog/release/1.3.0{,.zh}.md` notes describe Expo
-and the navigation, Landing, and Print repairs in this release. Local development
-uses the sibling checkout. Published module resolution, consumer version pins,
-and hosted deployment each require separate validation.
+The site documents OINK `v1.3.1`. The guides, homepage, Design contracts, and
+bilingual `content/blog/release/1.3.1{,.zh}.md` notes cover the readability repairs,
+optional FileTree wrapping, and Hugo/Dart Sass toolchain. Local development uses
+the sibling checkout. Published module resolution, consumer version pins, and
+hosted deployment each require separate validation.
 `content/docs/cli{,.zh}.md` is a one-page introduction to the separate,
 unreleased OINK CLI.
 
@@ -29,7 +29,7 @@ project-specific configuration.
 ## Local development
 
 Use Hugo Extended 0.168.0 and standalone Dart Sass 1.105.2 on `PATH` for
-development and validation of the unreleased theme. The baseline advances
+OINK 1.3.1 development and validation. The baseline advances
 with stable Hugo releases; older versions receive no compatibility testing or
 adaptation. See the [architecture contract](content/docs/design/architecture.md#hugo-toolchain).
 

@@ -19,11 +19,11 @@ version, publish `public/`, and keep `baseURL` matching the final address.
 The prerequisite is a warning-free
 [production build](/docs/admin/preview/#production-build) locally.
 
-> [!NOTE] Unreleased toolchain update
+> [!NOTE] OINK 1.3.1 toolchain
 > Before building the development theme, install standalone Dart Sass 1.105.2
 > on the build host and expose its `sass` executable on `PATH`. This applies to
 > GitHub Actions, Cloudflare Pages, Netlify, and self-hosted builds alike.
-> The published v1.3.0 module retains its original toolchain.
+> Install the compiler before upgrading from v1.3.0.
 
 ## Getting baseURL right {#baseurl}
 `baseURL` is the commonest source of failure, and it fails quietly: the page
