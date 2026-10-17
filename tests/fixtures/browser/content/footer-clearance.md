@@ -83,4 +83,3 @@ The fixed outline remains accessible when this article reaches the footer.
 The fixed outline remains accessible when this article reaches the footer.
 
 The fixed outline remains accessible when this article reaches the footer.
-
