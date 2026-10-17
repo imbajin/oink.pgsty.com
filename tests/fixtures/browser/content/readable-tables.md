@@ -35,7 +35,7 @@ outputs: [HTML, Markdown, print]
 | --- | --- | --- |
 | Tokyo | 8080 | Graph API |
 | Osaka | 8686 | Metadata |
-{#short-ordinary-table}
+{#short-prose-table}
 
 ## Explicit width with existing modifiers
 
