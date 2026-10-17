@@ -13,7 +13,7 @@ then replace its sample content. Write in Markdown and build with Hugo Extended
 and standalone Dart Sass; Hugo Modules also require Go to resolve the theme. Bundled theme assets need no
 CDN or npm build step.
 
-The current release is v1.3.0. See the
+The current release is v1.3.1. See the
 [1.3.1 release notes](/blog/release/1.3.1/) or the
 [upgrade guide](/docs/admin/upgrade/#preparing-1-3) for an existing site.
 
