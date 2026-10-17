@@ -45,7 +45,7 @@ module:
     - path: github.com/pgsty/oink
   hugoVersion:
     extended: true
-    min: 0.160.1
+    min: 0.166.0
 
 params:
   offline_search: true
@@ -189,6 +189,22 @@ directory, with a cascade giving it `type: docs`.
 | `params.ui.section_index` | enum | list | Child list style on a section index: `list` or `cards`, overridable per section |
 | `params.ui.section_index_columns` | integer | 2 | Column count when `section_index: cards` |
 {.fields meta="type default"}
+
+## Expo albums {#expo}
+
+OINK 1.3.0 adds `expo` to the default
+`shell_types` list and supports these settings:
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `params.ui.expo.images` | string | `images/*` | Pattern for image resources in the bundle |
+| `params.ui.expo.mode` | enum | `wall` | `wall`, `cards`, or `seamless` |
+| `params.ui.expo.size` | integer | `240` | Target size from 160 to 360 CSS pixels |
+{.fields meta="type default"}
+
+A page's `expo` block replaces the site block. Absent fields use built-in
+defaults. Stored reader choices override the author defaults for mode and size.
+See [Expo defaults](/docs/write/expo/#defaults) for the complete rules.
 
 ## Blog {#blog}
 
@@ -489,7 +505,7 @@ Version parameters:
 | `taxonomies` | map | | Hugo's own: enables `tag: tags` / `category: categories` — see [Taxonomies](/docs/customize/taxonomy/) |
 | `params.taxonomy.page_header` | list | | Shows only these taxonomies in a post header; unset shows all |
 | `services.googleAnalytics.id` | string | | Hugo's own: the analytics script is injected in production builds only — see [Analytics and SEO](/docs/admin/analytics/) |
-| `module.hugoVersion.min` | string | 0.160.1 | The Hugo floor the theme declares; anything older fails the build |
+| `module.hugoVersion.min` | string | 0.166.0 | The Hugo floor the theme declares; anything older fails the build |
 | `module.hugoVersion.extended` | boolean | true | Hugo Extended is required (SCSS has to be compiled) |
 {.fields meta="type default"}
 
@@ -503,13 +519,13 @@ text) and its parameter-scan registry; the theme's CI regenerates them and
 fails on drift. Use the schema from the same release tag as your theme pin.
 
 With the VS Code YAML extension, map the site schema in your settings. This
-example matches OINK v1.2.0; replace that tag with the one in your `go.mod`.
+example matches OINK v1.3.0; replace that tag with the one in your `go.mod`.
 Both common YAML configuration filenames are covered:
 
 ```json {title=".vscode/settings.json"}
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/pgsty/oink/v1.2.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
+    "https://raw.githubusercontent.com/pgsty/oink/v1.3.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
   }
 }
 ```
@@ -554,19 +570,19 @@ A configuration change also needs at least three checks: one page in each
 language, a page with no translation to see the fallback, and the links under
 the production `baseURL` (easy to miss on a subpath deployment).
 
-The theme's declared Hugo floor is `0.160.1`. OINK's continuous test toolchain
-is pinned to Hugo Extended `0.165.0`; configuration changes are tested once
-with that pinned version instead of against a version matrix:
+The theme's minimum and single test baseline are Hugo Extended `0.166.0`.
+Validate configuration changes with this version. Advance the baseline with
+stable releases; do not run older-Hugo compatibility tests or add adaptation:
 
 ```bash
-# require v0.165.0+extended in this output
+# require v0.166.0+extended in this output
 hugo version
 hugo --printPathWarnings --panicOnWarning
 ```
 
-The floor is declared in the theme's `hugo.yaml` and `theme.toml`, and a site's
-own `module.hugoVersion.min` should agree with it. It remains a consumer
-compatibility declaration, not a second routine CI test leg.
+The theme declares the minimum in `hugo.yaml` and `theme.toml`. The site's
+`module.hugoVersion.min` should match it. Update these declarations, CI pins,
+and current documentation together when advancing the baseline.
 
 ## Related {#related}
 

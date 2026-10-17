@@ -1,6 +1,6 @@
 ---
-title: 亮点特性
-linkTitle: 亮点特性
+title: 特性
+linkTitle: 特性
 description: 逐条列出 OINK 与普通 Hugo 主题的差别，每条链接到讲它的指南页。
 weight: 10
 search_keywords: [特性, Features, 亮点, Markdown 原生组件, 本地优先, 四态输出, 双语, 命令面板, 键盘导航, llms.txt]
@@ -20,7 +20,7 @@ aliases:
 
 ## 用 Hugo 构建 {#hugo-only}
 
-Hugo Extended 0.160.1 或更新版本负责构建站点资源。SCSS 由 Hugo 内置的 Sass 转译器编译，主题不调用 `postCSS`，也不需要 npm 或 webpack。用 Hugo Module 方式安装主题还需要 Go，并能通过网络或本地缓存取得模块依赖。离线归档或 submodule 准备就绪后，只用 Hugo 即可构建站点。
+Hugo Extended 0.166.0 或更新版本负责构建站点资源。SCSS 由 Hugo 内置的 Sass 转译器编译，主题不调用 `postCSS`，也不需要 npm 或 webpack。用 Hugo Module 方式安装主题还需要 Go，并能通过网络或本地缓存取得模块依赖。离线归档或 submodule 准备就绪后，只用 Hugo 即可构建站点。
 
 界面交互在浏览器中执行 JavaScript：搜索、命令面板、图表、标签页都是页面脚本。这些脚本随主题分发，按页面用到的功能下发。
 
@@ -47,7 +47,7 @@ Hugo Extended 0.160.1 或更新版本负责构建站点资源。SCSS 由 Hugo �
 ## 双语与 32 个界面语言 {#multilingual}
 
 多语言走 Hugo 原生机制：译文路由、按权重排序的语言选择器、缺译回退、RTL，
-以及 canonical 与 alternate 元数据。界面文案有 32 份语言包，共用 194 条消息
+以及 canonical 与 alternate 元数据。界面文案有 32 份语言包，共用 218 条消息
 schema：Docsy 支持的 31 个 locale 文件名，再加通用 `zh`。每份语言包都使用目标
 语言覆盖完整 OINK 界面，不再保留英文占位块；`zh` 与 `zh-cn` 使用简体中文，
 `zh-tw` 使用繁体中文。

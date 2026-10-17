@@ -38,7 +38,7 @@ module:
     - path: github.com/pgsty/oink
   hugoVersion:
     extended: true
-    min: 0.160.1
+    min: 0.166.0
 
 params:
   offline_search: true
@@ -169,6 +169,22 @@ favicon 没有参数：主题按约定名扫描 `static/`（`favicon.ico` `favic
 | `params.ui.section_index_columns` | integer | 2 | `section_index: cards` 时的列数 |
 {.fields meta="type default"}
 
+## Expo 相册 {#expo}
+
+OINK 1.3.0 为默认 `shell_types` 列表添加了 `expo`，
+并支持以下设置：
+
+| 键 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `params.ui.expo.images` | string | `images/*` | 页面包内的图片资源匹配模式 |
+| `params.ui.expo.mode` | enum | `wall` | `wall`、`cards` 或 `seamless` |
+| `params.ui.expo.size` | integer | `240` | 160 至 360 CSS 像素的目标尺寸 |
+{.fields meta="type default"}
+
+页面 `expo` 块整体替换站点块，未给出的字段使用内置默认值。
+浏览器保存的布局与尺寸优先于作者默认值。完整规则见
+[Expo 默认值](/zh/docs/write/expo/#defaults)。
+
 ## 博客 {#blog}
 
 七个键决定博客栏目的样子。它们作用于 `params.ui.blog_section` 指定的栏目，每一个都能通过博客根目录的 front matter 或 `cascade` 按栏目覆盖。
@@ -258,7 +274,7 @@ favicon 没有参数：主题按约定名扫描 `static/`（`favicon.ico` `favic
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `params.offline_search` | boolean | false | 生成每语言一份本地索引并启用命令面板，见[全文检索](/docs/customize/search/) |
+| `params.offline_search` | boolean | false | 生成每语言一份本地索引并启用命令面板，见[全文检索](/zh/docs/customize/search/) |
 | `params.offline_search_on_serve` | boolean | true | `hugo server` 预览时也构建索引，预览行为与线上一致；站点极大时设 `false` 跳过以加快本地重建 |
 | `params.offline_search_index` | enum | content | 索引范围，逐级累加：`title` `heading` `summary` `content`。非法值告警并使用 `content` |
 | `params.offline_search_summary_length` | integer | 70 | `summary` 档摘录截断的字数 |
@@ -275,7 +291,7 @@ favicon 没有参数：主题按约定名扫描 `static/`（`favicon.ico` `favic
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `params.ui.keyboard_nav` | boolean | true | 单键导航（WASD/方向键走树、j/k 跳标题、q/e 翻页、面板与外壳开关）。设为 `false` 后运行时不进包，见[键盘导航](/docs/customize/keyboard/) |
+| `params.ui.keyboard_nav` | boolean | true | 单键导航（WASD/方向键走树、j/k 跳标题、q/e 翻页、面板与外壳开关）。设为 `false` 后运行时不进包，见[键盘导航](/zh/docs/customize/keyboard/) |
 {.fields meta="type default"}
 
 ## 图片缩放 {#image-zoom}
@@ -356,7 +372,7 @@ Mermaid、KaTeX、ECharts、Infographic、Asciinema、Swagger UI 与 Redoc 按�
 
 | 参数 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `params.markmap` | boolean | false | 站点级启用思维导图围栏，见[思维导图](/docs/components/markmap/) |
+| `params.markmap` | boolean | false | 站点级启用思维导图围栏，见[思维导图](/zh/docs/components/markmap/) |
 | `params.mermaid` | map | | 透传给 `mermaid.initialize()` 的配置；键名全小写，深色模式自动覆盖 `theme` |
 | `params.plantuml.enable` | boolean | false | 启用 PlantUML 围栏，见 [PlantUML](/zh/docs/components/plantuml/) |
 | `params.plantuml.svg_image_url` | string | | PlantUML 服务的 SVG 端点，启用时必填，缺失则告警并保持 PlantUML 关闭 |
@@ -441,7 +457,7 @@ outputs:
 | `taxonomies` | map | | Hugo 原生：启用 `tag: tags` / `category: categories`，见[分类体系](/zh/docs/customize/taxonomy/) |
 | `params.taxonomy.page_header` | list | | 只在文章头部显示这几种分类；不设则显示全部 |
 | `services.googleAnalytics.id` | string | | Hugo 原生：分析脚本只在生产构建注入，见[分析与 SEO](/zh/docs/admin/analytics/) |
-| `module.hugoVersion.min` | string | 0.160.1 | 主题声明的 Hugo 下限，低于它构建失败 |
+| `module.hugoVersion.min` | string | 0.166.0 | 主题声明的 Hugo 下限，低于它构建失败 |
 | `module.hugoVersion.extended` | boolean | true | 必须是 Hugo Extended（要编译 SCSS） |
 {.fields meta="type default"}
 
@@ -453,13 +469,13 @@ outputs:
 与参数扫描注册表的投影；主题 CI 会重新生成并检查漂移。使用时应选择与主题固定版本
 相同标签下的 Schema。
 
-配合 VS Code YAML 扩展，在设置中映射站点 Schema。下面以 OINK v1.2.0 为例，
+配合 VS Code YAML 扩展，在设置中映射站点 Schema。下面以 OINK v1.3.0 为例，
 请将标签换成 `go.mod` 中固定的版本；两种常见 YAML 配置文件名都已覆盖：
 
 ```json {title=".vscode/settings.json"}
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/pgsty/oink/v1.2.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
+    "https://raw.githubusercontent.com/pgsty/oink/v1.3.0/schema/site-params.schema.json": ["hugo.yml", "hugo.yaml"]
   }
 }
 ```
@@ -499,18 +515,18 @@ hugo --printPathWarnings --panicOnWarning
 
 配置改动还要至少验证三件事：每种语言各一页、缺译页的回退、生产 `baseURL` 下的链接（子路径部署容易漏）。
 
-主题声明的 Hugo 下限是 `0.160.1`。OINK 的持续测试工具链固定为 Hugo Extended
-`0.165.0`；配置改动只使用这个固定版本测试一次，不再运行版本矩阵：
+主题的最低版本与统一测试基线都是 Hugo Extended `0.166.0`。配置改动使用这个
+版本验证；基线随稳定版更新，不再测试或适配旧 Hugo：
 
 ```bash
-# 输出必须包含 v0.165.0+extended
+# 输出必须包含 v0.166.0+extended
 hugo version
 hugo --printPathWarnings --panicOnWarning
 ```
 
-下限版本写在主题的 `hugo.yaml` 与 `theme.toml` 里，站点自己的
-`module.hugoVersion.min` 应与它一致。它仍是消费站兼容性声明，不再是第二个常规 CI
-测试项。
+最低版本写在主题的 `hugo.yaml` 与 `theme.toml` 里，站点自己的
+`module.hugoVersion.min` 应与它一致。升级基线时同步调整这些声明、CI 固定版本和
+当前文档。
 
 ## 相关 {#related}
 

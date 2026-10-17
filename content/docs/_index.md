@@ -45,8 +45,8 @@ Hugo Modules also require Go to resolve the theme. Bundled theme assets need no
 CDN or npm build step.
 
 The current release is {{% param version %}}. See the
-[1.2 release notes](/blog/release/1.2.0/) or the
-[upgrade guide](/docs/admin/upgrade/#preparing-1-2) for an existing site.
+[1.3 release notes](/blog/release/1.3.0/) or the
+[upgrade guide](/docs/admin/upgrade/#preparing-1-3) for an existing site.
 
 ## Five ways in {#five-entries}
 

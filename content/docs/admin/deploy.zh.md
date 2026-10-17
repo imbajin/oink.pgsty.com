@@ -70,7 +70,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: 0.165.0
+  HUGO_VERSION: 0.166.0
   # 同级 checkout 的 workspace 绝不能参与 CI 构建
   GOWORK: off
   HUGO_MODULE_WORKSPACE: off
@@ -161,12 +161,12 @@ Pages 项目。
    `CLOUDFLARE_SITE_URL`。
 {.steps}
 
-workflow 固定 Hugo Extended 0.165.0，从 `go.mod` 读取 Go 版本，关闭本地模块
+workflow 固定 Hugo Extended 0.166.0，从 `go.mod` 读取 Go 版本，关闭本地模块
 workspace，并在上传前用 `--panicOnWarning` 构建。这是 Starter 用户最可复现的推荐路径。
 
 Cloudflare Git integration 仍然是另一种有效模式：构建命令设为
 `hugo --gc --minify --printPathWarnings --panicOnWarning`，输出目录 `public`，Hugo
-固定 `0.165.0`，Go 固定 `1.27`。同一个项目只用 Git integration 或 Direct Upload
+固定 `0.166.0`，Go 固定 `1.27`。同一个项目只用 Git integration 或 Direct Upload
 workflow 其中一种。预览部署仍不等于生产证明；它要按自己的 URL 重建并保持不收录。
 
 {{< /tab >}}
@@ -180,7 +180,7 @@ command = "hugo --gc --minify --printPathWarnings --panicOnWarning"
 publish = "public"
 
 [build.environment]
-HUGO_VERSION = "0.165.0"
+HUGO_VERSION = "0.166.0"
 ```
 
 用 submodule 安装主题就打开递归 submodule 检出；用 Hugo Module 就要求构建环境有 Git 和 Go。生产与预览应使用同一个 Hugo 版本，除非预览环境本来就是用来测升级的。

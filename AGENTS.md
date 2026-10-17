@@ -8,10 +8,12 @@ not a projection of a second theme-local document tree.
 
 ## Current baseline
 
-The site pins and advertises OINK `v1.2.0`, released on 2026-10-05. The Design
-contracts and bilingual release notes describe that release. CLI documentation
-describes the separate local `0.1.0-dev` candidate. Recheck actual tags, module
-resolution and deployment before making later release claims.
+The current theme release is OINK `v1.3.0`, dated 2026-10-15. This site pins
+that version. The Design contracts and release notes describe its public
+behavior. Use sibling-checkout Make targets for development; validate the
+published pin separately with replacements and both workspaces disabled.
+CLI documentation describes the separate local `0.1.0-dev` candidate. Recheck
+actual tags, module resolution and deployment before making release claims.
 
 ## Repository boundary
 
@@ -71,13 +73,19 @@ select different theme sources:
 | `make serve` | Published pin; production preview without fast/live reload |
 
 Direct `npm test` and `npm run test:browser` do not select the sibling theme
-themselves; use the Make targets for local theme acceptance. `build` and `serve`
+themselves; use the Make targets for local theme acceptance. The local `check`,
+`browser`, and `dev` targets disable both workspace mechanisms. `build` and `serve`
 do not clear inherited replacements or workspaces; use the published-pin
 commands below to establish release identity. Node >= 24 and npm >= 11.16.0
 are contributor test dependencies, not ordinary Hugo consumer requirements.
-CI pins Hugo Extended 0.165.0, Go 1.27.0, and Node 24. Test configuration overlays
-such as `tests/fixtures/browser.yml` do not change the single-root-config rule
-for the production site.
+As of 2026-10-15, development, CI, and release tests use Hugo Extended 0.166.0
+as their single baseline. Advance it with stable Hugo releases and update CI
+pins, declared requirements, checkers, and current bilingual documentation
+together. Do not test or adapt for older Hugo versions or add compatibility
+shims unless the user explicitly requests it. Historical release/research
+records do not establish current support requirements. CI also pins Go 1.27.0
+and Node 24. Test overlays such as `tests/fixtures/browser.yml` do not change
+the single-root-config rule for the production site.
 
 For published-pin acceptance, disable environment replacements and both
 workspace mechanisms, verify advertised/pinned versions, and build strictly:

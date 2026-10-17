@@ -1,7 +1,7 @@
 ---
 title: 版本升级
 linkTitle: 版本升级
-description: 固定已发布的主题版本、验证 1.2.0 变化、迁移旧内容或 Docsy 站点，并在出问题时安全回滚。
+description: 固定主题版本、升级到 1.3.0、迁移旧内容或 Docsy 站点，并保留回滚路径。
 weight: 50
 search_keywords: [升级, 迁移, 版本, Hugo Module, hugo mod get, oink06, Docsy, jQuery, 破坏性变更, upgrade, migration]
 aliases:
@@ -17,6 +17,24 @@ aliases:
 
 升级会改变渲染结果。先建一个升级分支再动手，回退的代价就是丢弃一个分支。
 
+> [!IMPORTANT] 当前 Hugo 基线
+> 自 2026-10-15 起，开发与验收统一使用 Hugo Extended 0.166.0。升级时同步更新
+> Hugo workflow 固定版本，不再维护旧 Hugo 兼容性。下方旧版本章节中的要求仅说明
+> 当时的发布状态。
+
+## 升级到 1.3 {#preparing-1-3}
+
+OINK `v1.3.0` 新增 [Expo 相册](/zh/docs/write/expo/)，并修复导航、模态关闭和焦点。
+已有 Docs、Blog、Book 内容无需批量迁移。仅在新相册分区设置 `type: expo` 及对应
+cascade，图片与原图保存在各自的叶子页面包中。
+
+在关闭替换和工作区的环境中验证公开模块解析。固定 `github.com/pgsty/oink@v1.3.0`，零告警构建，再检查导航、
+图片查看器与读者设置。源码副本方式的消费站还需要刷新固定主题文件；修改 `go.mod`
+不会升级已有的 vendor 副本。
+
+提供四套风格的站点继续使用 `preset: paper` 和显式 `[paper, slate, ink, terminal]`
+菜单。[1.3 发布注记](/zh/blog/release/1.3.0/)说明本次变化。
+
 ## 先看发布注记 {#release-notes}
 
 每个版本的变更、破坏性改动与升级要点都写在发布注记里，升级前先读一遍目标版本那篇：
@@ -29,11 +47,11 @@ aliases:
 ## 升级 Hugo Module {#hugo-module}
 
 生产站点固定已发布标签或主动选定的不可变 commit，不跟随分支，也不用 `@latest`。
-下面升级到已发布的 `v1.2.0` 标签；选择后续版本时，先确认已经发布且模块可以解析，
+下面升级到已发布的 `v1.3.0` 标签；选择后续版本时，先确认已经发布且模块可以解析，
 再替换示例中的版本。
 
 ```bash {title="终端"}
-hugo mod get github.com/pgsty/oink@v1.2.0   # 已发布的版本标签
+hugo mod get github.com/pgsty/oink@v1.3.0   # 已发布的版本标签
 hugo mod tidy
 hugo mod graph | grep github.com/pgsty/oink
 ```
@@ -47,7 +65,7 @@ module github.com/pgsty/oink.pgsty.com
 
 go 1.27.0
 
-require github.com/pgsty/oink v1.2.0
+require github.com/pgsty/oink v1.3.0
 ```
 
 > [!DANGER] 本地模块替换会盖掉这个固定版本
@@ -62,7 +80,7 @@ require github.com/pgsty/oink v1.2.0
 
 ```bash {title="终端"}
 git -C themes/oink fetch origin --tags
-git -C themes/oink checkout --detach v1.2.0
+git -C themes/oink checkout --detach v1.3.0
 git add themes/oink
 ```
 
@@ -91,9 +109,9 @@ env -u HUGO_MODULE_REPLACEMENTS GOWORK=off HUGO_MODULE_WORKSPACE=off \
 > 本清单对应已发布的 v1.1.0。各消费站仍需更新依赖固定版本、重新构建和部署；
 > 主题发布不会自动升级既有站点。
 
-从 1.0.0 升级不需要迁移源码。Hugo Extended 0.160.1 仍是下限，CI 固定使用 0.165.0，
-模块的 Go 1.27.0 声明与 1.0.0 相同。在 Hugo 0.160.x 上，非默认通用 `zh` 与区域中文
-目录并存时，需要配置 `locale: zh-CN`。
+从 1.0.0 升级到 1.1.0 不需要迁移源码，模块的 Go 1.27.0 声明与 1.0.0 相同。
+当前升级统一使用 Hugo Extended 0.166.0 验证；历史工具链信息保留在
+[1.1 发布说明](/zh/blog/release/1.1.0/)中。
 
 选择新固定版本前，检查这些受影响的页面与行为：
 
@@ -138,7 +156,7 @@ make dev
 > 自定义深色品牌选择器的兼容处理见[品牌外观](/zh/docs/customize/brand/#visual-presets)。
 
 OINK 1.2.0 已发布。除上面的默认外观变化外，无需迁移内容源码。
-Hugo Extended 下限仍为 0.160.1。更新模块后，按以下清单验收站点：
+当前升级统一使用 Hugo Extended 0.166.0 验证，并按以下清单验收站点：
 
 - 检查所选预设、明暗图标、键盘与手机菜单、保存的偏好，以及自定义字体和强调色覆盖。
   太阳表示亮色，月亮表示暗色；切换风格不得改变保存的明暗偏好。

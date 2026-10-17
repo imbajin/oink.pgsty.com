@@ -20,7 +20,7 @@
 | 合计               |          127 |
 
 以上数量保留为历史基线。当前覆盖检查逐一核对首页以及 `docs/`、`blog/`、
-`book/`、`case/`、`authors/` 与 `series/`，包括 `docs/cli` 的 CLI 草案介绍。
+`book/`、`expo/`、`case/`、`authors/` 与 `series/`，包括 `docs/cli` 的 CLI 草案介绍。
 以下命令同时检查文件覆盖率、显式锚点、中英文渲染 ID
 和站内链接：
 
@@ -43,7 +43,7 @@ npm run _check:rendered-links
 - 不翻译命令、代码、配置键、文件名、URL、版本号、HTML 属性和 shortcode 名称。
 - 英文是第一语言，简体中文 `zh` 是第二语言。
 - 中文页面不得以英文原文作为缺失译文的静默回退；覆盖检查必须保证首页以及
-  `docs/`、`blog/`、`book/`、`case/`、`authors/` 与 `series/` 一一配对。
+  `docs/`、`blog/`、`book/`、`expo/`、`case/`、`authors/` 与 `series/` 一一配对。
 
 ## 稳定锚点
 

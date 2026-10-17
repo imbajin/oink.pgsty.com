@@ -10,6 +10,49 @@ const galleryPath = `${componentsPath}gallery/`;
 const layoutPath = `${componentsPath}callout/`;
 const asciinemaPath = `${componentsPath}asciinema/`;
 
+test.describe('Print table browser previews', () => {
+  for (const language of ['', '/zh']) {
+    for (const width of [360, 1440]) {
+      test(`${language || 'en'} tables stay contained at ${width}px and expand for print`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`${language}/_print/tests/print-tables/`);
+        await page.evaluate(() => document.fonts.ready);
+        const table = page.locator('.td-table-scroll');
+        await expect(table).toHaveAttribute('tabindex', '0');
+        await expect(table).toHaveAttribute('role', 'region');
+        await expect(table).toHaveAttribute('aria-label', /.+/);
+        await expect(table.locator('tbody tr')).toHaveCount(2);
+        const geometry = await table.evaluate((el) => ({
+          pageWidth: document.documentElement.scrollWidth,
+          viewport: innerWidth,
+          overflow: getComputedStyle(el).overflowX,
+          scrollable: el.scrollWidth > el.clientWidth,
+        }));
+        expect(geometry.pageWidth).toBeLessThanOrEqual(geometry.viewport + 1);
+        expect(geometry.overflow).toBe('auto');
+        if (width === 360) {
+          expect(geometry.scrollable).toBe(true);
+          await page.locator('#before-table').click();
+          await page.keyboard.press('Tab');
+          await expect(table).toBeFocused();
+          // Retry real keys while WebKit completes its automatic focus scroll.
+          await expect.poll(async () => {
+            await page.keyboard.press('ArrowRight');
+            return table.evaluate((el) => el.scrollLeft);
+          }).toBeGreaterThan(0);
+        }
+        await page.emulateMedia({ media: 'print' });
+        const printStyle = await table.evaluate((el) => ({
+          overflow: getComputedStyle(el).overflowX,
+          maxWidth: getComputedStyle(el).maxWidth,
+        }));
+        expect(printStyle).toEqual({ overflow: 'visible', maxWidth: 'none' });
+        await expect(page.locator('#after-table')).toBeVisible();
+      });
+    }
+  }
+});
+
 async function gridColumnCount(grid) {
   return grid.evaluate(
     (element) =>
@@ -533,6 +576,8 @@ for (const zoom of ['image', 'diagram']) {
 
 for (const zoomEnabled of [false, true]) {
   test(`Draw.io is keyboard reachable and independent of Image Zoom (${zoomEnabled})`, async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
     await page.route('https://embed.diagrams.net/**', route => route.fulfill({
       contentType: 'text/html',
       body: '<!doctype html><title>Local editor fixture</title><button>Editor ready</button>',
@@ -554,9 +599,29 @@ for (const zoomEnabled of [false, true]) {
     await expect(edit).toHaveCSS('opacity', '1');
     await page.keyboard.press('Enter');
     await expect(page.locator('.drawioframe iframe')).toBeVisible();
-    await expect(page.locator('dialog[open]')).toHaveCount(0);
+    await expect(page.locator('dialog.drawioframe:modal')).toBeVisible();
     await expect(page.frameLocator('.drawioframe iframe').getByRole('button')).toHaveText('Editor ready');
     const editor = page.frames().find(frame => frame.url().startsWith('https://embed.diagrams.net/'));
+    const editorURL = new URL(editor.url());
+    expect(editorURL.searchParams.get('lang')).toBe('en');
+    expect(editorURL.searchParams.get('embed')).toBe('1');
+    expect(editorURL.searchParams.get('proto')).toBe('json');
+    expect(editorURL.hash).toBe('#editor');
+    await page.evaluate(() => window.postMessage(null, '*'));
+    await editor.evaluate(() => {
+      for (const message of [null, {}, 'not JSON', 'null']) parent.postMessage(message, '*');
+    });
+    const loaded = await editor.evaluate(() => new Promise(resolve => {
+      window.addEventListener('message', function onLoad(event) {
+        const message = JSON.parse(event.data);
+        if (message.action !== 'load') return;
+        window.removeEventListener('message', onLoad);
+        resolve(message.xml.startsWith('data:image/'));
+      });
+      parent.postMessage(JSON.stringify({ event: 'init' }), '*');
+    }));
+    expect(loaded).toBe(true);
+    expect(errors).toEqual([]);
     // Match the documented editor exit message and its real Window source.
     await editor.evaluate(() => parent.postMessage(JSON.stringify({ event: 'exit' }), '*'));
     await expect(page.locator('.drawioframe')).toHaveCount(0);
@@ -569,5 +634,58 @@ for (const zoomEnabled of [false, true]) {
     await page.emulateMedia({ forcedColors: 'active' });
     await page.locator('#td-main-content').focus();
     await expect(edit).toHaveCSS('opacity', '1');
+  });
+}
+
+for (const [prefix, width] of [['', 1440], ['/zh', 390]]) {
+  test(`${prefix || 'en'} Draw.io has a host close path after cross-origin iframe focus`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.addInitScript(() => {
+      const add = window.addEventListener;
+      const remove = window.removeEventListener;
+      const tracked = new Set();
+      window.addEventListener = function (type, callback, options) {
+        if (type === 'message') tracked.add(callback);
+        return add.call(this, type, callback, options);
+      };
+      window.removeEventListener = function (type, callback, options) {
+        if (type === 'message') tracked.delete(callback);
+        return remove.call(this, type, callback, options);
+      };
+      window.testMessageListeners = () => tracked.size;
+    });
+    await page.route('https://embed.diagrams.net/**', route => route.fulfill({
+      contentType: 'text/html',
+      body: '<!doctype html><title>Cross-origin editor</title><button>Editor action</button>',
+    }));
+    await page.goto(`${prefix}/docs/components/drawio/`);
+    const edit = page.locator('.drawiobtn').first();
+    await expect(edit).toBeAttached();
+    const initial = await page.evaluate(() => window.testMessageListeners());
+    for (const dismissal of ['keyboard', 'backdrop', 'escape']) {
+      await edit.click();
+      const dialog = page.locator('dialog.drawioframe');
+      const close = dialog.locator('.drawioframe__close');
+      await expect(dialog).toBeVisible();
+      await expect(close).toHaveText(prefix ? '关闭' : 'Close');
+      await expect(close).toBeFocused();
+      await page.frameLocator('.drawioframe iframe').getByRole('button').click();
+      if (dismissal !== 'backdrop') {
+        // iframe key events cannot bubble to the host. Tab exits this fixture
+        // and reaches the host control without editor protocol cooperation.
+        // Firefox can visit the iframe document before leaving its context.
+        for (let step = 0; step < 3; step += 1) {
+          await page.keyboard.press('Tab');
+          if (await close.evaluate(node => node === document.activeElement)) break;
+        }
+        await expect(close).toBeFocused();
+        await page.keyboard.press(dismissal === 'keyboard' ? 'Enter' : 'Escape');
+      } else {
+        await dialog.click({ position: { x: 2, y: 2 } });
+      }
+      await expect(dialog).toHaveCount(0);
+      await expect(edit).toBeFocused();
+      expect(await page.evaluate(() => window.testMessageListeners())).toBe(initial);
+    }
   });
 }

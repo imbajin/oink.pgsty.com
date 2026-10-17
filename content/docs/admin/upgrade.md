@@ -1,7 +1,7 @@
 ---
 title: Upgrade
 linkTitle: Upgrade
-description: Pin a published theme version, adopt the 1.2.0 changes, migrate legacy content or a Docsy site, and roll back safely.
+description: Pin a theme version, upgrade to 1.3.0, migrate legacy content or a Docsy site, and keep a rollback path.
 weight: 50
 search_keywords: [upgrade, migration, version, Hugo Module, hugo mod get, oink06, Docsy, jQuery, breaking changes]
 aliases:
@@ -19,6 +19,27 @@ does it, so hundreds of files need not be edited by hand.
 An upgrade changes rendered output. Create an upgrade branch before starting,
 and the cost of backing out is discarding a branch.
 
+> [!IMPORTANT] Current Hugo baseline
+> Since 2026-10-15, use Hugo Extended 0.166.0 for development and validation.
+> Update Hugo workflow pins when upgrading; older-Hugo compatibility is no
+> longer maintained. Version requirements in the older release sections below
+> describe those releases only.
+
+## Upgrade to 1.3 {#preparing-1-3}
+
+OINK `v1.3.0` adds [Expo albums](/docs/write/expo/) and repairs navigation,
+modal closure and focus. Existing Docs, Blog and Book content needs no bulk
+migration. Set `type: expo` only on the new album section, with a matching cascade;
+keep images and originals in its leaf bundles.
+
+Verify public module resolution with replacements and workspaces disabled.
+Pin `github.com/pgsty/oink@v1.3.0`, build without warnings, and review
+navigation, image viewing and reader settings. Source-copy consumers must also
+refresh their fixed theme files; changing `go.mod` does not update a vendored copy.
+
+Keep `preset: paper` and the explicit `[paper, slate, ink, terminal]` menu when the
+site offers all four styles. The [1.3 notes](/blog/release/1.3.0/) describe the changes.
+
 ## Read the release notes first {#release-notes}
 
 Every version's changes, breaking changes and upgrade notes are in its release
@@ -35,11 +56,11 @@ guessing afterwards why a page looks different.
 
 A production site pins a published release tag or a deliberately selected
 immutable commit, follows no branch, and does not use `@latest`. The example
-below upgrades to the published `v1.2.0` tag. For a later release, verify its
+below upgrades to the published `v1.3.0` tag. For a later release, verify its
 publication and module resolution before selecting that tag:
 
 ```bash {title="Terminal"}
-hugo mod get github.com/pgsty/oink@v1.2.0   # the published release tag
+hugo mod get github.com/pgsty/oink@v1.3.0   # the published release tag
 hugo mod tidy
 hugo mod graph | grep github.com/pgsty/oink
 ```
@@ -55,7 +76,7 @@ module github.com/pgsty/oink.pgsty.com
 
 go 1.27.0
 
-require github.com/pgsty/oink v1.2.0
+require github.com/pgsty/oink v1.3.0
 ```
 
 > [!DANGER] A local module replacement overrides that pin
@@ -71,7 +92,7 @@ check out the exact published version rather than following its remote branch:
 
 ```bash {title="Terminal"}
 git -C themes/oink fetch origin --tags
-git -C themes/oink checkout --detach v1.2.0
+git -C themes/oink checkout --detach v1.3.0
 git add themes/oink
 ```
 
@@ -108,10 +129,9 @@ and anywhere the site customized something.
 > to update its dependency pin, rebuild and deploy; theme publication does not
 > upgrade an existing site automatically.
 
-No source migration is required from 1.0.0. Hugo Extended 0.160.1 remains the
-floor; CI uses the pinned 0.165.0 toolchain. The module's Go 1.27.0 directive is
-unchanged from 1.0.0. On Hugo 0.160.x, a non-default generic `zh` language
-alongside the regional Chinese catalogs needs `locale: zh-CN`.
+No source migration was required from 1.0.0 to 1.1.0. Its Go 1.27.0 module
+directive was unchanged from 1.0.0. Validate current upgrades with Hugo Extended
+0.166.0. Historical toolchain details remain in the [1.1 release note](/blog/release/1.1.0/).
 
 Review the affected surfaces before choosing the new pin:
 
@@ -163,8 +183,8 @@ the [sidebar contract](/docs/design/shell/#sidebar-runtime),
 > Review custom dark brand selectors as described in [Brand](/docs/customize/brand/#visual-presets).
 
 OINK 1.2.0 is available as a published tag. Apart from the default appearance
-change above, no content migration is required. Hugo Extended 0.160.1 remains
-the compatibility floor. Update the module, then verify the site:
+change above, no content migration is required. Validate current upgrades with
+Hugo Extended 0.166.0, then verify the site:
 
 - Check the chosen preset, light/dark icons, keyboard and mobile menus, saved
   preferences, and custom font/accent overrides. Sun means light; moon means

@@ -29,6 +29,10 @@ params:
 | `swagger` | 文档外壳，正文交给 Swagger UI 或 Redoc，见 [API 文档](/zh/docs/write/openapi/) |
 | 其它 type | 普通页面：顶栏 + 单栏正文 + 页脚，没有侧栏 |
 
+OINK 1.3.0 新增 `expo` 类型：共享侧栏加图片相册，默认全宽且没有右侧大纲。
+默认 `shell_types` 列表包含 `expo`；若使用上面的显式列表，请将其加入。
+配置与示例见 [Expo 相册](/zh/docs/write/expo/)。
+
 分类页与标签页（`taxonomy` / `term`）不在这张表里，但也走同一套外壳。
 
 给一棵子树指定 type 用 cascade，这是把文档放在任意路径的做法：
@@ -166,7 +170,9 @@ sidebar_enabled: false
 - 页面的 type 是 `docs` 或 `book`；
 - 解析出的侧栏根不是站点首页。
 
-文件是一棵嵌套的节点树。每个节点用 `page` 指向内容路径，`url` 是它的链接，`children` 是子节点；`active_path_by_url` 记录每个 URL 对应的祖先链，供当前项高亮使用：
+文件是一棵嵌套的节点树。每个节点用 `page` 指向内容路径，`children` 定义导航子节点。
+主题根据页面身份与这棵树解析链接和激活分支；`url` 与记录祖先链的
+`active_path_by_url` 都是可选的旧提示字段：
 
 ```json {title="data/docs_nav.json"}
 {
@@ -187,7 +193,26 @@ sidebar_enabled: false
 去掉两种前缀，同一个 `/docs/start/` 键可用于 `/zh/docs/start/` 和
 `/handbook/zh/docs/start/`；渲染出来的链接保留实际的语言与部署前缀。
 
-这棵树同时决定翻页顺序，侧栏与上一页 / 下一页不会出现两种排序。`sections` 为空数组
+清单可以把根级手册组织成导航树，无须把源文件移入 `content/docs/`。节点适用于某个
+侧栏根，条件是它就是该根、位于该根的内容后代中，或是解析到同一个根的 Docs/Book
+页面。例如设置 `docs_section: docs` 和 `docs_sidebar_root: section` 后，类型为
+`docs` 的根级页面可以使用：
+
+```json {title="data/docs_nav.json"}
+{
+  "sections": [
+    { "page": "/intro" },
+    { "page": "/config", "children": [{ "page": "/api" }] }
+  ]
+}
+```
+
+这里 `content/config.md` 与 `content/api.md` 仍是同级文件，导航里 API 则位于 Config
+之下。选中 API 时，无须 URL 提示就会展开 Config。页面的自定义 URL 只改变链接，
+不改变侧栏归属。独立的 Book 根或嵌套 `sidebar_root_for` 根各自选择自己的分支；
+清单未包含的根使用其内容树。
+
+这棵树同时决定翻页顺序与导航 JSON，侧栏与上一页 / 下一页保持相同排序。`sections` 为空数组
 时告警并回退到内容树；`page` 指向不存在的页面时告警并跳过该项。严格发布构建拒绝
 任一警告。带 `manual_link` 的占位节点与 `sidebar_divider` 分隔行留在侧栏里，但不会
 成为翻页目标。1.1 的显式树也保留分隔分区的子页，使用与内容树相同的
@@ -217,10 +242,13 @@ params:
 
 Book 页可以在侧栏当前行下展开 h2–h4 分支，便于在长章节内跳转：
 
+默认关闭。页面 front matter 或分区 cascade 也可设置同名键；显式
+`sidebar_headings: false` 会关闭继承的启用值，右侧目录仍然保留。
+
 ```yaml {title="hugo.yml"}
 params:
   ui:
-    sidebar_headings: 3 # false | true | 2 | 3 | 4
+    sidebar_headings: 3 # 默认为 false；可选 true | 2 | 3 | 4
 ```
 
 整数指定展开到第几级（2–4），`true` 等于 2（只展开 h2），`false` 关闭。取值超出

@@ -5,12 +5,12 @@ description: OINK 创作原语、校验、Book、发布行为与输出降级的�
 weight: 20
 icon: fa-solid fa-cubes-stacked
 search_keywords: [OINK 组件契约, shortcode API, Markdown 组件, Book, 发布, 校验]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
-> `content/docs/design/`。
+> [!NOTE] OINK 1.3.0 契约
+> 本契约描述 OINK v1.3.0。主题开发使用同级 checkout；发布验收在关闭替换与
+> 工作区后验证公开模块。消费站升级与部署分别检查。
 
 教程与完整示例位于面向读者的[组件](/zh/docs/components/)专栏。本页定义这些
 指南所依赖的 API 与行为。
@@ -78,6 +78,12 @@ URL 使用 `content/url.html`；不允许原始反斜杠，因为浏览器可能
 但不能执行 Hugo 图片操作。
 资源元数据 `alt` 必须是字符串；无效值会告警并被忽略，保留正文填写的替代文本。
 
+空的 `tabs` 会告警，在 HTML、Print、Markdown 与 RSS 中都不输出容器。
+`xref` 没有可用目标或找不到目标页面时，保留文字但不生成链接。
+`fig` 同时填写 `caption` 与 `title` 时会告警，所有输出都优先使用 `caption`。
+块公式上的通用属性不会启用 Book 编号；没有 `num` 时，`id` 与 `caption`
+会告警并被忽略，公式仍按无编号形态渲染。
+
 ## 组件行为 {#component-behavior}
 
 ### 提示块与标签页 {#callouts-and-tabs}
@@ -91,6 +97,13 @@ URL 使用 `content/url.html`；不允许原始反斜杠，因为浏览器可能
 HTML 在 JavaScript 运行前暴露所有面板，打印输出展开面板，Markdown 保留作者
 源文，RSS 接收渲染后的文本摘要。完整形态支持任意 Markdown；`tab.label` 必填，
 父级存在 `group` 时 `value` 才严格必填，孤立的 `tab` 会警告且不渲染。
+
+HTML 与单页 Print 保持分组标签页的 ID 和本地链接不变；同页重复分组与嵌套标签页
+容器的 ID 保持唯一。多页分区 Print 与整书
+Print 给主题生成的标签页容器、面板 ID 加上来源页面的命名空间，并同步改写本地
+链接。不同章节复用同一 group 时，链接仍须指向本章面板；指向普通 HTML 的跨页
+链接保留原目标。
+片段链接改写支持正常的 HTML 属性语法，并保留其他属性内的原始文本。
 
 ### 步骤、卡片、参数表与表格 {#steps-cards-fields-and-tables}
 
@@ -128,6 +141,10 @@ Markdown 图片钩子是普通图片 API。行内图片保持行内；块图片�
 无效值会告警并被忽略，保留正文中编写的图片 alt。
 Draw.io 与图片缩放共用一张图片时，编辑与缩放是同级的独立按钮。编辑入口支持
 键盘访问，并在触摸设备和强制颜色模式下保持可见。
+Draw.io 在模态对话框中打开，外层始终提供本地化的关闭按钮。关闭按钮、遮罩、编辑器
+退出消息，以及焦点位于外层对话框时的 Escape 均可关闭编辑器、清理消息监听器并把
+焦点归还编辑按钮。跨域 iframe 内的按键归编辑器所有，不能冒泡至外层；用户可沿
+编辑器的 Tab 顺序移出 iframe，访问外层关闭按钮。重新打开时创建新的编辑会话。
 
 画廊每行接受一张 Markdown 图片，可带描述、链接与 class。FileTree 接受缩进、
 `- name`、可选 `/`、注释，以及经过校验的 icon、tone、open、type 属性。文件树
@@ -152,9 +169,9 @@ Markmap 节点文字在屏幕显示下通过 `--markmap-text-color` 继承页面
 （此行为在 v1.2.0 之后引入。）
 
 数学公式使用 Hugo 构建时生成的 KaTeX 产物和本地 CSS，不加载浏览器数学运行时。
-共享渲染器在 HTML 和 Print 中将 KaTeX 0.18 之前的类名统一为本地样式支持的类名，
-保留 Hugo 0.160.1 兼容下限、MathML 与作者的 TeX 源文。Markmap 使用与样式配套的
-本地 KaTeX 运行时。
+HTML 和 Print 使用本地样式表，并保留 MathML 与作者的 TeX 源文。
+数学公式按[架构契约](/zh/docs/design/architecture/#hugo-toolchain)中的当前 Hugo
+基线验证。Markmap 使用与样式配套的本地 KaTeX 运行时。
 窄屏中，编号公式的标题在阅读列内换行，长标题不得撑宽整页。
 
 Swagger 与 Redoc 接受 HTTP(S) 规范 URL 或以 `static/` 为根的路径，都不解析页面
@@ -176,10 +193,15 @@ Swagger 与 Redoc 接受 HTTP(S) 规范 URL 或以 `static/` 为根的路径，�
 中的脚注引用会警告并保持字面形式；该检查忽略代码形态的文本。
 
 `book-toc` 按 1–3 层导航顺序生成目录；四个 `book-*` 索引各自收集一种目标。
-单页 Print 与普通 HTML 保持完全相同的普通标题与脚注 ID。只有多页分区
-Print 与整书 Print 会改写跨页链接，并给这些页面局部标题与脚注增加命名
-空间，避免聚合后冲突；显式目标 ID 保持不变。消费站点自行选择是否启用这些
-潜在成本较高的聚合输出。
+单页 Print 与普通 HTML 保持完全相同的普通标题、脚注与标签页 ID。只有多页分区
+Print 与整书 Print 会改写跨页链接，并给页面局部标题、脚注和主题生成的标签页 ID 增加命名
+空间，避免聚合后冲突。本地标题链接在匹配前按 URL 规则解码一次片段，因此指向
+Unicode 标题的普通 Markdown 链接在聚合后仍能到达原目标。显式目标 ID 保持不变。
+消费站点自行选择是否启用这些潜在成本较高的聚合输出。消费站手写的 HTML 锚点和
+自定义短代码 ID 默认仍是全局 ID。给带 `id` 的元素增加布尔属性
+`data-td-print-local`，可将其声明为页内锚点。聚合输出会给该 ID 和同页链接增加
+命名空间，普通 HTML 与单页 Print 保留原 ID。旧别名和自定义短代码标题因此可保留
+原有深链接，同时避免跨章冲突；未标记的作者 ID 必须在聚合文档中保持唯一。
 
 ### 发布与下载 {#release-and-download}
 
@@ -189,6 +211,8 @@ Print 与整书 Print 会改写跨页链接，并给这些页面局部标题与�
 `release` map、`release_products` 与 `release_group_by_product` 会警告并给出
 替代项，它们不是兼容路径。分区索引列出所有页面；能解析时使用 `project tag`，
 否则使用页面标题。
+使用 `layout: releases` 时，HTML 保持发布索引；分区 Print 聚合完整发布正文，并使用
+章节局部 ID。开发与生产构建遵循相同行为。
 
 校验和可以接受规范行，也可以接受一个源资源，两者不能同时提供；文件名不能是
 路径。HTML 增加本地复制功能，静态输出暴露完整 hash。
@@ -197,6 +221,9 @@ Print 与整书 Print 会改写跨页链接，并给这些页面局部标题与�
 pinned URL 与命令会插值 `${version}` 和 `${tag}`。发布前，rolling channel 保持
 可用，pinned channel 显示 pending。Markdown 渲染完整 channel 列表；RSS 省略
 该组件。
+
+切换标签页后，重新测量新显示面板中的可折叠代码块；字体加载完成后或没有
+`ResizeObserver` 时，展开和收起控件仍须可用。
 
 ## 验证 {#verification}
 

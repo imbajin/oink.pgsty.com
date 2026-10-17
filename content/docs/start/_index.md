@@ -28,12 +28,11 @@ of this documentation and regression repository. The Starter is a public
 GitHub template: it pins a published OINK release, builds as-is, and contains
 only neutral project content and deployment workflows.
 
-> [!IMPORTANT] Two version numbers have different jobs
-> OINK's declared compatibility floor is Hugo Extended
-> {{% param hugoMinVersion %}}. The current Starter and its CI use Hugo Extended
-> 0.165.0 and Go 1.27. Use that pinned Starter toolchain for the path below; use
-> the lower floor only when maintaining an existing site that deliberately
-> supports it.
+> [!IMPORTANT] Current Hugo baseline
+> Development, CI, and release tests use Hugo Extended {{% param hugoMinVersion %}}
+> and Go 1.27. The Hugo baseline advances with stable releases. When starting
+> from an older Starter snapshot, update its Hugo workflow pins to this baseline;
+> older Hugo compatibility is no longer maintained.
 
 ## Choose a path {#choose}
 
@@ -47,14 +46,14 @@ only neutral project content and deployment workflows.
 
 1. ### Install the tools {#tools}
 
-   Install Git, Go 1.27 or newer, and Hugo Extended 0.165.0 or newer. The Hugo
+   Install Git, Go 1.27 or newer, and Hugo Extended 0.166.0 or newer. The Hugo
    output must contain `extended`:
 
    ```console
    $ go version
    go version go1.27.0 darwin/arm64
    $ hugo version
-   hugo v0.165.0+extended+withdeploy darwin/arm64
+   hugo v0.166.0+extended+withdeploy darwin/arm64
    ```
 
    On macOS, `brew install git go hugo` supplies them. On Linux and Windows,

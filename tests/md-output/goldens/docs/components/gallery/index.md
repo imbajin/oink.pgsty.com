@@ -207,6 +207,10 @@ inside the fence. Strict publishing rejects the warning.
   may shift.
 - Descriptions are not Markdown: put rich text in a paragraph under the gallery.
 
+For album navigation, image sequencing, and drag-to-pan viewing, use the
+[Expo layout](/docs/write/expo/) introduced in OINK 1.3.0. The `gallery` fence
+is for image groups inside text pages.
+
 ## Related {#related}
 
 - [Images](/docs/components/image/) — single images, captions, numbering, the zoom switch
@@ -218,7 +222,9 @@ inside the fence. Strict publishing rejects the warning.
 
 Backlinks:
 
+- [OINK v1.3.0](/blog/release/1.3.0/)
 - [Cards](/docs/components/cards/)
 - [FileTree](/docs/components/filetree/)
 - [Images](/docs/components/image/)
 - [Print](/docs/customize/print/)
+- [Expo albums](/docs/write/expo/)

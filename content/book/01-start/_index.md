@@ -23,16 +23,17 @@ theme or deployment problem later.
 
 ## Install the prerequisite {#prerequisite}
 
-The current Starter needs Git, Go 1.27 or newer, and Hugo Extended 0.165.0 or
-newer. OINK's lower declared compatibility floor remains 0.160.1, but the
-Starter and its workflows deliberately pin the current tested toolchain.
+Use Git, Go 1.27 or newer, and Hugo Extended 0.166.0 for this tutorial.
+Development, CI, and release tests use this single Hugo baseline, which
+advances with stable releases. Update an older Starter's Hugo workflow pins
+before validation. Older Hugo compatibility is no longer maintained.
 Node.js is not required.
 
 ```console
 $ go version
 go version go1.27.0 darwin/arm64
 $ hugo version
-hugo v0.165.0+extended+withdeploy darwin/arm64
+hugo v0.166.0+extended+withdeploy darwin/arm64
 ```
 
 ## Run the preview {#preview}

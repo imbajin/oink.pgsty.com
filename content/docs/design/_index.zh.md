@@ -6,17 +6,15 @@ weight: 70
 icon: fa-solid fa-compass-drafting
 no_list: true
 search_keywords: [OINK 设计, 维护者契约, 架构, 决策, 研究, 提案, PRD]
-contract_status: v1.2.0
+contract_status: v1.3.0
 cascade:
   search_boost: 0.6
   categories: [设计契约]
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
-> `content/docs/design/`。
-> Hugo Extended 0.160.1 仍为兼容下限，CI 固定使用 0.165.0；下限版本
-> 不作为第二套完整 CI 矩阵。
+> [!NOTE] OINK 1.3.0 契约
+> 本契约描述 OINK v1.3.0。主题开发使用同级 checkout；发布验收在关闭替换与
+> 工作区后验证公开模块。消费站升级与部署分别检查。
 
 本专栏是 OINK 可长期维护的设计记录。站内其它专栏按任务讲解如何搭建站点；
 这里集中说明现行不变量、这些选择背后的理由、用于比较方案的证据，以及仍处于
@@ -45,14 +43,21 @@ cascade:
 
 | 集合                                   | 内容                                       |
 | -------------------------------------- | ------------------------------------------ |
-| [设计决策](/zh/docs/design/decisions/) | 已接受的诊断、配置与创作模型设计理由       |
-| [设计研究](/zh/docs/design/research/)  | Goldmark 探针与真实 OINK 消费站点证据      |
-| [候选提案](/zh/docs/design/proposals/) | 知识图谱、媒体收敛与机器可读索引等活跃 PRD |
+| [设计决策](/zh/docs/design/decisions/) | 已接受的诊断、配置、创作模型、Expo 与 CLI 设计理由       |
+| [设计研究](/zh/docs/design/research/)  | Goldmark 探针、消费站证据、CLI 验收与 10 月主题评审      |
+| [候选提案](/zh/docs/design/proposals/) | 知识图谱、媒体收敛、视觉预设与 CLI 路线图等活跃 PRD |
 
 以后所有 OINK PRD 或 RFC 都必须以中英文页面对的形式放入
 `content/docs/design/proposals/`，不得再在仓库中创建 `plan/`、`plans/` 或
 `proposal/` 目录。提案被接受后，应同步更新实现、对应检查器与相关契约，把稳定
 理由沉淀到“设计决策”，并通过 Git 历史与变更日志退出草案。
+
+## Expo 契约 {#unreleased-contracts}
+
+[Expo 契约](/zh/docs/design/expo/) 描述 OINK 1.3.0 新增的图片相册布局，
+[已接受决策](/zh/docs/design/decisions/expo/) 记录内容模型和对早期 Muse 实验的修订。
+[创作指南](/zh/docs/write/expo/)说明相册创建与查看器操作。
+契约、已接受决策与创作指南说明同一套已发布的内容模型与控件。
 
 ## 权威来源与维护 {#authority-and-maintenance}
 

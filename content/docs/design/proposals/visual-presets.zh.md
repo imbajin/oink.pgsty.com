@@ -1,7 +1,7 @@
 ---
 title: 视觉预设与外观切换
 linkTitle: 视觉预设
-description: Paper 与 Slate 已在本地实现；Ink 与 Terminal 提供显式开启的实验，等待视觉定稿。
+description: Paper 与 Slate 已随 1.2.0 发布；Ink 与 Terminal 提供显式开启的实验，等待视觉定稿。
 weight: 40
 icon: fa-solid fa-swatchbook
 search_keywords:

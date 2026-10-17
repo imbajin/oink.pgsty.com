@@ -109,9 +109,14 @@ Three things, in order.
 
 ### Lay an overlay over the page {#editing-overlay}
 
-A full-screen `div.drawioframe` is inserted holding an iframe whose address is
-the configured `drawio_server` plus a fixed query string
-(`embed=1&ui=atlas&proto=json&saveAndEdit=1&noSaveBtn=1`).
+In OINK 1.3.0, the runtime opens a full-screen
+`<dialog class="drawioframe">` containing an iframe.
+The editor URL keeps the configured `drawio_server` query parameters and fragment,
+and sets `embed=1`, `ui=atlas`, `proto=json`, `saveAndEdit=1`, and `noSaveBtn=1`.
+The modal includes a localized Close button and contains keyboard focus. Close
+it with that button or a background click. Escape closes it while focus is in
+the host dialog; the embedded editor handles its own keys. Closing restores
+focus to Edit unless another surface has already taken focus.
 
 ### Hand the diagram to the editor {#editing-load}
 

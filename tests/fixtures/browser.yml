@@ -4,7 +4,13 @@ module:
       target: content
     - source: tests/fixtures/browser/content
       target: content/tests
+    - source: layouts
+      target: layouts
+    - source: tests/fixtures/browser/layouts
+      target: layouts
 
 params:
+  drawio:
+    drawio_server: https://embed.diagrams.net/?lang=en#editor
   ui:
     sidebar_cache_limit: 1

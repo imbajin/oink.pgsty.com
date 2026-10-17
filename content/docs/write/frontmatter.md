@@ -1,7 +1,7 @@
 ---
 title: Page parameters
 linkTitle: Page parameters
-description: The full front matter table — active page keys and retained 1.x compatibility no-ops, grouped by sidebar, shell, search, output, page end, Book, landing and release pages.
+description: The full front matter table — active page keys and retained 1.x compatibility no-ops, grouped by sidebar, shell, search, output, page end, Book, Expo, landing and release pages.
 weight: 30
 search_keywords: [page parameters, front matter, cascade, page override, parameter table]
 ---
@@ -249,6 +249,22 @@ a section `cascade`.
 | `sidebar_headings` | `false` / `true` / integer 2–4 | site value (`false`) | Expands the h2–h4 branch under the current sidebar entry. Out of range warns and falls back |
 | `book_draft_banner` | boolean | site value (`false`) | Adds a banner at the top of a draft chapter. A non-boolean warns and falls back |
 {.fields meta="type default"}
+
+## Expo albums {#expo}
+
+OINK 1.3.0 uses `type: expo` for album pages. See [Expo albums](/docs/write/expo/) for the authoring guide.
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `expo` | map | site `params.ui.expo` | Replaces the site block; absent fields use the built-in defaults below |
+| `expo.images` | string | `images/*` | Pattern for image resources in the page bundle |
+| `expo.mode` | `wall` / `cards` / `seamless` | `wall` | Initial mode when the reader has no stored choice |
+| `expo.size` | integer | `240` | Target size from 160 to 360 CSS pixels; a stored reader size takes precedence |
+{.fields meta="type default"}
+
+Image titles, captions, credits, weights, explicit IDs, and separate originals
+use native Hugo `resources` metadata. See [Image metadata](/docs/write/expo/#image-metadata)
+for the fields and an example.
 
 ## Landing {#landing}
 

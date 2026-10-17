@@ -60,7 +60,7 @@ number the table.
 | Item | Value |
 | --- | --- |
 | Theme version | v0.8.1 |
-| Hugo floor | 0.160.1 Extended |
+| Hugo floor | 0.166.0 Extended |
 | Licence | Apache-2.0 |
 {caption="Theme facts this site currently builds against"}
 ```
@@ -68,7 +68,7 @@ number the table.
 | Item | Value |
 | --- | --- |
 | Theme version | v0.8.1 |
-| Hugo floor | 0.160.1 Extended |
+| Hugo floor | 0.166.0 Extended |
 | Licence | Apache-2.0 |
 {caption="Theme facts this site currently builds against"}
 
@@ -251,7 +251,7 @@ and every table after it needs `value`. The complete rules are on the
 | Output | Shape |
 | --- | --- |
 | HTML | A focusable `<div class="td-table-scroll">` around the `<table>`; matrix and full-width are modifier classes on that wrapper |
-| Print | The complete table laid out to the page width; the wrapper stays but is marked `td-table-scroll--static` and is no longer a focusable viewport |
+| Print | Complete static content with a keyboard-scrollable region in the browser preview; print-media CSS expands the region for paper output |
 | Markdown | The source table and its attribute line, emitted as written |
 | RSS | The complete static table |
 

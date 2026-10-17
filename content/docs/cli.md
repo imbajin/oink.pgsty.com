@@ -51,8 +51,10 @@ make build
 ```
 
 Replace `../my-docs` with an existing site. Site operations require Hugo
-Extended; OINK's compatibility floor is 0.160.1, while the CLI's fixed Starter
-requires 0.165.0 or later and Go 1.27 or later.
+Extended 0.166.0 or later; the fixed Starter's module workflow needs Go 1.27
+or later. Development and validation use Hugo Extended 0.166.0, with the
+baseline advancing with stable releases. Older Hugo compatibility is no
+longer maintained.
 
 `make deps` downloads build dependencies. CLI commands are offline by default;
 add `--network` when that invocation needs uncached inputs. Checks and change

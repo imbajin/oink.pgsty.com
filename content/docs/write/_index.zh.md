@@ -44,6 +44,7 @@ weight: 20
 | 查某个 front matter 键是什么意思 | [页面参数](/zh/docs/write/frontmatter/) |
 | 一篇博客、发布公告、RSS | [博客与文章](/zh/docs/write/blog/) |
 | 一本书：章节编号、图表式例、交叉引用、整本打印 | [书籍出版](/zh/docs/write/book/) |
+| 图片相册：目录结构、元数据、布局与图片查看器 | [Expo 相册](/zh/docs/write/expo/) |
 | 一个发布下载页：版本卡片、资产表、校验和 | [发布与下载页](/zh/docs/write/releases/) |
 | 一份 OpenAPI 参考页 | [API 文档](/zh/docs/write/openapi/) |
 | 中英双语写作：对等文件、锚点对齐、缺译回退 | [多语言](/zh/docs/customize/i18n/) |

@@ -3,6 +3,15 @@ import { expect, test } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
 
 const docs = '/docs/customize/config/';
+
+test('coordinated closure leaves focus alone when Appearance is closed', async ({ page }) => {
+  await page.goto(docs);
+  const main = page.locator('#td-main-content');
+  await main.focus();
+  await page.evaluate(() => window.OinkSurfaceCoordinator.closeAll(true));
+  await expect(main).toBeFocused();
+});
+
 const canvases = { ink: { light: 'rgb(255, 255, 255)', dark: 'rgb(11, 11, 11)' }, terminal: { light: 'rgb(244, 245, 242)', dark: 'rgb(12, 15, 14)' }, paper: { light: 'rgb(247, 246, 243)', dark: 'rgb(22, 21, 19)' }, slate: { light: 'rgb(241, 244, 248)', dark: 'rgb(11, 17, 25)' } };
 
 async function expectModeIcons(page, mode) {
@@ -132,6 +141,23 @@ test('independent state, native keyboard, navigation, default reset and cross-ta
   await footerPanel.locator('[data-bs-theme-value="dark"]').check();
   await expectModeIcons(page, 'dark');
   await second.close();
+});
+
+test('Appearance stays expanded after an immediate close and reopen', async ({ page }) => {
+  await page.goto(docs);
+  const { trigger, panel } = await openAppearance(page);
+  await trigger.evaluate(button => {
+    button.click();
+    button.click();
+  });
+  // Native dialog close events are queued; wait until that queue has drained.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await expect(panel).toBeVisible();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  await expect(trigger.locator('..')).toHaveClass(/td-is-open/);
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
 });
 
 test('blocked storage preserves checked radios and system preference in-page', async ({ page }) => {
@@ -308,3 +334,43 @@ test('Mermaid keeps one mode palette across all presets with readable dark label
     expect(result.violations).toEqual([]);
   }
 });
+
+for (const prefix of ['', '/zh']) {
+  test(`${prefix || 'en'} nonmodal Appearance permits search while modal dialogs retain keys`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`${prefix}/docs/customize/config/`);
+    const search = page.locator('#td-shell-search');
+    for (const key of ['/', 'Control+k', 'Meta+k', 'f']) {
+      const { trigger, panel } = await openAppearance(page);
+      expect(await panel.evaluate(node => node.matches(':modal'))).toBe(false);
+      await trigger.focus();
+      await page.keyboard.press(key);
+      await expect(search).toBeVisible();
+      await expect(panel).toBeHidden();
+      await page.keyboard.press('Escape');
+      await expect(search).toBeHidden();
+    }
+    // A second native dialog must not be overlooked after the Appearance panel.
+    const { trigger } = await openAppearance(page);
+    await page.evaluate(() => {
+      const dialog = document.createElement('dialog');
+      dialog.id = 'test-second-dialog';
+      dialog.innerHTML = '<button>Dialog action</button>';
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    });
+    await page.keyboard.press('Control+k');
+    await expect(search).toBeHidden();
+    await page.keyboard.press('Escape');
+    await trigger.press('Escape');
+    await page.setViewportSize({ width: 390, height: 844 });
+    const { panel } = await openAppearance(page);
+    expect(await panel.evaluate(node => node.matches(':modal'))).toBe(true);
+    await panel.locator('[data-td-appearance-close]').focus();
+    for (const key of ['/', 'Control+k', 'Meta+k', 'f']) {
+      await page.keyboard.press(key);
+      await expect(search).toBeHidden();
+      await expect(panel).toBeVisible();
+    }
+  });
+}

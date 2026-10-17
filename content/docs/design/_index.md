@@ -15,17 +15,16 @@ search_keywords:
     proposal,
     PRD,
   ]
-contract_status: v1.2.0
+contract_status: v1.3.0
 cascade:
   search_boost: 0.6
   categories: [Design]
 ---
 
-> [!NOTE] OINK 1.2.0 contract
-> This contract describes the v1.2.0 release. Its canonical bilingual sources
-> are in `content/docs/design/`.
-> Hugo Extended 0.160.1 remains the compatibility floor. CI uses 0.165.0;
-> the floor is not a second full CI matrix.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 This section is the durable design record for OINK. It complements the
 task-oriented guides elsewhere on the site: use those guides to build a site,
@@ -56,9 +55,9 @@ proposal.
 
 | Collection                           | Contents                                                                          |
 | ------------------------------------ | --------------------------------------------------------------------------------- |
-| [Decisions](/docs/design/decisions/) | Accepted diagnostic, configuration, and authoring rationale                       |
-| [Research](/docs/design/research/)   | Goldmark probes and evidence from real OINK consumers                             |
-| [Proposals](/docs/design/proposals/) | Active PRDs for knowledge graphs, media convergence, and machine-readable indexes |
+| [Decisions](/docs/design/decisions/) | Accepted diagnostic, configuration, authoring, Expo, and CLI rationale                       |
+| [Research](/docs/design/research/)   | Goldmark probes, consumer evidence, CLI acceptance, and October theme reviews                             |
+| [Proposals](/docs/design/proposals/) | Active PRDs for knowledge graphs, media convergence, visual presets, and the CLI roadmap |
 
 Create every new OINK PRD or RFC as an English and Chinese page pair under
 `content/docs/design/proposals/`. Do not create another repository-local
@@ -66,6 +65,15 @@ Create every new OINK PRD or RFC as an English and Chinese page pair under
 implementation, owning checker, and relevant contract; preserve the stable
 rationale under Decisions and retire the draft through Git history and the
 changelog.
+
+## Expo contract {#unreleased-contracts}
+
+The [Expo contract](/docs/design/expo/) describes the image-album layout
+introduced in OINK 1.3.0. Its [accepted decision](/docs/design/decisions/expo/) records the
+content model and the revisions to the earlier Muse experiment. The
+[authoring guide](/docs/write/expo/) explains album setup and viewer controls.
+The contract, accepted decision, and authoring guide describe the same
+released content model and controls.
 
 ## Authority and maintenance {#authority-and-maintenance}
 

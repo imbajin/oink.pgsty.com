@@ -15,7 +15,9 @@ design_status: active
 > [!NOTE] Evidence, not a contract
 > Research records what was measured, with which inputs and tool versions.
 > Results may explain a decision, but they do not override the current
-> contracts or implementation.
+> contracts or implementation. Current validation uses Hugo Extended 0.166.0
+> and follows the [toolchain contract](/docs/design/architecture/#hugo-toolchain).
+> Older versions recorded here are historical evidence, not compatibility test targets.
 
 Research belongs in the public Design tree when another maintainer can inspect
 its method, understand its limits, and repeat the relevant check. Raw agent
@@ -26,7 +28,7 @@ standard.
 
 | Record                                                                                       | Evidence                                                                           |
 | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| [Goldmark block attributes](/docs/design/research/goldmark-attributes/)                      | Render-hook visibility and CommonMark container limits on the supported Hugo floor |
+| [Goldmark block attributes](/docs/design/research/goldmark-attributes/)                      | Render-hook visibility and CommonMark container limits on the historical Hugo versions recorded in the study |
 | [Consumer and migration evidence](/docs/design/research/consumer-evidence/)                  | A dated corpus survey plus deterministic Book migration results                    |
 | [Comprehensive review, 2026-08-26](/docs/design/research/2026-08-26-comprehensive-review/)   | Implementation, configuration, output, security, test, performance, and doc audit  |
 | [Community issue and PR review, 2026-09-19](/docs/design/research/2026-09-19-upstream-review/) | Reproductions, PR acceptance advice, and remedies for sidebar, focus, and search feedback |
@@ -35,6 +37,8 @@ standard.
 | [Visual preset acceptance, 2026-10-05](/docs/design/research/2026-10-05-visual-presets-acceptance/) | Paper/Slate local implementation, actual output and bounded browser evidence |
 | [Ink and Terminal experiment, 2026-10-05](/docs/design/research/2026-10-05-ink-terminal-experiment/) | Explicit experimental presets, design tradeoffs and real-site verification |
 | [OINK 1.2 pre-release review, 2026-10-05](/docs/design/research/2026-10-05-v1-2-release-review/) | Final local candidate checks, cleanup, local resources, compatibility and publication boundaries |
+| [CLI maintenance acceptance, 2026-10-03](/docs/design/research/2026-10-03-cli-maintenance-acceptance/) | Historical R1–R8 and A18 source-bound runtime and archive evidence |
+| [Theme review, 2026-10-13](/docs/design/research/2026-10-13-theme-review/) | Reproduced output and interaction defects, repairs, and local validation scope |
 
 ## Publication rules {#publication-rules}
 

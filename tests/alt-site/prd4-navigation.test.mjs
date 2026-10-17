@@ -175,6 +175,7 @@ for (const [deployment, baseURL, prefix] of [
           { href: `${prefix}/case/`, title: 'Case' },
           { href: `${prefix}/blog/`, title: 'Blog' },
           { href: `${prefix}/docs/`, title: 'Docs' },
+          { href: `${prefix}/expo/`, title: 'Expo' },
         ],
       ],
       [
@@ -185,6 +186,7 @@ for (const [deployment, baseURL, prefix] of [
           { href: `${prefix}/zh/case/`, title: '案例' },
           { href: `${prefix}/zh/blog/`, title: '博客' },
           { href: `${prefix}/zh/docs/`, title: '文档' },
+          { href: `${prefix}/zh/expo/`, title: 'Expo' },
         ],
       ],
     ]) {

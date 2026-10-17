@@ -85,7 +85,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: 0.165.0
+  HUGO_VERSION: 0.166.0
   # a workspace from a sibling checkout must never take part in a CI build
   GOWORK: off
   HUGO_MODULE_WORKSPACE: off
@@ -178,13 +178,13 @@ same `public/` artifact to a Cloudflare Pages project.
    `CLOUDFLARE_SITE_URL` when a custom domain becomes production.
 {.steps}
 
-The workflow pins Hugo Extended 0.165.0, reads Go from `go.mod`, disables local
+The workflow pins Hugo Extended 0.166.0, reads Go from `go.mod`, disables local
 module workspaces, and builds with `--panicOnWarning` before upload. It is the
 recommended reproducible path for Starter users.
 
 Cloudflare Git integration remains valid as a separate mode: configure build
 command `hugo --gc --minify --printPathWarnings --panicOnWarning`, output
-directory `public`, Hugo `0.165.0`, and Go `1.27`. Use Git integration **or**
+directory `public`, Hugo `0.166.0`, and Go `1.27`. Use Git integration **or**
 the Direct Upload workflow for one project, not both. A preview deployment is
 still not production proof; rebuild with its own URL and keep it unindexed.
 
@@ -201,7 +201,7 @@ command = "hugo --gc --minify --printPathWarnings --panicOnWarning"
 publish = "public"
 
 [build.environment]
-HUGO_VERSION = "0.165.0"
+HUGO_VERSION = "0.166.0"
 ```
 
 With the theme as a submodule, enable recursive submodule checkout; with a Hugo

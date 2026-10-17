@@ -8,8 +8,17 @@ LLMS index: [llms.txt](/llms.txt)
 
 ---
 
+> [!NOTE] Versioned history
+> Each release note records that release's requirements and validation. Current
+> development, CI, and release tests use Hugo Extended 0.166.0, with the baseline
+> advancing with stable releases. Older requirements below do not define
+> current support; follow the [toolchain contract](/docs/design/architecture/#hugo-toolchain).
+
+---
+
 Section pages:
 
+- [OINK 1.3.0 — Expo image albums](/blog/release/1.3.0/): Expo brings resource-backed image albums, three layouts and an original-image viewer to OINK, with more reliable navigation, dialogs and focus.
 - [OINK 1.2.0 — Four styles, one local-first theme](/blog/release/1.2.0/): OINK 1.2.0 introduces Paper, Slate, Ink and Terminal, independent style and light/dark controls, local fonts, clearer search, consistent navigation, and safer book publishing and site maintenance.
 - [OINK 1.1.0 — Native locales, navigation, and site extensions](/blog/release/1.1.0/): OINK 1.1.0 brings 32 native interface catalogs, taxonomy directories, reliable sidebar state, site-owned search actions, and fixes for printing, keyboard focus, and copying images.
 - [OINK 1.0.0 — Stable contracts, a supported starter, and a complete public release](/blog/release/1.0.0/): OINK 1.0.0 makes the current knowledge-publishing contracts stable and rolls up every theme change since 0.8.0: Print and Book correctness, pinned Go 1.27 and Hugo 0.165.0 release tooling, a supported Starter, and the public metadata and media needed to enter the wider Hugo ecosystem.

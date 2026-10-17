@@ -5,12 +5,13 @@ description: The maintainer contract for OINK authoring primitives, validation, 
 weight: 20
 icon: fa-solid fa-cubes-stacked
 search_keywords: [OINK component contract, shortcode API, Markdown components, Book, release, validation]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 contract
-> This contract describes the v1.2.0 release. Its canonical bilingual sources
-> are in `content/docs/design/`.
+> [!NOTE] OINK 1.3.0 contract
+> This contract describes OINK v1.3.0. Theme development uses the sibling
+> checkout; release acceptance verifies the published module with replacements
+> and workspaces disabled. Consumer adoption and deployment have their own checks.
 
 Tutorials and exhaustive examples belong in the reader-facing
 [Components](/docs/components/) section. This page defines the API and behavior
@@ -84,20 +85,30 @@ cannot use Hugo image operations.
 Resource metadata `alt` must be a string; an invalid value warns and is ignored,
 preserving the image's authored alt text.
 
+Empty `tabs` warn and emit no container in HTML, Print, Markdown, or RSS.
+An `xref` without a usable target or with a missing target page preserves its
+text without a link. If `fig` supplies both `caption` and `title`, the warning
+and all outputs prefer `caption`.
+Generic attributes on block mathematics do not enable Book numbering. Without
+`num`, `id` and `caption` warn and are ignored; the formula stays unnumbered.
+
 ## Component behavior {#component-behavior}
 
 ### Callouts and tabs {#callouts-and-tabs}
 
-Callout types are `note`, `tip`, `important`, `warning`, `caution`, `success`,
-`danger`, `question`, `example`, `quote`, and `details`; `-` starts folded and
-`+` expanded. Unknown types render as plain blockquotes with their markers preserved, without JS.
+Callout types are `note`, `tip`, `important`, `warning`, `caution`, `success`, `danger`, `question`, `example`, `quote`, and `details`.
+`-` makes the callout initially collapsed. `+` makes it expanded.
+Unknown types render as plain blockquotes, with their markers preserved and no JS.
 
-Adjacent tabs group only when consecutive and of the same block kind. `group`
-enables hash `#<group>-<value>` and storage `td-tabs:v1:<group>`; ungrouped tabs
-use neither. HTML exposes every panel before JS, print expands them, Markdown
-retains authored source, and RSS receives the rendered text summary. The full
-form supports arbitrary Markdown; `tab.label` is required, `value` is required
-exactly with a parent `group`, and an orphan `tab` warns and renders nothing.
+Adjacent tabs group only when consecutive and of the same block kind.
+`group` enables the hash `#<group>-<value>` and storage `td-tabs:v1:<group>`. Ungrouped tabs use neither.
+HTML exposes all panels before JS. Print expands them. Markdown keeps authored source. RSS provides the rendered text summary.
+Grouped tab IDs and local links remain unchanged in HTML and single-page Print.
+Repeated groups and nested tab containers keep unique IDs within each page.
+Multi-page section and whole-Book Print prefix generated tab container and panel IDs with the source page namespace and update their local links. Reusing a group across chapters must not send a tab link to another chapter. Cross-page links to ordinary HTML keep their destination.
+Fragment rewriting accepts normal HTML attribute syntax and preserves text inside other attributes.
+The full form supports arbitrary Markdown. `tab.label` is required. `value` is required exactly when the parent has `group`.
+Orphan `tab` shortcodes warn and render nothing.
 
 ### Steps, cards, fields, and tables {#steps-cards-fields-and-tables}
 
@@ -143,6 +154,12 @@ an editor discards the theme's styles. Authored images and captions are preserve
 When Draw.io and Image Zoom share an image, Edit and Zoom remain separate sibling
 buttons. The editor entry supports keyboard access and stays visible on touch
 devices and in forced-colors mode.
+The Draw.io editor opens in a modal dialog with a localized host Close button.
+The button, backdrop, editor exit message, and Escape while focus is in the host
+dialog dismiss it, release its message listener, and restore focus to Edit.
+Cross-origin iframe keystrokes belong to the editor and cannot bubble to the
+host; users can leave the editor's Tab sequence to reach the host Close button.
+Opening another editor starts a fresh session.
 
 Gallery accepts one Markdown image per line with optional description, link,
 and class. FileTree accepts indentation, `- name`, optional `/`, comments, and
@@ -171,9 +188,10 @@ overridden by site CSS of equal specificity or SVG inline tokens. (This behavior
 was introduced after v1.2.0.)
 
 Mathematics uses Hugo's build-time KaTeX output and local CSS, without a browser
-math runtime. The shared renderer normalizes pre-0.18 KaTeX class names to the
-vendored stylesheet in HTML and Print, preserving the Hugo 0.160.1 floor,
-MathML, and authored TeX. Markmap uses the matching vendored KaTeX runtime.
+math runtime. HTML and Print use the vendored stylesheet and preserve MathML
+and authored TeX. Validate mathematics with the current Hugo baseline defined
+in the [architecture contract](/docs/design/architecture/#hugo-toolchain).
+Markmap uses the matching vendored KaTeX runtime.
 On narrow screens, numbered-equation captions wrap within the reading column;
 a long caption must not widen the page.
 
@@ -184,45 +202,48 @@ is interactive; Print, Markdown, and RSS render a static specification link.
 
 ### Book {#book}
 
-The `book` type extends the docs shell and follows the content tree or
-`data/docs_nav.json`. `book_number`, `book_part`, `book_kind`, and `book_status`
-are presentation metadata; they do not change Hugo publication state.
+The `book` type extends the docs shell and follows the content tree or `data/docs_nav.json`.
+`book_number`, `book_part`, `book_kind`, and `book_status` are presentation metadata. They do not change Hugo publication state.
 
-Numbered kinds are `fig`, `tbl`, `eq`, and `eg`, with default ID
-`<kind>-<num>`. `eg` needs a caption; `eq` without `num` is an unnumbered display
-formula. `xref` names exactly one kind plus optional `page`/`anchor`, or an
-anchor with explicit text. A numbered example is one framed body and caption.
+Numbered kinds are `fig`, `tbl`, `eq`, and `eg`. Their default ID is `<kind>-<num>`.
+`eg` requires a caption. `eq` without `num` is an unnumbered display formula.
+`xref` names exactly one kind with optional `page`/`anchor`, or an anchor with explicit text.
+Numbered examples have one framed body and caption.
 
-Footnotes belong to the page document. Native numbered tables and fences keep
-them there. A shortcode body is a separate Goldmark document, so footnote
-references in `tbl`, `eg`, `fig`, `card`, `tab`, `field`, or `include` warn and
-remain literal; code-shaped text is ignored by that check.
+Footnotes belong to the page document. Native numbered tables and fences keep them there.
+Shortcode bodies are separate Goldmark documents, so footnote references in `tbl`, `eg`, `fig`, `card`, `tab`, `field`, or `include` warn and remain literal.
+The check ignores text that has code syntax.
 
-`book-toc` follows navigation order at depth 1–3; the four `book-*` indexes
-collect one target kind each. Single-page Print preserves the page's ordinary
-heading and footnote IDs exactly as regular HTML renders them. Multi-page
-section Print and whole-Book Print rewrite cross-page links and namespace those
-page-local headings and footnotes to avoid aggregate collisions, while
-preserving explicit target IDs. Consumers opt into those potentially expensive
-aggregate outputs.
+`book-toc` follows navigation order at depth 1–3. Each of the four `book-*` indexes collects one target kind.
+Single-page Print keeps ordinary heading, footnote, and tab IDs exactly as regular HTML renders them.
+Multi-page section and whole-Book Print rewrite cross-page links and namespace page-local headings, footnotes, and generated tab IDs to prevent collisions.
+Local heading links match after one URL-fragment decoding step, so ordinary Markdown links to Unicode headings retain their target in an aggregate.
+Explicit target IDs remain intact. Consumers opt into these potentially expensive aggregate outputs.
+Consumer-authored raw HTML anchors and custom shortcode IDs remain global by default.
+Add the boolean `data-td-print-local` attribute to an element with an `id` to declare a page-local anchor.
+An aggregate namespaces that ID and its same-page links; ordinary HTML and single-page Print retain the original ID.
+This lets legacy aliases and custom shortcode headings keep their existing deep links while remaining unique across aggregated chapters.
+Unmarked authored IDs must remain unique within their aggregate.
 
 ### Release and download {#release-and-download}
 
-Release front matter is one `release_url` in the form
-`https://github.com/<owner>/<repo>/releases/tag/<tag>`; owner, project, and tag
-come from the URL and date from the page. No remote release state is fetched.
-The removed `release` map, `release_products`, and
-`release_group_by_product` warn with their replacement and are not compatibility
-paths. The section index lists every page, using parsed `project tag` when
-available and the page title otherwise.
+Release front matter uses one `release_url` matching `https://github.com/<owner>/<repo>/releases/tag/<tag>`.
+The URL supplies owner, project, and tag. The page supplies the date. No remote release state is fetched.
+Removed `release`, `release_products`, and `release_group_by_product` warn with their replacements. They provide no compatibility path.
+The section index lists every page. It uses parsed `project tag` when available, otherwise the page title.
+For `layout: releases`, HTML keeps this release index; section Print aggregates the full release bodies with chapter-local IDs, in both development and production builds.
 
-Checksums accept canonical lines or one source resource, never both; filenames
-cannot be paths. HTML adds local copy, while static outputs expose full hashes.
+Checksums accept canonical lines or one source resource, never both. Filenames cannot be paths.
+HTML adds local copying. Static outputs show complete hashes.
 
-Downloads use `data/download/<key>.yaml`. Channels are `rolling` or `pinned`;
-only pinned URLs and commands interpolate `${version}` and `${tag}`. Before
-publication, rolling channels remain usable and pinned channels show pending.
-Markdown renders the complete channel list; RSS omits the component.
+Downloads use `data/download/<key>.yaml`. Channels are `rolling` or `pinned`.
+Only pinned URLs and commands interpolate `${version}` and `${tag}`.
+Before publication, rolling channels remain usable, while pinned channels show pending.
+Markdown renders the complete channel list. RSS omits the component.
+
+Switching tabs remeasures collapsible code blocks in the newly visible panel.
+Their expand and collapse controls remain usable after fonts settle and when
+`ResizeObserver` is unavailable.
 
 ## Verification {#verification}
 

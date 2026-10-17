@@ -60,4 +60,4 @@ OINK 不是叠在 Docsy 上的皮肤，而是 fork 之后独立演化的主题�
 - [示例站点](/zh/docs/about/showcase/) — 十五个生产站点，各自用了 OINK 的哪部分。
 {.cards}
 
-[亮点特性](/zh/docs/about/features/)按能力逐条列出主题提供的东西，每条链接到讲它的指南页。
+[特性](/zh/docs/about/features/)按能力逐条列出主题提供的东西，每条链接到讲它的指南页。

@@ -1,7 +1,7 @@
 ---
 title: 页面参数
 linkTitle: 页面参数
-description: front matter 全表：主题读取的页面键与 1.x 兼容 no-op，按侧栏、外壳、搜索、输出、页尾、Book、Landing、发布页分组。
+description: front matter 全表：主题读取的页面键与 1.x 兼容 no-op，按侧栏、外壳、搜索、输出、页尾、Book、Expo、Landing、发布页分组。
 weight: 30
 search_keywords: [页面参数, front matter, 前置元数据, page parameters, cascade, 页面级覆盖, 参数表]
 ---
@@ -216,6 +216,22 @@ cascade:
 | `sidebar_headings` | `false` / `true` / 2–4 的整数 | 站点值（`false`） | 在侧栏当前条目下展开 h2–h4 分支。超出范围告警并回退 |
 | `book_draft_banner` | 布尔 | 站点值（`false`） | 草稿章节正文开头加一条横幅。非布尔告警并回退 |
 {.fields meta="type default"}
+
+## Expo 相册 {#expo}
+
+OINK 1.3.0 通过 `type: expo` 选择相册布局。
+用法见 [Expo 相册](/zh/docs/write/expo/)。
+
+| 键 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `expo` | map | 站点 `params.ui.expo` | 整体替换站点配置块；缺失字段使用下列内置默认值 |
+| `expo.images` | 字符串 | `images/*` | 页面包内图片资源的匹配模式 |
+| `expo.mode` | `wall` / `cards` / `seamless` | `wall` | 读者未保存布局选择时的初始模式 |
+| `expo.size` | 整数 | `240` | 160 至 360 CSS 像素的目标尺寸；读者保存的尺寸优先 |
+{.fields meta="type default"}
+
+图片标题、说明、署名、权重、显式 ID 和独立原图使用 Hugo 原生 `resources` 元数据。
+字段示例见[图片元数据](/zh/docs/write/expo/#image-metadata)。
 
 ## Landing {#landing}
 

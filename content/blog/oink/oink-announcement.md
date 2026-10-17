@@ -3,7 +3,7 @@ title: Introducing the OINK implementation preview
 linkTitle: Introducing OINK
 date: 2026-08-08
 aliases: [/blog/2026/oink-announcement/]
-lastmod: 2026-08-08
+lastmod: 2026-10-15
 description: >-
   OINK turns a directly customized Docsy codebase into a local-first, Hugo-only
   documentation theme with multilingual infrastructure and reusable content
@@ -108,30 +108,30 @@ manifest records pinned third-party sources, licenses, artifacts, and checksums.
 
 ## Try the starter
 
-Install Hugo Extended `0.160.1` or newer, then run from this checkout:
+> [!NOTE] Setup instructions updated on 2026-10-15
+> This article records the original implementation preview. Use Hugo Extended
+> 0.166.0 for setup and validation today; the baseline advances with stable
+> releases. Older-Hugo compatibility testing and adaptation are discontinued.
+
+Install Git, Go 1.27 or newer, and Hugo Extended `0.166.0`, then evaluate the
+[official Starter](/docs/start/starter/):
 
 ```sh
-hugo --source starter --gc --minify
+git clone https://github.com/pgsty/oink-starter.git my-docs
+cd my-docs
+hugo server
 ```
 
-The current validation baseline is Hugo Extended `0.164.0`. Open the generated
+Update older Starter workflow pins to the same Hugo baseline. Open the local
 English and Chinese pages, switch languages, search locally, change color mode,
-and visit the component examples.
-
-For a network-isolated transfer, maintainers can create a complete archive:
-
-```sh
-scripts/package-offline.sh /absolute/path/oink-preview.tar.gz preview
-```
-
-The archive includes the theme, starter, licenses, upstream record, migration
-guide, vendor manifest, and a sidecar checksum.
+and visit the component examples. For an isolated environment, follow the
+[offline archive installation guide](/docs/start/from-scratch/#offline-archive).
 
 ## Current validation
 
 The implementation includes automated coverage for:
 
-- minimum-version and current Hugo Extended builds;
+- Hugo Extended 0.166.0 builds;
 - forbidden consumer Node/npm/PostCSS/Autoprefixer paths;
 - LTR, RTL, subpath, print, color-mode, and production assets;
 - hidden, click-to-cycle, hover-menu, translation-fallback, and RTL language

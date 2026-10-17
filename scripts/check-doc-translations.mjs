@@ -61,7 +61,15 @@ function renderedHeadingIds(file) {
   );
 }
 
-const bilingualScopes = ['docs', 'blog', 'book', 'case', 'authors', 'series'];
+const bilingualScopes = [
+  'docs',
+  'blog',
+  'book',
+  'case',
+  'authors',
+  'series',
+  'expo',
+];
 const sources = [
   path.join(contentRoot, '_index.md'),
   ...bilingualScopes.flatMap((scope) => walk(path.join(contentRoot, scope))),

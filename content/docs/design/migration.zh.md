@@ -1,16 +1,16 @@
 ---
 title: OINK 迁移边界
 linkTitle: 迁移边界
-description: OINK 迁移所支持的源码、配置与验证边界，包含 1.2.0 变化。
+description: OINK 迁移所支持的源码、配置与验证边界，包含 1.3.0 变化。
 weight: 50
 icon: fa-solid fa-code-compare
 search_keywords: [OINK 迁移契约, 0.4 迁移, 0.5 迁移, 配置重命名, 迁移工具]
-contract_status: v1.2.0
+contract_status: v1.3.0
 ---
 
-> [!NOTE] OINK 1.2.0 契约
-> 本契约描述 v1.2.0 的正式行为。唯一的中英文契约源文件位于
-> `content/docs/design/`。
+> [!NOTE] OINK 1.3.0 契约
+> 本契约描述 OINK v1.3.0。主题开发使用同级 checkout；发布验收在关闭替换与
+> 工作区后验证公开模块。消费站升级与部署分别检查。
 
 这是源码与配置指南，不是版本发布流水账。本地源码、提交、标签、推送、消费站点
 固定版本、部署与生产一致仍是彼此独立的状态。面向读者的升级流程见
@@ -45,14 +45,14 @@ pg-internal profile；它不是通用解析器。
 ## 更新消费站点仓库 {#updating-consumers}
 
 主题发布后，应清点维护中的消费站点 checkout，并升级它们固定的版本。
-主题的 `bin/update-consumers.py` 扫描指定根目录下的直属项目目录，不递归进入
-归档、生成站点、缓存或主题测试夹具。
+主题的 `bin/update-consumers.py` 扫描指定根目录下的直属项目及其 `site/` 目录，
+不递归进入归档、生成站点、缓存或主题测试夹具。
 
 此工具随 OINK 1.2.0 发布。在主题 checkout 中执行，先清点，再升级到正式标签。
 
 ```sh
-python3 bin/update-consumers.py v1.2.0 --roots ~/www ~/pgsty
-python3 bin/update-consumers.py v1.2.0 --roots ~/www ~/pgsty --write --check
+python3 bin/update-consumers.py v1.3.0 --roots ~/www ~/pgsty
+python3 bin/update-consumers.py v1.3.0 --roots ~/www ~/pgsty --write --check --check-appearance
 ```
 
 第一条命令只报告版本采用情况。第二条更新 `go.mod` 和 `go.sum` 中的 OINK
@@ -64,10 +64,34 @@ python3 bin/update-consumers.py v1.2.0 --roots ~/www ~/pgsty --write --check
 并以非零状态退出。显式选择的目录不存在或不是 OINK 消费站时，也会明确报告失败。
 
 工具跳过链接 worktree、隐藏副本和非默认分支。应检查所有跳过与阻塞条目：
-通过 `--sites <path>...` 显式选择已核对的 checkout，包括已有模块改动的目录。
+显式项目根本身没有 Hugo 配置且不是 OINK 消费站时，会解析到包含 Hugo 站点的
+`site/` 子目录。普通 Go 应用在根目录的 `go.mod` 不阻止此解析；真正的根目录消费站优先。
+通过 `--sites <path>...` 显式选择已核对的站点，包括已有模块改动的 checkout 和没有
+Git 的源目录。自动扫描会跳过无 Git 目录，显式选中后执行同样的文件备份与构建检查。
+工具也会列出传统 `themes/oink` 消费站供独立维护：将干净的 Git 子模块切到已发布 tag，
+或备份后替换已核对的上游源码副本；保留离线构建与站点层覆盖，再执行站点自身检查。
+模块更新工具不会改写传统主题目录。
 `go.mod` 中的 OINK 替换需要手工处理。vendor 主题需先独立核对，再使用
 `--refresh-vendor` 备份并重新生成 `_vendor/`；只改模块版本不会更新 vendor
-中的主题。
+中的主题。是否实际使用 vendor 输出以 Hugo 解析的模块图为准；通过 `ignoreVendorPaths`
+绕过的历史快照会保留，不会阻塞已发布模块的升级。
+
+要开启四种风格，并以 Paper 为站点默认值，在站点配置中显式设置：
+
+```yaml
+params:
+  ui:
+    preset: paper
+    preset_menu: [paper, slate, ink, terminal]
+```
+
+`preset_menu: true` 只提供稳定风格与站点默认值；显式列表还会开启 Ink 与 Terminal。
+这些设置会在后续版本升级时保留。自定义外壳的站点需单独检查：绕过 OINK 外壳的模板
+不会仅因配置更新就获得外观控件。
+
+维护者 checkout 还支持将 `--check-appearance` 与 `--check` 一起使用，检查新构建的
+首页及各语言入口是否以 Paper 为默认值并渲染四种风格控件。禁用首页的站点改查文档
+入口，跳过重定向别名。浏览器交互和各站点自身的检查仍需独立执行。
 
 保留无关改动，同步站点 README 和配置中的当前主题版本说明，并运行站点自身的
 检查与视觉验收。工具不改写正文、不提交、不推送、不部署。这些完成状态必须
@@ -141,7 +165,7 @@ front matter `ui` map 会连同替代项一起报告。
 独立块图片。要使用 `\(...\)`、`\[...\]` 或 `$$...$$`，需要显式启用 passthrough；
 Hugo 不会合并主题的 markup 配置。
 
-针对改动的契约，使用固定的 Hugo Extended 0.165.0 工具链运行范围最小的源码与输出
+针对改动的契约，使用固定的 Hugo Extended 0.166.0 工具链运行范围最小的源码与输出
 检查；运行时变化时执行 JavaScript 测试，并严格构建根路径与子路径。对于维护范围
 内的站点，在桌面与窄视口检查有代表性的 EN/ZH Docs 与 Blog 路由，再分别记录固定
 版本、部署与线上一致状态。

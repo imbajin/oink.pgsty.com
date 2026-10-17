@@ -8,8 +8,11 @@ The bilingual maintainer contracts under `content/docs/design/` are the
 canonical prose source for OINK architecture, components, reading shells,
 Landing pages, and migration boundaries.
 
-The site pins OINK `v1.2.0`. The guides, homepage, Design contracts and bilingual
-`content/blog/release/1.2.0{,.zh}.md` release notes describe this release.
+The site pins OINK `v1.3.0`, released on 2026-10-15. The guides, homepage, Design
+contracts, and bilingual `content/blog/release/1.3.0{,.zh}.md` notes describe Expo
+and the navigation, Landing, and Print repairs in this release. Local development
+uses the sibling checkout. Published module resolution, consumer version pins,
+and hosted deployment each require separate validation.
 `content/docs/cli{,.zh}.md` is a one-page introduction to the separate,
 unreleased OINK CLI.
 
@@ -24,6 +27,10 @@ GitHub Pages / Cloudflare Pages workflows without this site's test harness or
 project-specific configuration.
 
 ## Local development
+
+Use Hugo Extended 0.166.0 for development and validation. The baseline advances
+with stable Hugo releases; older versions receive no compatibility testing or
+adaptation. See the [architecture contract](content/docs/design/architecture.md#hugo-toolchain).
 
 For theme development, clone both repositories as siblings:
 

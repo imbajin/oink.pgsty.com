@@ -74,7 +74,7 @@ test("empty Palette exposes shared quick links, page actions, and preferences", 
   const preferences = group(dialog, "Preferences");
   await expect(preferences).toContainText("Toggle color theme");
   await expect(preferences).toContainText("Switch language");
-  await expect(preferences).toContainText("v1.2.0");
+  await expect(preferences).toContainText("v1.3.0");
   const commands = group(dialog, "Commands");
   await expect(commands).toContainText("OINK issues");
   await expect(commands).not.toContainText("Copy Markdown");
@@ -217,9 +217,9 @@ test("built-in choice actions reuse theme, language, and version executors", asy
   await page.keyboard.press(
     process.platform === "darwin" ? "Meta+k" : "Control+k",
   );
-  await fillCommandAndWait(input, dialog, "> version", "v1.2.0");
+  await fillCommandAndWait(input, dialog, "> version", "v1.3.0");
   await page.keyboard.press("Enter");
-  await expect(dialog).toContainText("v1.2.0");
+  await expect(dialog).toContainText("v1.3.0");
 });
 
 test("Copy Markdown executes once through the shared registry", async ({
@@ -317,6 +317,29 @@ test("assistant command resolves the browser URL at activation time", async ({
   );
   expect(opened.target).toBe("_blank");
   expect(opened.features).toBe("noopener,noreferrer");
+});
+
+test("preset choices retain the Palette for another action", async ({ page }) => {
+  const { dialog, input } = await openPalette(page);
+  const action = await fillCommandAndWait(input, dialog, '> style', '^Style');
+  await action.click();
+  await dialog.getByRole('option', { name: /Slate/ }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-td-preset', 'slate');
+  await expect(dialog).toBeVisible();
+  await expect(input).toBeFocused();
+});
+
+test("Landing drawer search returns focus to its visible menu toggle", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const toggle = page.locator('[data-td-landing-menu-toggle]');
+  await toggle.click();
+  await page.locator('[data-td-landing-menu] [data-td-shell-search-open]').click();
+  const dialog = page.locator('#td-shell-search');
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(toggle).toBeFocused();
 });
 
 test("mobile Palette restores focus and has no WCAG AA violations", async ({

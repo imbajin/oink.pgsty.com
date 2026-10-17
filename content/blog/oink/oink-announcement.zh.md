@@ -3,7 +3,7 @@ title: OINK 实现预览正式亮相
 linkTitle: OINK 实现预览
 date: 2026-08-08
 aliases: [/blog/2026/oink-announcement/]
-lastmod: 2026-08-08
+lastmod: 2026-10-15
 description: >-
   OINK 将直接定制的 Docsy 代码库演化为本地优先、仅依赖 Hugo
   的文档主题，并提供多语言基础设施与可复用内容组件。
@@ -76,28 +76,28 @@ matter、文档与博客 section、菜单、taxonomy、打印输出、仓库链�
 
 ## 体验 starter {#try-the-starter}
 
-安装 Hugo Extended `0.160.1` 或更高版本，然后在当前检出目录运行：
+> [!NOTE] 使用说明更新于 2026-10-15
+> 本文记录最初的实现预览。当前搭建与验收统一使用 Hugo Extended 0.166.0，基线随
+> 稳定版更新，不再测试或适配旧 Hugo。
+
+安装 Git、Go 1.27 或更新版本，以及 Hugo Extended `0.166.0`，再评估
+[官方 Starter](/zh/docs/start/starter/)：
 
 ```sh
-hugo --source starter --gc --minify
+git clone https://github.com/pgsty/oink-starter.git my-docs
+cd my-docs
+hugo server
 ```
 
-当前验证基线为 Hugo Extended
-`0.164.0`。打开生成的英文与中文页面，切换语言、使用本地搜索、改变颜色模式，并访问组件示例。
-
-需要传入网络隔离环境时，维护者可以创建完整归档：
-
-```sh
-scripts/package-offline.sh /absolute/path/oink-preview.tar.gz preview
-```
-
-归档包含主题、starter、许可证、上游记录、迁移指南、vendor 清单和配套校验值。
+旧 Starter 的 workflow 固定版本也应同步更新。打开本地英文与中文页面，切换语言、
+使用本地搜索、改变颜色模式，并访问组件示例。网络隔离环境按
+[离线归档安装指南](/zh/docs/start/from-scratch/#offline-archive)操作。
 
 ## 当前验证范围 {#current-validation}
 
 当前实现的自动化覆盖包括：
 
-- 最低版本与当前版本 Hugo Extended 构建；
+- 统一使用 Hugo Extended 0.166.0 构建；
 - 禁止消费端 Node/npm/PostCSS/Autoprefixer 路径；
 - LTR、RTL、子路径、打印、颜色模式与生产资源；
 - 完整的一种/两种/三种/四种及以上语言选择器矩阵；

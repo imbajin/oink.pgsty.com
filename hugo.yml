@@ -218,7 +218,7 @@ languages:
           weight: 10
           params:
             icon: fa-solid fa-circle-info
-            description: OINK 是什么、亮点特性、示例站点与许可
+            description: OINK 是什么、特性、示例站点与许可
         - identifier: docs-start
           parent: docs
           name: 快速上手
@@ -317,9 +317,9 @@ params:
   # version menu) and is not always a git ref. Content that needs a resolvable
   # release ref -- install commands, for example -- uses `tdVersion.latest`.
   tdVersion:
-    latest: &tdLatestVers v1.2.0
-  version: v1.2.0
-  version_menu: v1.2.0
+    latest: &tdLatestVers v1.3.0
+  version: v1.3.0
+  version_menu: v1.3.0
   version_menu_pagelinks: false
   # Populate to enable the navbar version menu, for example:
   versions: # []
@@ -328,7 +328,7 @@ params:
       kind: latest
       url: https://oink.pgsty.com
 
-  hugoMinVersion: &hugoMinVersion 0.160.1
+  hugoMinVersion: &hugoMinVersion 0.166.0
   productionURL: &productionURL https://oink.pgsty.com
   copyright:
     authors: >-
@@ -365,6 +365,7 @@ params:
       theme: auto
       loading: lazy
   ui:
+    preset: paper
     typography: technical
     preset_menu: [paper, slate, ink, terminal]
     # Site-wide backlinks: every page lists the pages that link to it, so the
